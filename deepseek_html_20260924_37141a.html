@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Xtavgram</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23555555'/%3E%3Cstop offset='0.5' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%23999999'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%23141414'/%3E%3Cpath d='M14 50 L88 14 L54 88 L46 56 Z' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linejoin='round'/%3E%3Cpath d='M46 56 L88 14' stroke='url(%23g)' stroke-width='5' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+:root{--bg:#000;--bg-3:#141414;--bg-4:#1c1c1c;--border:#262626;--text:#fff;--text-2:#a0a0a0;--text-3:#666;--glass:rgba(255,255,255,0.08);--glass-border:rgba(255,255,255,0.14);--green:#22c55e}
+html,body{height:100%;background:var(--bg);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased}
+.hidden{display:none!important}
+button{font-family:inherit;cursor:pointer}
+input,textarea{font-family:inherit}
+
+/* AUTH */
+.auth-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1a1a1a 0%,#000 70%);z-index:100;padding:20px;overflow-y:auto}
+.auth-card{position:relative;width:400px;max-width:100%;padding:36px 30px;background:rgba(15,15,15,.75);backdrop-filter:blur(30px);border:1px solid var(--glass-border);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:fadeUp .6s cubic-bezier(.2,.9,.3,1);margin:auto}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.xg-logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#0f0f0f 0%,#2a2a2a 50%,#0f0f0f 100%);display:inline-flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12);flex-shrink:0}
+.xg-logo::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.15),transparent 55%);pointer-events:none}
+.xg-logo svg{width:64%;height:64%;position:relative;z-index:1}
+.xg-logo.big{width:88px;height:88px;border-radius:24px}
+.xg-logo.small{width:36px;height:36px;border-radius:11px}
+.logo{font-size:36px;font-weight:900;letter-spacing:-1.5px;text-align:center}
+.logo span{color:var(--text-3)}
+.auth-tabs{display:flex;gap:6px;margin-bottom:22px;background:var(--bg-3);padding:5px;border-radius:14px}
+.auth-tab{flex:1;padding:11px;border:none;cursor:pointer;background:transparent;color:var(--text-2);font-size:14px;font-weight:600;border-radius:10px;transition:all .3s}
+.auth-tab.active{background:#fff;color:#000}
+.auth-form{display:none;flex-direction:column;gap:12px}
+.auth-form.active{display:flex;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pass-wrap{position:relative}
+.pass-wrap input{width:100%;padding:14px 46px 14px 16px;background:var(--bg-3);border:1px solid var(--border);color:#fff;border-radius:12px;font-size:15px;transition:all .25s}
+.auth-form input[type=text]{width:100%;padding:14px 16px;background:var(--bg-3);border:1px solid var(--border);color:#fff;border-radius:12px;font-size:15px;transition:all .25s}
+input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4px rgba(255,255,255,.06)}
+.eye-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all .2s}
+.eye-btn:hover{background:rgba(255,255,255,.06)}
+.eye-btn svg{width:20px;height:20px;fill:var(--text-3)}
+.eye-btn.on svg{fill:#fff}
+.agree{display:flex;gap:9px;font-size:12px;color:var(--text-2);align-items:flex-start;line-height:1.5;cursor:pointer}
+.agree input{margin-top:2px;accent-color:#fff;width:16px;height:16px;flex-shrink:0;cursor:pointer}
+.agree a{color:#fff;text-decoration:underline}
+.btn-primary{padding:14px;border:none;border-radius:12px;cursor:pointer;background:#fff;color:#000;font-size:15px;font-weight:700;transition:all .25s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,.18)}
+.btn-primary:active{transform:scale(.97)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{padding:14px;border:1px solid var(--border);border-radius:12px;background:transparent;color:#fff;font-weight:600;cursor:pointer;transition:all .25s}
+.btn-secondary:hover{background:var(--bg-3)}
+.btn-close{padding:12px;width:100%;border:1px solid var(--border);background:transparent;color:var(--text-2);border-radius:12px;cursor:pointer;font-weight:600;transition:all .25s;margin-top:14px}
+.btn-close:hover{background:var(--bg-3);color:#fff}
+.auth-error{color:#ff5555;font-size:13px;margin-top:12px;text-align:center;min-height:18px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* APP */
+.app{height:100vh;height:100dvh;display:flex;flex-direction:column}
+.top-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.85);backdrop-filter:blur(20px);z-index:20;flex-shrink:0}
+.logo-small{font-size:22px;font-weight:900;letter-spacing:-.8px}
+.logo-small span{color:var(--text-3)}
+.icon-btn{width:42px;height:42px;border-radius:12px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s}
+.icon-btn svg{width:22px;height:22px;fill:#fff;transition:transform .25s}
+.icon-btn:hover{background:var(--glass)}
+.icon-btn:active{transform:scale(.88)}
+.icon-btn.small{width:36px;height:36px}
+.icon-btn.small svg{width:18px;height:18px}
+
+.main-content{flex:1;display:flex;overflow:hidden;padding-bottom:96px;position:relative;transition:padding-bottom .3s}
+.main-content.no-nav{padding-bottom:0}
+.chats-panel{width:360px;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);flex-shrink:0}
+.chats-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;flex-shrink:0}
+.chats-header h2{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.chat-list{flex:1;overflow-y:auto;padding:0 8px 8px}
+.chat-list::-webkit-scrollbar{width:0}
+.chat-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;cursor:pointer;transition:all .25s;margin-bottom:2px;position:relative}
+.chat-item:hover{background:var(--glass)}
+.chat-item.active{background:var(--glass)}
+.chat-item .avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0;background-size:cover;background-position:center;color:#fff}
+.chat-item .info{flex:1;min-width:0}
+.chat-item .nick{font-weight:600;font-size:15px;display:flex;align-items:center;gap:6px}
+.chat-item .last{font-size:13px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.chat-item .online-dot{width:12px;height:12px;border-radius:50%;background:var(--green);position:absolute;left:48px;bottom:14px;border:2.5px solid var(--bg);transition:background .3s}
+.chat-item .online-dot.off{background:#444}
+.chat-item .unread{background:#fff;color:#000;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 6px;flex-shrink:0}
+
+.chat-window{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;background:var(--bg)}
+.chat-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text-3)}
+.empty-icon{font-size:64px;opacity:.3;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.chat-active{flex:1;display:flex;flex-direction:column;overflow:hidden;animation:fadeIn .3s}
+.chat-header{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.85);backdrop-filter:blur(20px);z-index:5;flex-shrink:0}
+.back-btn{display:none}
+.chat-user{display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer;padding:4px 8px;border-radius:12px;transition:background .25s}
+.chat-user:hover{background:var(--glass)}
+.chat-user .avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;flex-shrink:0;background-size:cover;background-position:center;color:#fff}
+.chat-user-text{min-width:0}
+.chat-nick{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-status{font-size:12px;color:var(--text-3);margin-top:1px;display:flex;align-items:center;gap:5px}
+.chat-status.online{color:var(--green)}
+.chat-status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.chat-actions{display:flex;gap:4px}
+.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+.messages::-webkit-scrollbar{width:6px}
+.messages::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.msg{max-width:70%;padding:10px 14px;border-radius:18px;font-size:14.5px;line-height:1.45;word-wrap:break-word;animation:msgIn .3s;display:flex;flex-direction:column;gap:4px}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg.out{align-self:flex-end;background:#fff;color:#000;border-bottom-right-radius:6px}
+.msg.in{align-self:flex-start;background:var(--bg-3);color:#fff;border-bottom-left-radius:6px}
+.msg .meta{font-size:10.5px;opacity:.6;align-self:flex-end;display:flex;align-items:center;gap:4px;margin-top:2px}
+.msg.out .meta{color:rgba(0,0,0,.55)}
+.msg .ticks{display:inline-flex;letter-spacing:-3px}
+.msg .ticks svg{width:14px;height:14px;fill:currentColor}
+.msg .ticks.read{color:#0a84ff}
+.msg.media{padding:4px}
+.msg.media img,.msg.media video{max-width:280px;max-height:320px;border-radius:14px;display:block;width:100%;object-fit:cover}
+
+.voice-msg{display:flex;align-items:center;gap:10px;min-width:200px;padding:4px 6px}
+.voice-play{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.12);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:inherit}
+.msg.in .voice-play{background:rgba(255,255,255,.12)}
+.voice-play svg{width:16px;height:16px;fill:currentColor}
+.voice-wave{flex:1;height:26px;display:flex;align-items:center;gap:2.5px}
+.voice-wave span{width:3px;background:currentColor;border-radius:2px;opacity:.35;transition:opacity .15s;height:8px}
+.voice-wave span.on{opacity:1}
+.voice-dur{font-size:11.5px;opacity:.7;min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+.recording{display:flex;align-items:center;gap:10px;flex:1;padding:0 8px;color:#ff5555;font-size:13px}
+.recording .dot{width:10px;height:10px;border-radius:50%;background:#ff5555;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.chat-input-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-top:1px solid var(--border);background:rgba(0,0,0,.85);backdrop-filter:blur(20px);flex-shrink:0}
+.chat-input-bar input{flex:1;padding:12px 16px;background:var(--bg-3);border:1px solid var(--border);border-radius:22px;font-size:15px;color:#fff;transition:all .25s}
+.chat-input-bar input:focus{outline:none;border-color:#fff;background:#1c1c1c}
+.send-btn{background:#fff!important;border-radius:50%}
+.send-btn svg{fill:#000!important;width:18px!important;height:18px!important}
+
+.bottom-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:8px;background:rgba(255,255,255,.07);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.14);border-radius:26px;box-shadow:0 12px 40px rgba(0,0,0,.6);z-index:50;transition:transform .35s,opacity .35s}
+.bottom-nav.hide{transform:translateX(-50%) translateY(140%);opacity:0;pointer-events:none}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;border:none;background:transparent;color:var(--text-2);cursor:pointer;border-radius:18px;transition:all .3s}
+.nav-btn svg{width:22px;height:22px;fill:currentColor;transition:transform .3s}
+.nav-btn span{font-size:10.5px;font-weight:600}
+.nav-btn:hover{color:#fff}
+.nav-btn.active{color:#000;background:#fff}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;animation:fadeIn .25s}
+.modal-content{width:100%;max-width:400px;background:rgba(18,18,18,.96);backdrop-filter:blur(30px);border:1px solid var(--glass-border);border-radius:24px;padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.7);animation:modalIn .35s;max-height:85vh;overflow-y:auto}
+@keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-content h2{font-size:20px;font-weight:800;margin-bottom:18px}
+.modal-content input,.modal-content textarea{width:100%;padding:14px 16px;background:var(--bg-3);border:1px solid var(--border);color:#fff;border-radius:12px;font-size:15px;margin-bottom:12px;resize:vertical}
+.modal-content input:focus,.modal-content textarea:focus{outline:none;border-color:#fff}
+.attach-content{display:flex;flex-direction:column;gap:8px;max-width:280px;padding:14px}
+.attach-option{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg-3);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s}
+.attach-option svg{width:24px;height:24px;fill:#fff}
+.attach-option:hover{background:var(--bg-4);transform:translateX(4px)}
+.menu-content{display:flex;flex-direction:column;gap:6px;max-width:320px;padding:12px}
+.menu-option{padding:14px 16px;background:transparent;border:none;border-radius:12px;color:#fff;font-size:14.5px;text-align:left;transition:all .2s;display:flex;align-items:center;gap:10px;cursor:pointer}
+.menu-option:hover{background:var(--glass)}
+.menu-option.danger{color:#ff5555;border-top:1px solid var(--border);border-radius:0;margin-top:4px;justify-content:center;padding-top:14px}
+.settings-content{max-width:360px}
+.settings-list{display:flex;flex-direction:column;gap:6px}
+.settings-item{padding:15px 16px;background:var(--bg-3);border:none;border-radius:14px;color:#fff;font-size:14.5px;text-align:left;transition:all .25s;display:flex;align-items:center;gap:10px;cursor:pointer}
+.settings-item:hover{background:var(--bg-4);transform:translateX(3px)}
+.text-content{max-width:520px}
+.text-body{font-size:14px;line-height:1.65;color:var(--text-2);max-height:60vh;overflow-y:auto;white-space:pre-wrap}
+.file-label{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg-3);border-radius:12px;margin-bottom:12px;cursor:pointer;font-size:14.5px}
+.file-label input{display:none}
+
+.page-view{position:absolute;inset:0;background:var(--bg);z-index:19;overflow-y:auto;padding:26px 22px 120px;animation:pageIn .35s}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.page-view h2{font-size:24px;font-weight:800;margin-bottom:20px}
+.my-profile{max-width:640px;margin:0 auto}
+.profile-hero{background:linear-gradient(135deg,#141414,#0a0a0a);border:1px solid var(--border);border-radius:24px;padding:32px 26px;text-align:center;margin-bottom:20px}
+.profile-avatar-xl{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:800;margin:0 auto 18px;background-size:cover;background-position:center;color:#fff;border:4px solid rgba(255,255,255,.1)}
+.profile-name{font-size:28px;font-weight:900;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.profile-badge{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,.1);color:var(--text-2);font-weight:700;text-transform:uppercase}
+.profile-badge.dev{background:#fff;color:#000}
+.profile-bio{font-size:14px;color:var(--text-2);line-height:1.6;max-width:440px;margin:0 auto 18px;white-space:pre-wrap}
+.profile-status-line{font-size:13px;color:var(--green);margin-bottom:6px;display:inline-flex;align-items:center;gap:6px}
+.profile-status-line::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.profile-joined{font-size:12.5px;color:var(--text-3);margin-top:6px}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:18px 14px;text-align:center}
+.stat-value{font-size:24px;font-weight:800;margin-bottom:4px}
+.stat-label{font-size:12px;color:var(--text-3);text-transform:uppercase;font-weight:600}
+.profile-section{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px}
+.profile-section-title{font-size:13px;color:var(--text-3);text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.profile-info-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px}
+.profile-info-row .label{color:var(--text-3);min-width:110px}
+.profile-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.profile-actions button{flex:1;min-width:160px}
+
+.friend-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg-3);border-radius:16px;margin-bottom:10px;cursor:pointer;transition:all .25s}
+.friend-card:hover{background:var(--bg-4);transform:translateX(4px)}
+.friend-card .avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;flex-shrink:0;background-size:cover;background-position:center;color:#fff}
+.friend-card .fc-info{flex:1;min-width:0}
+.friend-card .fc-nick{font-weight:600;font-size:15px}
+.friend-card .fc-status{font-size:12.5px;color:var(--text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.friend-card .fc-status.online{color:var(--green)}
+.friend-card .add-btn{padding:8px 14px;border-radius:10px;border:none;background:#fff;color:#000;font-weight:700;font-size:13px;transition:all .25s;cursor:pointer;flex-shrink:0}
+.friend-card .add-btn.added{background:transparent;color:var(--text-3);border:1px solid var(--border)}
+.placeholder-empty{text-align:center;color:var(--text-3);padding:60px 20px;font-size:14px}
+.placeholder-empty .em{font-size:52px;display:block;margin-bottom:14px;opacity:.4}
+
+.welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;z-index:300;animation:fadeIn .4s}
+.welcome-sticker{text-align:center}
+.welcome-text{font-size:26px;font-weight:800;margin-top:24px;text-align:center}
+.welcome-text .name{display:block;font-size:18px;color:var(--text-3);margin-top:8px}
+
+.toast{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(30,30,30,.96);border:1px solid var(--glass-border);color:#fff;padding:12px 20px;border-radius:14px;font-size:14px;z-index:400;animation:toastIn .3s;backdrop-filter:blur(20px);max-width:80vw;text-align:center}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+@media(max-width:820px){
+  .chats-panel{position:absolute;inset:0;width:100%;z-index:15;transition:transform .35s}
+  .chats-panel.mobile-hidden{transform:translateX(-100%)}
+  .chat-window{position:absolute;inset:0;z-index:16;transition:transform .35s}
+  .chat-window.mobile-hidden{transform:translateX(100%)}
+  .back-btn{display:flex!important}
+  .nav-btn{padding:8px 12px}
+  .nav-btn span{font-size:9.5px}
+  .msg{max-width:82%}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:26px">
+      <div class="xg-logo big">
+        <svg viewBox="0 0 100 100">
+          <defs><linearGradient id="g1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#fff"/><stop offset="1" stop-color="#999"/></linearGradient></defs>
+          <path d="M14 50 L88 14 L54 88 L46 56 Z" fill="none" stroke="url(#g1)" stroke-width="4.5" stroke-linejoin="round"/>
+          <path d="M46 56 L88 14" stroke="url(#g1)" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+        </svg>
+      </div>
+      <div class="logo">Xtav<span>gram</span></div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login" type="button">Вход</button>
+      <button class="auth-tab" data-tab="register" type="button">Регистрация</button>
+    </div>
+    <div class="auth-form active" id="loginForm">
+      <input type="text" id="loginNick" placeholder="Никнейм" autocomplete="off" maxlength="20">
+      <div class="pass-wrap">
+        <input type="password" id="loginPass" placeholder="Пароль" autocomplete="off">
+        <button type="button" class="eye-btn" data-target="loginPass"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
+      </div>
+      <label class="agree"><input type="checkbox" id="loginAgree"><span>Я согласен с <a href="#" onclick="openTerms(event);return false;">пользовательским соглашением</a></span></label>
+      <button class="btn-primary" id="btnLogin" type="button">Войти</button>
+    </div>
+    <div class="auth-form" id="registerForm">
+      <input type="text" id="regNick" placeholder="Никнейм (латиница)" autocomplete="off" maxlength="20">
+      <div class="pass-wrap">
+        <input type="password" id="regPass" placeholder="Пароль (мин. 6)" autocomplete="off">
+        <button type="button" class="eye-btn" data-target="regPass"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
+      </div>
+      <div class="pass-wrap">
+        <input type="password" id="regPass2" placeholder="Повторите пароль" autocomplete="off">
+        <button type="button" class="eye-btn" data-target="regPass2"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></button>
+      </div>
+      <label class="agree"><input type="checkbox" id="regAgree"><span>Я согласен с <a href="#" onclick="openTerms(event);return false;">пользовательским соглашением</a> и <a href="#" onclick="openPrivacy(event);return false;">политикой конфиденциальности</a></span></label>
+      <button class="btn-primary" id="btnRegister" type="button">Создать аккаунт</button>
+    </div>
+    <div id="authError" class="auth-error"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="app hidden">
+  <div class="top-bar">
+    <div class="xg-logo small">
+      <svg viewBox="0 0 100 100">
+        <defs><linearGradient id="g2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#fff"/><stop offset="1" stop-color="#999"/></linearGradient></defs>
+        <path d="M14 50 L88 14 L54 88 L46 56 Z" fill="none" stroke="url(#g2)" stroke-width="4.5" stroke-linejoin="round"/>
+        <path d="M46 56 L88 14" stroke="url(#g2)" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+      </svg>
+    </div>
+    <div class="logo-small">Xtav<span>gram</span></div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <aside class="chats-panel" id="chatsPanel">
+      <div class="chats-header">
+        <h2>Чаты</h2>
+        <button class="icon-btn small" id="btnAddFriend" title="Друзья" type="button"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
+      </div>
+      <div id="chatList" class="chat-list"></div>
+    </aside>
+
+    <section class="chat-window" id="chatWindow">
+      <div class="chat-empty" id="chatEmpty">
+        <div class="empty-icon">💬</div>
+        <p>Выберите чат</p>
+      </div>
+      <div class="chat-active hidden" id="chatActive">
+        <div class="chat-header">
+          <button class="icon-btn back-btn" id="btnBack" type="button"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+          <div class="chat-user" id="chatUserInfo">
+            <div class="avatar" id="chatAvatar"></div>
+            <div class="chat-user-text">
+              <div class="chat-nick" id="chatNick"></div>
+              <div class="chat-status" id="chatStatus">оффлайн</div>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="icon-btn" id="btnCall" title="Позвонить" type="button"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg></button>
+            <button class="icon-btn" id="btnMenu" title="Меню" type="button"><svg viewBox="0 0 24 24"><path d="M12 8a2 2 0 1 0-2-2 2 2 0 0 0 2 2zm0 2a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm0 6a2 2 0 1 0 2 2 2 2 0 0 0-2-2z"/></svg></button>
+          </div>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="chat-input-bar" id="inputBar">
+          <button class="icon-btn" id="btnAttach" title="Прикрепить" type="button"><svg viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 0 1-4 4 4 4 0 0 1-4-4V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6h-1.5z"/></svg></button>
+          <input type="text" id="messageInput" placeholder="Сообщение..." autocomplete="off">
+          <button class="icon-btn" id="btnMic" title="Голосовое" type="button"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg></button>
+          <button class="icon-btn send-btn" id="btnSend" title="Отправить" type="button"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-btn active" data-nav="chats" type="button"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg><span>Чаты</span></button>
+    <button class="nav-btn" data-nav="friends" type="button"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Друзья</span></button>
+    <button class="nav-btn" data-nav="profile" type="button"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/></svg><span>Профиль</span></button>
+    <button class="nav-btn" data-nav="settings" type="button"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg><span>Настройки</span></button>
+  </nav>
+</div>
+
+<!-- WELCOME -->
+<div id="welcomeOverlay" class="welcome-overlay hidden">
+  <div class="welcome-sticker">
+    <div class="xg-logo big" style="margin:0 auto">
+      <svg viewBox="0 0 100 100">
+        <defs><linearGradient id="g3" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#fff"/><stop offset="1" stop-color="#999"/></linearGradient></defs>
+        <path d="M14 50 L88 14 L54 88 L46 56 Z" fill="none" stroke="url(#g3)" stroke-width="4.5" stroke-linejoin="round"/>
+        <path d="M46 56 L88 14" stroke="url(#g3)" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+      </svg>
+    </div>
+    <div class="welcome-text" id="welcomeText"></div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div id="attachModal" class="modal hidden">
+  <div class="modal-content attach-content">
+    <button class="attach-option" data-type="photo" type="button"><svg viewBox="0 0 24 24"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg><span>Ссылка на фото</span></button>
+    <button class="attach-option" data-type="video" type="button"><svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg><span>Ссылка на видео</span></button>
+  </div>
+</div>
+
+<div id="chatMenuModal" class="modal hidden">
+  <div class="modal-content menu-content">
+    <button class="menu-option" data-action="viewProfile" type="button">👤 Посмотреть профиль</button>
+    <button class="menu-option" data-action="localNick" type="button">✏️ Изменить локальный никнейм</button>
+    <button class="menu-option" data-action="block" type="button">🚫 Заблокировать</button>
+    <button class="menu-option danger" data-action="close" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-content settings-content">
+    <h2>Настройки</h2>
+    <div class="settings-list">
+      <button class="settings-item" data-s="terms" type="button">📄 Пользовательское соглашение</button>
+      <button class="settings-item" data-s="privacyPolicy" type="button">🛡 Политика конфиденциальности</button>
+      <button class="settings-item" data-s="reset" type="button">🔄 Сбросить данные</button>
+      <button class="settings-item" data-s="logout" type="button">🚪 Выйти из аккаунта</button>
+    </div>
+    <button class="btn-close" data-close="settingsModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="textModal" class="modal hidden">
+  <div class="modal-content text-content">
+    <h2 id="textModalTitle"></h2>
+    <div id="textModalBody" class="text-body"></div>
+    <button class="btn-close" data-close="textModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="callModal" class="modal hidden">
+  <div class="modal-content" style="text-align:center;max-width:320px">
+    <div class="profile-avatar-xl" id="callAvatar" style="width:110px;height:110px;font-size:44px"></div>
+    <h2 id="callNick" style="margin-bottom:6px"></h2>
+    <div id="callStatus" style="color:var(--text-3);margin-bottom:24px">Звонок...</div>
+    <button class="btn-primary" id="btnEndCall" style="width:100%">Завершить</button>
+  </div>
+</div>
+
+<div id="editProfileModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Редактировать профиль</h2>
+    <input type="text" id="editNickInput" placeholder="Никнейм" maxlength="20" disabled>
+    <textarea id="editBioInput" placeholder="О себе (биография)" rows="3" maxlength="200"></textarea>
+    <label class="file-label"><span>Сменить аватар (до 128×128)</span><input type="file" id="editAvatarInput" accept="image/*"></label>
+    <button class="btn-primary" id="btnSaveProfile" type="button">Сохранить</button>
+    <button class="btn-close" data-close="editProfileModal" type="button">Отмена</button>
+  </div>
+</div>
+
+<div id="promptModal" class="modal hidden">
+  <div class="modal-content">
+    <h2 id="promptTitle">Введите</h2>
+    <input type="text" id="promptInput">
+    <button class="btn-primary" id="promptOk" type="button">ОК</button>
+    <button class="btn-close" id="promptCancel" type="button">Отмена</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, getDocs, collection, query, where, orderBy, limit, onSnapshot, serverTimestamp, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBzRWgDVe-BhY5ol47vYofFQ-_AaNAwOrc",
+  authDomain: "xtavgram.firebaseapp.com",
+  projectId: "xtavgram",
+  storageBucket: "xtavgram.firebasestorage.app",
+  messagingSenderId: "795470001435",
+  appId: "1:795470001435:web:239b589dd9160103d1cfbe"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+let currentChat = null;
+let unsubMessages = null;
+let unsubChats = null;
+let unsubUsers = null;
+let allUsers = [];
+let chatList = [];
+
+const $ = id => document.getElementById(id);
+const escapeHtml = s => (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const initials = n => (n||'?').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const AVATAR_GRAD = ['#2b2b2b,#4a4a4a','#1e3a8a,#3b82f6','#7c2d12,#ea580c','#3f3f46,#71717a','#134e4a,#14b8a6'];
+
+function nickToEmail(nick) {
+  const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'};
+  let clean = (nick||'').toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('');
+  clean = clean.replace(/[^a-z0-9_\-\.]/g, '');
+  if (!clean) clean = 'user' + Math.floor(Math.random() * 100000);
+  return clean + '@xtavgram.local';
+}
+function avatarStyle(user) {
+  if (user && user.avatar) return `background-image:url('${user.avatar}');background-size:cover;background-position:center`;
+  let h = 0; const n = (user && user.nick) || '?';
+  for (let i=0;i<n.length;i++) h = (h*31 + n.charCodeAt(i)) % AVATAR_GRAD.length;
+  return `background:linear-gradient(135deg,${AVATAR_GRAD[h]})`;
+}
+function fmtTime(ts) {
+  if (!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
+function fmtDur(s) { s = Math.max(0, Math.floor(s||0)); return Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0'); }
+function fmtDate(ts) {
+  const d = ts?.toDate ? ts.toDate() : new Date(ts || Date.now());
+  return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+}
+function isOnline(user) {
+  if (!user) return false;
+  if (user.isAI || user.isDev) return true;
+  const last = user.lastSeen?.toDate ? user.lastSeen.toDate().getTime() : 0;
+  return Date.now() - last < 60000;
+}
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; }, 2000);
+  setTimeout(() => t.remove(), 2400);
+}
+function openModal(id) { $(id)?.classList.remove('hidden'); }
+function closeModal(id) { $(id)?.classList.add('hidden'); }
+function chatIdFor(a, b) { return [a, b].sort().join('__'); }
+function removePageViews() { document.querySelectorAll('.page-view').forEach(p => p.remove()); }
+
+/* AUTH */
+function bindEyeButtons() {
+  document.querySelectorAll('.eye-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      const target = $(btn.dataset.target);
+      if (!target) return;
+      const isPass = target.type === 'password';
+      target.type = isPass ? 'text' : 'password';
+      btn.classList.toggle('on', isPass);
+    });
+  });
+}
+function showAuthError(msg) {
+  const el = $('authError');
+  el.textContent = msg;
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = 'shake .4s';
+}
+function bindAuth() {
+  document.querySelectorAll('.auth-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.auth-tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.auth-form').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      $(t.dataset.tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+      $('authError').textContent = '';
+    });
+  });
+  $('btnLogin').addEventListener('click', async () => {
+    const nick = $('loginNick').value.trim();
+    const pass = $('loginPass').value;
+    if (!nick || !pass) return showAuthError('Заполните все поля');
+    if (!$('loginAgree').checked) return showAuthError('Примите соглашение');
+    try {
+      $('btnLogin').disabled = true;
+      await signInWithEmailAndPassword(auth, nickToEmail(nick), pass);
+    } catch (e) {
+      showAuthError('Неверный ник или пароль');
+    } finally {
+      $('btnLogin').disabled = false;
+    }
+  });
+  $('btnRegister').addEventListener('click', async () => {
+    const nick = $('regNick').value.trim();
+    const pass = $('regPass').value;
+    const pass2 = $('regPass2').value;
+    if (!nick || !pass) return showAuthError('Заполните все поля');
+    if (nick.length < 2) return showAuthError('Ник короткий');
+    if (pass.length < 6) return showAuthError('Пароль мин. 6 символов');
+    if (pass !== pass2) return showAuthError('Пароли не совпадают');
+    if (!$('regAgree').checked) return showAuthError('Примите соглашения');
+    try {
+      $('btnRegister').disabled = true;
+      const cred = await createUserWithEmailAndPassword(auth, nickToEmail(nick), pass);
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        nick, avatar: null, bio: '', isDev: false, isAI: false,
+        created: serverTimestamp(), lastSeen: serverTimestamp()
+      });
+      toast('Аккаунт создан!');
+    } catch (e) {
+      if (e.code === 'auth/email-already-in-use') showAuthError('Ник уже занят');
+      else showAuthError(e.message || 'Ошибка');
+    } finally {
+      $('btnRegister').disabled = false;
+    }
+  });
+  ['loginNick','loginPass'].forEach(id => $(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') $('btnLogin').click(); }));
+  ['regNick','regPass','regPass2'].forEach(id => $(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') $('btnRegister').click(); }));
+}
+
+async function ensureSpecialUsers() {
+  const devSnap = await getDocs(query(collection(db, 'users'), where('nick', '==', 'скиф')));
+  if (devSnap.empty) {
+    await addDoc(collection(db, 'users'), {
+      nick: 'скиф', avatar: null,
+      bio: 'Основатель проекта Xtavgram ⚙️',
+      isDev: true, isAI: false,
+      created: serverTimestamp(), lastSeen: serverTimestamp()
+    });
+  }
+  const aiSnap = await getDocs(query(collection(db, 'users'), where('nick', '==', 'Xtav AI')));
+  if (aiSnap.empty) {
+    await addDoc(collection(db, 'users'), {
+      nick: 'Xtav AI', avatar: null,
+      bio: 'Виртуальный ассистент Xtavgram 🤖',
+      isDev: false, isAI: true,
+      created: serverTimestamp(), lastSeen: serverTimestamp()
+    });
+  }
+}
+
+function subscribeAllUsers() {
+  if (unsubUsers) unsubUsers();
+  unsubUsers = onSnapshot(collection(db, 'users'), snap => {
+    allUsers = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+    if (currentUser) {
+      chatList.forEach(c => {
+        const updated = allUsers.find(u => u.uid === c.other.uid);
+        if (updated) c.other = updated;
+      });
+      renderChatList();
+      if (currentChat) {
+        const updated = allUsers.find(u => u.uid === currentChat.uid);
+        if (updated) {
+          currentChat = updated;
+          updateChatStatus(updated);
+        }
+      }
+      const pv = document.querySelector('.page-view');
+      if (pv && pv.querySelector('.friend-card')) showFriendsView();
+    }
+  });
+}
+
+function subscribeChats() {
+  if (unsubChats) unsubChats();
+  const q = query(collection(db, 'chats'), where('members', 'array-contains', currentUser.uid));
+  unsubChats = onSnapshot(q, async (snap) => {
+    const newList = [];
+    for (const c of snap.docs) {
+      const data = c.data();
+      const otherUid = data.members.find(m => m !== currentUser.uid);
+      const other = allUsers.find(u => u.uid === otherUid);
+      if (!other) continue;
+      const msgsSnap = await getDocs(query(collection(db, 'chats', c.id, 'messages'), orderBy('ts', 'desc'), limit(1)));
+      const last = msgsSnap.docs[0]?.data() || null;
+      const allMsgs = await getDocs(collection(db, 'chats', c.id, 'messages'));
+      const unread = allMsgs.docs.filter(d => {
+        const m = d.data();
+        return m.from !== currentUser.uid && !m.read;
+      }).length;
+      newList.push({ id: c.id, other, last, unread });
+    }
+    newList.sort((a,b) => {
+      const ta = a.last?.ts?.toDate ? a.last.ts.toDate().getTime() : 0;
+      const tb = b.last?.ts?.toDate ? b.last.ts.toDate().getTime() : 0;
+      return tb - ta;
+    });
+    chatList = newList;
+    renderChatList();
+  });
+}
+
+function renderChatList() {
+  const list = $('chatList');
+  if (!list) return;
+  if (chatList.length === 0) {
+    list.innerHTML = '<div class="placeholder-empty"><span class="em">💬</span>Нет чатов<br><small>Зайди в «Друзья» и добавь кого-нибудь</small></div>';
+    return;
+  }
+  list.innerHTML = '';
+  chatList.forEach(c => {
+    const other = allUsers.find(u => u.uid === c.other.uid) || c.other;
+    const online = isOnline(other);
+    const el = document.createElement('div');
+    el.className = 'chat-item' + (currentChat?.uid === other.uid ? ' active' : '');
+    const lastText = c.last
+      ? (c.last.type === 'voice' ? '🎤 Голосовое'
+        : c.last.type === 'image' ? '📷 Фото'
+        : c.last.type === 'video' ? '🎥 Видео'
+        : escapeHtml(c.last.text || ''))
+      : 'Нет сообщений';
+    el.innerHTML = `
+      <div class="avatar" style="${avatarStyle(other)}">${other.avatar?'':initials(other.nick)}</div>
+      <div class="online-dot ${online?'':'off'}"></div>
+      <div class="info">
+        <div class="nick">${escapeHtml(other.nick)}${other.isDev?' ⚙️':''}${other.isAI?' 🤖':''}</div>
+        <div class="last">${lastText}</div>
+      </div>
+      ${c.unread ? `<div class="unread">${c.unread}</div>` : ''}
+    `;
+    el.addEventListener('click', () => openChat(other));
+    list.appendChild(el);
+  });
+}
+
+async function openChat(other) {
+  removePageViews();
+  const chatId = chatIdFor(currentUser.uid, other.uid);
+  const chatRef = doc(db, 'chats', chatId);
+  const chatSnap = await getDoc(chatRef);
+  if (!chatSnap.exists()) {
+    await setDoc(chatRef, {
+      members: [currentUser.uid, other.uid],
+      created: serverTimestamp()
+    });
+  }
+  currentChat = other;
+  $('chatEmpty').classList.add('hidden');
+  $('chatActive').classList.remove('hidden');
+  $('chatAvatar').style.cssText = avatarStyle(other);
+  $('chatAvatar').textContent = other.avatar ? '' : initials(other.nick);
+  $('chatNick').textContent = other.nick + (other.isDev?' ⚙️':'') + (other.isAI?' 🤖':'');
+  updateChatStatus(other);
+  $('bottomNav').classList.add('hide');
+  $('mainContent').classList.add('no-nav');
+  if (window.innerWidth <= 820) {
+    $('chatsPanel').classList.add('mobile-hidden');
+    $('chatWindow').classList.remove('mobile-hidden');
+  }
+  if (unsubMessages) unsubMessages();
+  const q = query(collection(db, 'chats', chatId, 'messages'), orderBy('ts', 'asc'), limit(300));
+  unsubMessages = onSnapshot(q, async (snap) => {
+    const box = $('messages');
+    box.innerHTML = '';
+    snap.docs.forEach(d => box.appendChild(buildMessageEl({ id: d.id, ...d.data() }, chatId)));
+    box.scrollTop = box.scrollHeight;
+    const batch = writeBatch(db);
+    let hasUnread = false;
+    snap.docs.forEach(d => {
+      const m = d.data();
+      if (m.from !== currentUser.uid && !m.read) {
+        batch.update(d.ref, { read: true });
+        hasUnread = true;
+      }
+    });
+    if (hasUnread) await batch.commit().catch(()=>{});
+  });
+}
+function closeChatView() {
+  if (unsubMessages) { unsubMessages(); unsubMessages = null; }
+  currentChat = null;
+  $('chatActive').classList.add('hidden');
+  $('chatEmpty').classList.remove('hidden');
+  $('bottomNav').classList.remove('hide');
+  $('mainContent').classList.remove('no-nav');
+  if (window.innerWidth <= 820) {
+    $('chatsPanel').classList.remove('mobile-hidden');
+    $('chatWindow').classList.add('mobile-hidden');
+  }
+}
+function updateChatStatus(other) {
+  const st = $('chatStatus');
+  if (!st || !other) return;
+  const online = isOnline(other);
+  st.textContent = online ? 'онлайн' : 'оффлайн';
+  st.className = 'chat-status' + (online?' online':'');
+}
+
+function ticksHtml(read) {
+  if (read) return `<span class="ticks read"><svg viewBox="0 0 24 24"><path d="M0.41 13.41l6 6L18 7.83l-1.41-1.41L6.41 15.59l-4.59-4.59L0.41 13.41z"/><path d="M11.41 18.59l1.41 1.41L24 7.83l-1.41-1.41L11.41 18.59z"/></svg></span>`;
+  return `<span class="ticks"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>`;
+}
+function buildMessageEl(m, chatId) {
+  const el = document.createElement('div');
+  const mine = m.from === currentUser.uid;
+  el.className = 'msg ' + (mine ? 'out' : 'in');
+  const metaHtml = `<div class="meta">${fmtTime(m.ts)} ${mine ? ticksHtml(m.read) : ''}</div>`;
+  if (m.type === 'voice') {
+    el.classList.add('media');
+    let bars = '';
+    for (let i=0;i<24;i++) bars += `<span style="height:${6+Math.round(Math.sin(i*1.3)*8+8)}px"></span>`;
+    el.innerHTML = `<div class="voice-msg">
+      <button class="voice-play" type="button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+      <div class="voice-wave">${bars}</div>
+      <div class="voice-dur">${fmtDur(m.duration)}</div>
+    </div>${metaHtml}`;
+    el.querySelector('.voice-play').addEventListener('click', e => { e.stopPropagation(); playVoice(m.media, el); });
+  } else if (m.type === 'image') {
+    el.classList.add('media');
+    el.innerHTML = `<img src="${m.media}" alt="" onerror="this.style.display='none'">${metaHtml}`;
+  } else if (m.type === 'video') {
+    el.classList.add('media');
+    el.innerHTML = `<video src="${m.media}" controls playsinline></video>${metaHtml}`;
+  } else {
+    el.innerHTML = `${escapeHtml(m.text).replace(/\n/g,'<br>')}${metaHtml}`;
+  }
+  return el;
+}
+
+let currentVoiceAudio = null;
+function playVoice(data, el) {
+  const btn = el.querySelector('.voice-play');
+  const wave = el.querySelectorAll('.voice-wave span');
+  const durEl = el.querySelector('.voice-dur');
+  if (el._audio && !el._audio.paused) {
+    el._audio.pause();
+    if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    return;
+  }
+  if (currentVoiceAudio && currentVoiceAudio !== el._audio) {
+    try { currentVoiceAudio.pause(); } catch(_) {}
+  }
+  if (!el._audio) {
+    el._audio = new Audio(data);
+    el._audio.addEventListener('loadedmetadata', () => {
+      if (durEl && isFinite(el._audio.duration)) durEl.textContent = fmtDur(el._audio.duration);
+    });
+    el._audio.addEventListener('timeupdate', () => {
+      const d = el._audio.duration;
+      if (!d || !isFinite(d)) return;
+      const p = el._audio.currentTime / d;
+      wave.forEach((b,i) => b.style.opacity = (i/wave.length <= p) ? '1' : '0.35');
+      if (durEl) durEl.textContent = fmtDur(el._audio.currentTime);
+    });
+    el._audio.addEventListener('ended', () => {
+      wave.forEach(b => b.style.opacity = '0.35');
+      if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      el._audio.currentTime = 0;
+    });
+  }
+  currentVoiceAudio = el._audio;
+  el._audio.play().then(() => {
+    if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  }).catch(err => console.warn(err));
+}
+
+async function sendTextMsg() {
+  const input = $('messageInput');
+  const text = input.value.trim();
+  if (!text || !currentChat) return;
+  input.value = '';
+  const chatId = chatIdFor(currentUser.uid, currentChat.uid);
+  await addDoc(collection(db, 'chats', chatId, 'messages'), {
+    from: currentUser.uid, type: 'text', text, read: false, ts: serverTimestamp()
+  });
+  if (currentChat.isAI) replyAI(chatId, text);
+}
+async function sendMedia(type, media, duration) {
+  if (!currentChat) return;
+  const chatId = chatIdFor(currentUser.uid, currentChat.uid);
+  await addDoc(collection(db, 'chats', chatId, 'messages'), {
+    from: currentUser.uid, type, media, duration: duration || null, read: false, ts: serverTimestamp()
+  });
+}
+async function replyAI(chatId, userText) {
+  const online = allUsers.filter(u => !u.isAI && isOnline(u)).length;
+  const total = allUsers.filter(u => !u.isAI).length;
+  const s = (userText || '').toLowerCase();
+  let reply = 'Я Xtav AI 🤖 Спроси про онлайн, функции или настройки.';
+  if (s.includes('онлайн')) reply = `🟢 Онлайн: ${online}\n👥 Всего: ${total}`;
+  else if (s.includes('привет')) reply = 'Привет! 👋 Я Xtav AI — навигатор Xtavgram.';
+  else if (s.includes('функц') || s.includes('умеешь')) reply = 'Умею: сообщения, голосовые, фото (по ссылке), друзей, профили.';
+  else if (s.includes('пароль')) reply = '🔒 К паролям доступа не имею.';
+  else if (s.includes('разработчик') || s.includes('скиф')) reply = 'Разработчик — «скиф» ⚙️';
+  const aiUser = allUsers.find(u => u.isAI);
+  if (!aiUser) return;
+  setTimeout(async () => {
+    await addDoc(collection(db, 'chats', chatId, 'messages'), {
+      from: aiUser.uid, type: 'text', text: reply, read: false, ts: serverTimestamp()
+    });
+  }, 800);
+}
+
+let mediaRecorder = null, audioChunks = [], recStream = null, recTimer = null, recStart = 0, micBusy = false;
+function pickAudioMime() {
+  const c = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/ogg','audio/mp4','audio/mpeg'];
+  for (const m of c) if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) return m;
+  return '';
+}
+async function startRecording() {
+  if (!navigator.mediaDevices || !window.MediaRecorder) { alert('Запись не поддерживается'); return; }
+  try {
+    recStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mime = pickAudioMime();
+    mediaRecorder = new MediaRecorder(recStream, mime ? { mimeType: mime } : {});
+    audioChunks = [];
+    mediaRecorder.ondataavailable = e => { if (e.data.size) audioChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      if (recStream) { recStream.getTracks().forEach(t => t.stop()); recStream = null; }
+      const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+      const dur = (Date.now() - recStart) / 1000;
+      if (dur < 0.4) return;
+      if (blob.size > 700 * 1024) { toast('Слишком длинное (макс ~30 сек)'); return; }
+      const r = new FileReader();
+      r.onload = () => sendMedia('voice', r.result, Math.max(1, Math.round(dur)));
+      r.readAsDataURL(blob);
+    };
+    mediaRecorder.start();
+    recStart = Date.now();
+    const msgInput = $('messageInput');
+    const micBtn = $('btnMic');
+    msgInput.style.display = 'none';
+    micBtn.innerHTML = '<svg viewBox="0 0 24 24" style="fill:#ff5555"><path d="M6 6h12v12H6z"/></svg>';
+    micBtn.style.background = 'rgba(255,85,85,.15)';
+    const rec = document.createElement('div');
+    rec.className = 'recording'; rec.id = 'recIndicator';
+    rec.innerHTML = '<div class="dot"></div> Запись... <span id="recTime">0:00</span>';
+    $('inputBar').insertBefore(rec, msgInput);
+    recTimer = setInterval(() => {
+      const el = $('recTime');
+      if (el) el.textContent = fmtDur((Date.now() - recStart)/1000);
+    }, 200);
+  } catch(e) { alert('Микрофон: ' + e.message); }
+}
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+  clearInterval(recTimer);
+  $('recIndicator')?.remove();
+  $('messageInput').style.display = '';
+  const micBtn = $('btnMic');
+  micBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>';
+  micBtn.style.background = '';
+}
+
+function fileToCompressedAvatar(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const size = 128;
+        const canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const min = Math.min(img.width, img.height);
+        ctx.drawImage(img, (img.width-min)/2, (img.height-min)/2, min, min, 0, 0, size, size);
+        resolve(canvas.toDataURL('image/jpeg', 0.7));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function showFriendsView() {
+  removePageViews();
+  if (currentChat) closeChatView();
+  const p = document.createElement('div');
+  p.className = 'page-view';
+  const others = allUsers.filter(u => u.uid !== currentUser.uid);
+  let html = `<h2>👥 Друзья и пользователи <span style="font-size:14px;color:var(--text-3);font-weight:500">(${others.length})</span></h2>`;
+  if (others.length === 0) {
+    html += '<div class="placeholder-empty"><span class="em">👤</span>Пока нет других пользователей.<br><small>Позови друга — пусть зарегистрируется.</small></div>';
+  } else {
+    others.sort((a,b) => (isOnline(b)?1:0) - (isOnline(a)?1:0));
+    others.forEach(u => {
+      const online = isOnline(u);
+      const chatExists = chatList.some(c => c.other.uid === u.uid);
+      html += `<div class="friend-card" data-uid="${u.uid}">
+        <div class="avatar" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
+        <div class="fc-info">
+          <div class="fc-nick">${escapeHtml(u.nick)}${u.isDev?' ⚙️':''}${u.isAI?' 🤖':''}</div>
+          <div class="fc-status ${online?'online':''}">${online?'онлайн':'оффлайн'}${u.bio?' · '+escapeHtml(u.bio.slice(0,40)):''}</div>
+        </div>
+        <button class="add-btn ${chatExists?'added':''}" type="button" data-open="${u.uid}">
+          ${chatExists ? '✓ В чатах' : '+ Добавить'}
+        </button>
+      </div>`;
+    });
+  }
+  p.innerHTML = html;
+  $('mainContent').appendChild(p);
+  p.querySelectorAll('.friend-card').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('.add-btn')) return;
+      const u = allUsers.find(x => x.uid === card.dataset.uid);
+      if (u) showUserProfile(u);
+    });
+  });
+  p.querySelectorAll('.add-btn').forEach(b => {
+    b.addEventListener('click', async e => {
+      e.stopPropagation();
+      const u = allUsers.find(x => x.uid === b.dataset.open);
+      if (!u) return;
+      const chatId = chatIdFor(currentUser.uid, u.uid);
+      const snap = await getDoc(doc(db, 'chats', chatId));
+      if (!snap.exists()) {
+        await setDoc(doc(db, 'chats', chatId), {
+          members: [currentUser.uid, u.uid],
+          created: serverTimestamp()
+        });
+        toast(`Чат с ${u.nick} создан`);
+      }
+      setTimeout(() => openChat(u), 300);
+    });
+  });
+}
+
+function showUserProfile(u) {
+  removePageViews();
+  const p = document.createElement('div');
+  p.className = 'page-view';
+  const online = isOnline(u);
+  p.innerHTML = `<div style="max-width:640px;margin:0 auto">
+    <div class="profile-hero">
+      <div class="profile-avatar-xl" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
+      <div class="profile-name">
+        ${escapeHtml(u.nick)}
+        ${u.isDev?'<span class="profile-badge dev">⚙️ Разработчик</span>':''}
+        ${u.isAI?'<span class="profile-badge">🤖 AI</span>':''}
+      </div>
+      <div class="profile-status-line" style="${online?'':'color:var(--text-3)'}">${online?'онлайн':'оффлайн'}</div>
+      ${u.bio ? `<div class="profile-bio">${escapeHtml(u.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="opacity:.5;font-style:italic">Нет описания</div>'}
+      <div class="profile-joined">📅 В Xtavgram с ${fmtDate(u.created)}</div>
+      <div class="profile-actions">
+        ${!u.isAI ? `<button class="btn-primary" id="profMsgBtn" type="button">💬 Написать</button>` : ''}
+        <button class="btn-secondary" id="profCloseBtn" type="button">← Назад</button>
+      </div>
+    </div>
+  </div>`;
+  $('mainContent').appendChild(p);
+  const mb = $('profMsgBtn');
+  if (mb) mb.onclick = () => openChat(u);
+  $('profCloseBtn').onclick = () => removePageViews();
+}
+
+function showMyProfileView() {
+  removePageViews();
+  if (currentChat) closeChatView();
+  const u = currentUser;
+  const daysOnSite = u.created?.toDate
+    ? Math.max(1, Math.floor((Date.now() - u.created.toDate().getTime()) / 86400000))
+    : 1;
+  const p = document.createElement('div');
+  p.className = 'page-view';
+  p.innerHTML = `<div class="my-profile">
+    <div class="profile-hero">
+      <div class="profile-avatar-xl" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
+      <div class="profile-name">
+        ${escapeHtml(u.nick)}
+        ${u.isDev?'<span class="profile-badge dev">⚙️ Разработчик</span>':''}
+      </div>
+      <div class="profile-status-line">онлайн</div>
+      ${u.bio ? `<div class="profile-bio">${escapeHtml(u.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="opacity:.5;font-style:italic">Добавь описание о себе ✏️</div>'}
+      <div class="profile-joined">📅 В Xtavgram с ${fmtDate(u.created)}</div>
+    </div>
+    <div class="profile-stats">
+      <div class="stat-card"><div class="stat-value">${chatList.length}</div><div class="stat-label">Чатов</div></div>
+      <div class="stat-card"><div class="stat-value">${daysOnSite}</div><div class="stat-label">Дней</div></div>
+      <div class="stat-card"><div class="stat-value">${allUsers.filter(x => x.uid !== u.uid).length}</div><div class="stat-label">Юзеров</div></div>
+    </div>
+    <div class="profile-section">
+      <div class="profile-section-title">Информация</div>
+      <div class="profile-info-row"><span class="label">Никнейм:</span><span>${escapeHtml(u.nick)}</span></div>
+      <div class="profile-info-row"><span class="label">Биография:</span><span>${u.bio ? escapeHtml(u.bio) : '—'}</span></div>
+      <div class="profile-info-row"><span class="label">Аватар:</span><span>${u.avatar ? 'загружен ✓' : 'по умолчанию'}</span></div>
+    </div>
+    <div class="profile-actions">
+      <button class="btn-primary" id="btnEditMyProfile" type="button">✏️ Редактировать профиль</button>
+    </div>
+  </div>`;
+  $('mainContent').appendChild(p);
+  $('btnEditMyProfile').onclick = openEditProfile;
+}
+
+function openEditProfile() {
+  $('editNickInput').value = currentUser.nick;
+  $('editBioInput').value = currentUser.bio || '';
+  openModal('editProfileModal');
+}
+async function saveProfile() {
+  const bio = $('editBioInput').value.trim();
+  const updates = { bio };
+  if (currentUser._newAvatar) {
+    updates.avatar = currentUser._newAvatar;
+    delete currentUser._newAvatar;
+  }
+  await updateDoc(doc(db, 'users', currentUser.uid), updates);
+  Object.assign(currentUser, updates);
+  closeModal('editProfileModal');
+  showMyProfileView();
+  toast('Профиль обновлён ✓');
+}
+
+function changeLocalNick() {
+  if (!currentChat) return;
+  openPrompt('Локальный ник', currentChat.nick, async (v) => {
+    if (!v) return;
+    try {
+      await setDoc(doc(db, 'localnicks', currentUser.uid, 'nicks', currentChat.uid), { nick: v });
+      toast('Сохранено');
+    } catch(e) { toast('Ошибка'); }
+  });
+}
+function openPrompt(title, value, onOk) {
+  $('promptTitle').textContent = title;
+  $('promptInput').value = value || '';
+  $('promptOk').onclick = () => { const v = $('promptInput').value.trim(); closeModal('promptModal'); onOk(v); };
+  $('promptCancel').onclick = () => closeModal('promptModal');
+  openModal('promptModal');
+}
+async function blockUser() {
+  if (!currentChat) return;
+  if (!confirm(`Заблокировать ${currentChat.nick}?`)) return;
+  await setDoc(doc(db, 'blocks', currentUser.uid, 'list', currentChat.uid), { ts: serverTimestamp() });
+  await deleteDoc(doc(db, 'chats', chatIdFor(currentUser.uid, currentChat.uid))).catch(()=>{});
+  closeChatView();
+  toast('Заблокирован');
+}
+function openCall() {
+  if (!currentChat) return;
+  $('callAvatar').style.cssText = avatarStyle(currentChat);
+  $('callAvatar').textContent = currentChat.avatar ? '' : initials(currentChat.nick);
+  $('callNick').textContent = currentChat.nick;
+  $('callStatus').textContent = 'Звонок...';
+  openModal('callModal');
+  setTimeout(() => { $('callStatus').textContent = 'Соединение установлено'; }, 1500);
+}
+
+function bindNav() {
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      const n = b.dataset.nav;
+      if (n === 'chats') { closeChatView(); removePageViews(); showChatsView(); }
+      else if (n === 'friends') showFriendsView();
+      else if (n === 'profile') showMyProfileView();
+      else if (n === 'settings') openModal('settingsModal');
+    });
+  });
+}
+function showChatsView() {
+  removePageViews();
+  $('chatsPanel').classList.remove('mobile-hidden');
+  $('chatWindow').classList.add('mobile-hidden');
+  $('bottomNav').classList.remove('hide');
+  $('mainContent').classList.remove('no-nav');
+}
+
+function showTextModal(title, text) {
+  $('textModalTitle').textContent = title;
+  $('textModalBody').textContent = text;
+  openModal('textModal');
+}
+window.openTerms = (e) => { if (e) e.preventDefault(); showTextModal('Пользовательское соглашение', `ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n1. Общие положения\n1.1. Используя Xtavgram, вы соглашаетесь с условиями.\n\n2. Обязанности\n2.1. Не оскорблять других.\n2.2. Не распространять незаконный контент.\n\n© Xtavgram`); return false; };
+window.openPrivacy = (e) => { if (e) e.preventDefault(); showTextModal('Политика конфиденциальности', `ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\n1. Данные хранятся в Firebase Firestore.\n2. Мы не передаём данные третьим лицам.\n3. Вы можете удалить аккаунт в любой момент.\n\n© Xtavgram`); return false; };
+
+function bindSettings() {
+  document.querySelectorAll('.settings-item').forEach(b => {
+    b.addEventListener('click', async () => {
+      const s = b.dataset.s;
+      closeModal('settingsModal');
+      if (s === 'terms') showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n1. Используя сервис, вы соглашаетесь с правилами.\n2. Не оскорбляйте других.\n\n© Xtavgram');
+      if (s === 'privacyPolicy') showTextModal('Политика конфиденциальности', 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\nДанные хранятся в Firebase. Мы не передаём их третьим лицам.\n\n© Xtavgram');
+      if (s === 'reset') { if (confirm('Сбросить локальные данные?')) { localStorage.clear(); toast('Сброшено'); } }
+      if (s === 'logout') { if (confirm('Выйти?')) { await signOut(auth); location.reload(); } }
+    });
+  });
+}
+
+function bindCloseButtons() {
+  document.querySelectorAll('[data-close]').forEach(b => {
+    b.addEventListener('click', () => closeModal(b.dataset.close));
+  });
+  document.querySelectorAll('.modal').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); });
+  });
+}
+
+function bindChatMenu() {
+  $('btnMenu')?.addEventListener('click', () => openModal('chatMenuModal'));
+  document.querySelectorAll('#chatMenuModal .menu-option').forEach(b => {
+    b.addEventListener('click', () => {
+      const a = b.dataset.action;
+      closeModal('chatMenuModal');
+      if (a === 'close') return;
+      if (a === 'viewProfile' && currentChat) showUserProfile(currentChat);
+      if (a === 'localNick') changeLocalNick();
+      if (a === 'block') blockUser();
+    });
+  });
+  $('btnCall')?.addEventListener('click', openCall);
+  $('btnEndCall')?.addEventListener('click', () => closeModal('callModal'));
+}
+
+function bindAttach() {
+  $('btnAttach')?.addEventListener('click', () => openModal('attachModal'));
+  document.querySelectorAll('.attach-option').forEach(b => {
+    b.addEventListener('click', () => {
+      closeModal('attachModal');
+      const t = b.dataset.type;
+      if (t === 'photo') openPrompt('Ссылка на картинку', '', async url => { if (url && /^https?:/.test(url)) await sendMedia('image', url); });
+      if (t === 'video') openPrompt('Ссылка на видео', '', async url => { if (url && /^https?:/.test(url)) await sendMedia('video', url); });
+    });
+  });
+}
+
+function bindInput() {
+  $('btnSend')?.addEventListener('click', sendTextMsg);
+  $('messageInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') sendTextMsg(); });
+  $('btnMic')?.addEventListener('click', async () => {
+    if (micBusy) return;
+    micBusy = true;
+    try {
+      if (mediaRecorder && mediaRecorder.state === 'recording') stopRecording();
+      else await startRecording();
+    } finally { setTimeout(() => { micBusy = false; }, 400); }
+  });
+}
+
+function bindAvatar() {
+  $('editAvatarInput')?.addEventListener('change', async e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    try {
+      const b64 = await fileToCompressedAvatar(f);
+      currentUser._newAvatar = b64;
+      toast('Аватар готов. Нажми Сохранить');
+    } catch (err) { toast('Ошибка'); }
+  });
+  $('btnSaveProfile')?.addEventListener('click', saveProfile);
+}
+
+function showWelcome(nick) {
+  const ov = $('welcomeOverlay');
+  $('welcomeText').innerHTML = `Добро пожаловать!<span class="name">${escapeHtml(nick)}</span>`;
+  ov.classList.remove('hidden');
+  setTimeout(() => {
+    ov.style.transition = 'opacity .5s';
+    ov.style.opacity = '0';
+    setTimeout(() => { ov.classList.add('hidden'); ov.style.opacity=''; ov.style.transition=''; }, 500);
+  }, 2200);
+}
+
+function bindBack() {
+  $('btnBack')?.addEventListener('click', () => {
+    closeChatView();
+    $('bottomNav').classList.remove('hide');
+    $('mainContent').classList.remove('no-nav');
+  });
+  $('chatUserInfo')?.addEventListener('click', () => { if (currentChat) showUserProfile(currentChat); });
+  $('btnAddFriend')?.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
+    document.querySelector('.nav-btn[data-nav="friends"]')?.classList.add('active');
+    showFriendsView();
+  });
+}
+
+async function startApp() {
+  await ensureSpecialUsers();
+  subscribeAllUsers();
+  await new Promise(r => setTimeout(r, 600));
+  subscribeChats();
+  showWelcome(currentUser.nick);
+  setInterval(() => {
+    if (currentUser) updateDoc(doc(db, 'users', currentUser.uid), { lastSeen: serverTimestamp() }).catch(()=>{});
+  }, 30000);
+}
+
+onAuthStateChanged(auth, async (fbUser) => {
+  if (fbUser) {
+    const snap = await getDoc(doc(db, 'users', fbUser.uid));
+    if (snap.exists()) {
+      currentUser = { uid: fbUser.uid, ...snap.data() };
+    } else {
+      await setDoc(doc(db, 'users', fbUser.uid), {
+        nick: fbUser.email.split('@')[0],
+        avatar: null, bio: '',
+        isDev: false, isAI: false,
+        created: serverTimestamp(), lastSeen: serverTimestamp()
+      });
+      const snap2 = await getDoc(doc(db, 'users', fbUser.uid));
+      currentUser = { uid: fbUser.uid, ...snap2.data() };
+    }
+    await updateDoc(doc(db, 'users', fbUser.uid), { lastSeen: serverTimestamp() });
+    $('authScreen').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    startApp();
+  } else {
+    currentUser = null;
+    currentChat = null;
+    $('authScreen').classList.remove('hidden');
+    $('app').classList.add('hidden');
+  }
+});
+
+bindEyeButtons();
+bindAuth();
+bindCloseButtons();
+bindSettings();
+bindNav();
+bindChatMenu();
+bindAttach();
+bindInput();
+bindAvatar();
+bindBack();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+}
+</script>
+</body>
+</html>

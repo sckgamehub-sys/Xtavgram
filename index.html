@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -133,29 +133,23 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .msg .reply-quote .rq-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .msg .edited-mark{font-size:10px;opacity:.55;font-style:italic}
 
-/* Реакции */
 .msg .reactions{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
 .msg .reaction{background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:2px 8px;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px}
 .msg.in .reaction{background:rgba(255,255,255,.08)}
 .msg .reaction:hover{transform:scale(1.1)}
 .msg .reaction.mine{border-color:#0a84ff;background:rgba(10,132,255,.15)}
 
-/* Меню реакций */
 .reaction-picker{position:absolute;background:rgba(30,30,30,.97);border:1px solid var(--glass-border);border-radius:24px;padding:6px;display:flex;gap:4px;z-index:50;box-shadow:0 10px 40px rgba(0,0,0,.6);animation:modalIn .2s}
 [data-theme="light"] .reaction-picker{background:rgba(255,255,255,.97)}
 .reaction-picker button{width:36px;height:36px;border:none;background:transparent;cursor:pointer;font-size:22px;border-radius:50%;transition:all .2s}
 .reaction-picker button:hover{background:rgba(255,255,255,.1);transform:scale(1.2)}
-[data-theme="light"] .reaction-picker button:hover{background:rgba(0,0,0,.08)}
 
-/* Меню действий на сообщении */
 .msg-menu{position:absolute;background:rgba(30,30,30,.97);border:1px solid var(--glass-border);border-radius:14px;padding:6px;display:flex;flex-direction:column;gap:2px;z-index:50;min-width:180px;box-shadow:0 10px 40px rgba(0,0,0,.6);animation:modalIn .2s}
 [data-theme="light"] .msg-menu{background:rgba(255,255,255,.97)}
 .msg-menu button{padding:10px 14px;background:transparent;border:none;border-radius:8px;color:var(--text);font-size:14px;text-align:left;transition:all .2s;display:flex;align-items:center;gap:10px;cursor:pointer}
 .msg-menu button:hover{background:rgba(255,255,255,.08)}
-[data-theme="light"] .msg-menu button:hover{background:rgba(0,0,0,.05)}
 .msg-menu button.danger{color:#ff5555}
 
-/* Панель ответа */
 .reply-bar{padding:8px 14px;background:var(--bg-3);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;animation:slideDown .25s}
 @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .reply-bar .reply-info{flex:1;border-left:3px solid var(--green);padding-left:10px;font-size:13px;min-width:0}
@@ -164,12 +158,39 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .reply-bar .cancel-reply{width:32px;height:32px;border:none;background:transparent;cursor:pointer;font-size:22px;color:var(--text-2);border-radius:50%}
 .reply-bar .cancel-reply:hover{background:var(--glass)}
 
+/* КАНАЛЫ */
+.channel-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 7px;border-radius:6px;background:rgba(59,130,246,.2);color:#60a5fa;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-left:4px}
+[data-theme="light"] .channel-badge{background:rgba(59,130,246,.15);color:#2563eb}
+.readonly-bar{padding:14px;text-align:center;color:var(--text-3);font-size:13px;border-top:1px solid var(--border);background:var(--bg-3)}
+
+/* ЗАКРЕПЛЁННОЕ */
+.pinned-bar{padding:8px 14px;background:var(--bg-3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s;animation:slideDown .25s}
+.pinned-bar:hover{background:var(--bg-4)}
+.pinned-bar .pin-icon{width:20px;height:20px;fill:var(--green);flex-shrink:0}
+.pinned-bar .pin-content{flex:1;min-width:0}
+.pinned-bar .pin-label{font-size:10.5px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.pinned-bar .pin-text{font-size:13px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.pinned-bar .pin-close{width:26px;height:26px;border:none;background:transparent;color:var(--text-3);cursor:pointer;border-radius:50%;font-size:16px}
+.pinned-bar .pin-close:hover{background:var(--glass)}
+
+/* СОЗДАНИЕ КАНАЛА */
+.channel-form label{display:block;font-size:12px;color:var(--text-3);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.channel-form input,.channel-form textarea{width:100%;padding:12px 14px;background:var(--bg-3);border:1px solid var(--border);color:var(--text);border-radius:12px;font-size:14.5px;margin-bottom:14px;resize:vertical}
+.channel-form input:focus,.channel-form textarea:focus{outline:none;border-color:var(--text)}
+
+/* ПЕРЕСЫЛКА */
+.forward-list{max-height:60vh;overflow-y:auto}
+.forward-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;cursor:pointer;transition:background .2s;margin-bottom:4px}
+.forward-item:hover{background:var(--glass)}
+.forward-item .avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background-size:cover;background-position:center;color:#fff}
+.forward-item .fi-info{flex:1;min-width:0}
+.forward-item .fi-nick{font-weight:600;font-size:14.5px}
+.forward-item .fi-last{font-size:12.5px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.msg.forwarded .forward-label{font-size:11px;opacity:.65;font-style:italic;margin-bottom:2px}
+
 /* Печатает */
 .typing-indicator{display:flex;gap:4px;align-items:center;padding:8px 14px}
 .typing-indicator .dot{width:7px;height:7px;background:var(--text-3);border-radius:50%;animation:typeBounce 1.4s infinite}
-.typing-indicator .dot:nth-child(2){animation-delay:.2s}
-.typing-indicator .dot:nth-child(3){animation-delay:.4s}
-@keyframes typeBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
 
 .voice-msg{display:flex;align-items:center;gap:10px;min-width:200px;padding:4px 6px}
 .voice-play{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.12);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:inherit;transition:transform .2s}
@@ -178,7 +199,6 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .voice-play svg{width:16px;height:16px;fill:currentColor}
 .voice-wave{flex:1;height:26px;display:flex;align-items:center;gap:2.5px}
 .voice-wave span{width:3px;background:currentColor;border-radius:2px;opacity:.35;transition:opacity .15s;height:8px}
-.voice-wave span.on{opacity:1}
 .voice-dur{font-size:11.5px;opacity:.7;min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
 .recording{display:flex;align-items:center;gap:10px;flex:1;padding:0 8px;color:#ff5555;font-size:13px}
 .recording .dot{width:10px;height:10px;border-radius:50%;background:#ff5555;animation:pulse 1s infinite}
@@ -223,17 +243,11 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .settings-item{padding:15px 16px;background:var(--bg-3);border:none;border-radius:14px;color:var(--text);font-size:14.5px;text-align:left;transition:all .25s;display:flex;align-items:center;gap:10px;cursor:pointer;justify-content:space-between}
 .settings-item:hover{background:var(--bg-4);transform:translateX(3px)}
 .settings-item .arrow{opacity:.5}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--bg-3);border-radius:14px;font-size:14.5px;font-weight:500;margin-bottom:8px}
-.toggle{appearance:none;width:50px;height:28px;background:#333;border-radius:14px;position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
-.toggle::after{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .3s}
-.toggle:checked{background:#0a84ff}
-.toggle:checked::after{transform:translateX(22px)}
 .text-content{max-width:520px}
 .text-body{font-size:14px;line-height:1.65;color:var(--text-2);max-height:60vh;overflow-y:auto;white-space:pre-wrap}
 .file-label{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg-3);border-radius:12px;margin-bottom:12px;cursor:pointer;font-size:14.5px}
 .file-label input{display:none}
 
-/* Цвета пузырей */
 .bubble-colors{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
 .bubble-color{height:50px;border-radius:14px;cursor:pointer;border:2px solid transparent;transition:all .2s}
 .bubble-color:hover{transform:scale(1.08)}
@@ -245,8 +259,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .my-profile{max-width:640px;margin:0 auto}
 .profile-hero{background:linear-gradient(135deg,#141414,#0a0a0a);border:1px solid var(--border);border-radius:24px;padding:32px 26px;text-align:center;margin-bottom:20px}
 [data-theme="light"] .profile-hero{background:linear-gradient(135deg,#e8e8e8,#f5f5f5)}
-.profile-avatar-xl{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:800;margin:0 auto 18px;background-size:cover;background-position:center;color:#fff;border:4px solid rgba(255,255,255,.1);transition:transform .3s}
-.profile-avatar-xl:hover{transform:scale(1.03)}
+.profile-avatar-xl{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:800;margin:0 auto 18px;background-size:cover;background-position:center;color:#fff;border:4px solid rgba(255,255,255,.1)}
 .profile-name{font-size:28px;font-weight:900;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
 .profile-badge{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,.1);color:var(--text-2);font-weight:700;text-transform:uppercase}
 .profile-badge.dev{background:#fff;color:#000}
@@ -255,8 +268,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .profile-status-line::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
 .profile-joined{font-size:12.5px;color:var(--text-3);margin-top:6px}
 .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.stat-card{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:18px 14px;text-align:center;transition:transform .25s}
-.stat-card:hover{transform:translateY(-3px)}
+.stat-card{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:18px 14px;text-align:center}
 .stat-value{font-size:24px;font-weight:800;margin-bottom:4px}
 .stat-label{font-size:12px;color:var(--text-3);text-transform:uppercase;font-weight:600}
 .profile-section{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px}
@@ -274,7 +286,6 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .friend-card .fc-status{font-size:12.5px;color:var(--text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .friend-card .fc-status.online{color:var(--green)}
 .friend-card .add-btn{padding:8px 14px;border-radius:10px;border:none;background:#fff;color:#000;font-weight:700;font-size:13px;transition:all .25s;cursor:pointer;flex-shrink:0}
-.friend-card .add-btn:hover{transform:scale(1.05)}
 .friend-card .add-btn.added{background:transparent;color:var(--text-3);border:1px solid var(--border)}
 .placeholder-empty{text-align:center;color:var(--text-3);padding:60px 20px;font-size:14px}
 .placeholder-empty .em{font-size:52px;display:block;margin-bottom:14px;opacity:.4}
@@ -288,18 +299,16 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 [data-theme="light"] .toast{background:rgba(255,255,255,.98);color:#000}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
-/* Браузерное уведомление */
 .browser-notif{position:fixed;top:20px;right:20px;background:rgba(30,30,30,.97);border:1px solid var(--glass-border);border-radius:16px;padding:14px 18px;color:#fff;font-size:14px;z-index:500;box-shadow:0 10px 40px rgba(0,0,0,.7);backdrop-filter:blur(20px);max-width:340px;display:flex;gap:12px;align-items:flex-start;animation:notifIn .4s cubic-bezier(.2,.9,.3,1)}
 [data-theme="light"] .browser-notif{background:rgba(255,255,255,.98);color:#000}
 @keyframes notifIn{from{opacity:0;transform:translateX(400px)}to{opacity:1;transform:translateX(0)}}
 .browser-notif.fade-out{animation:notifOut .4s forwards}
 @keyframes notifOut{to{opacity:0;transform:translateX(400px)}}
-.browser-notif .bn-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#222,#444);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;background-size:cover;background-position:center;color:#fff;font-size:16px}
+.browser-notif .bn-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;background-size:cover;background-position:center;color:#fff;font-size:16px}
 .browser-notif .bn-body{flex:1;min-width:0}
 .browser-notif .bn-nick{font-weight:700;margin-bottom:2px}
 .browser-notif .bn-text{opacity:.8;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .browser-notif .bn-close{background:transparent;border:none;color:inherit;cursor:pointer;font-size:18px;opacity:.5;padding:0;width:24px;height:24px;border-radius:50%}
-.browser-notif .bn-close:hover{opacity:1;background:rgba(255,255,255,.1)}
 
 @media(max-width:820px){
   .chats-panel{position:absolute;inset:0;width:100%;z-index:15;transition:transform .35s}
@@ -455,6 +464,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   <div class="modal-content settings-content">
     <h2>Настройки</h2>
     <div class="settings-list">
+      <button class="settings-item" data-s="channels" type="button">📢 Каналы <span class="arrow">›</span></button>
       <button class="settings-item" data-s="theme" type="button">🎨 Сменить тему <span class="arrow">›</span></button>
       <button class="settings-item" data-s="bubble" type="button">💬 Цвет пузырей <span class="arrow">›</span></button>
       <button class="settings-item" data-s="notif" type="button">🔔 Уведомления <span class="arrow">›</span></button>
@@ -464,6 +474,37 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
       <button class="settings-item" data-s="logout" type="button">🚪 Выйти из аккаунта <span class="arrow">›</span></button>
     </div>
     <button class="btn-close" data-close="settingsModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="channelModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Создать канал</h2>
+    <div class="channel-form">
+      <label>Название</label>
+      <input type="text" id="chName" placeholder="Название канала" maxlength="40">
+      <label>Описание</label>
+      <textarea id="chDesc" rows="2" placeholder="О чём канал?" maxlength="200"></textarea>
+      <button class="btn-primary" id="chCreate" type="button" style="width:100%">Создать канал</button>
+      <button class="btn-close" data-close="channelModal" type="button">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div id="channelsListModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>📢 Каналы</h2>
+    <div id="channelsListBody" class="forward-list"></div>
+    <button class="btn-primary" id="chOpenCreate" type="button" style="margin-top:14px">+ Создать канал</button>
+    <button class="btn-close" data-close="channelsListModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="forwardModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Переслать сообщение</h2>
+    <div id="forwardListBody" class="forward-list"></div>
+    <button class="btn-close" data-close="forwardModal" type="button">Отмена</button>
   </div>
 </div>
 
@@ -524,12 +565,16 @@ const db = getFirestore(app);
 
 let currentUser = null;
 let currentChat = null;
+let currentChannel = null;
 let unsubMessages = null;
 let unsubChats = null;
 let unsubUsers = null;
+let unsubPinned = null;
+let unsubChannelChats = null;
 let allUsers = [];
 let chatList = [];
 let replyTo = null;
+let forwardMessage = null;
 let typingTimeout = null;
 let localTypingState = false;
 let audioCtxUnlocked = false;
@@ -579,6 +624,7 @@ function toast(msg) {
 function openModal(id) { $(id)?.classList.remove('hidden'); }
 function closeModal(id) { $(id)?.classList.add('hidden'); }
 function chatIdFor(a, b) { return [a, b].sort().join('__'); }
+function channelIdFor(name) { return 'ch_' + name.toLowerCase().replace(/[^a-zа-я0-9]/gi, '_').slice(0, 40); }
 function removePageViews() { document.querySelectorAll('.page-view').forEach(p => p.remove()); }
 
 /* ==== ЗВУК ==== */
@@ -611,11 +657,7 @@ function playNotificationSound() {
     setTimeout(() => ctx.close().catch(()=>{}), 400);
   } catch(e) {}
 }
-
-/* ==== ВИБРАЦИЯ ==== */
-function vibrate() {
-  if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-}
+function vibrate() { if (navigator.vibrate) navigator.vibrate([100, 50, 100]); }
 
 /* ==== УВЕДОМЛЕНИЯ ==== */
 async function requestNotifPermission() {
@@ -624,12 +666,9 @@ async function requestNotifPermission() {
     try { await Notification.requestPermission(); } catch(e) {}
   }
 }
-
 function showBrowserNotification(user, text) {
-  // Своя "плавная" плашка в углу
   const existing = document.querySelectorAll('.browser-notif');
   if (existing.length >= 3) existing[0].remove();
-
   const el = document.createElement('div');
   el.className = 'browser-notif';
   el.innerHTML = `
@@ -641,7 +680,6 @@ function showBrowserNotification(user, text) {
     <button class="bn-close" type="button">✕</button>
   `;
   document.body.appendChild(el);
-
   el.querySelector('.bn-close').addEventListener('click', () => {
     el.classList.add('fade-out');
     setTimeout(() => el.remove(), 400);
@@ -653,28 +691,21 @@ function showBrowserNotification(user, text) {
     el.classList.add('fade-out');
     setTimeout(() => el.remove(), 400);
   });
-
   setTimeout(() => {
     if (el.parentNode) {
       el.classList.add('fade-out');
       setTimeout(() => el.remove(), 400);
     }
   }, 5000);
-
-  // Системное уведомление браузера
   if ('Notification' in window && Notification.permission === 'granted' && document.hidden) {
     try {
-      const n = new Notification(`${user.nick} · Xtavgram`, {
-        body: text,
-        icon: user.avatar || undefined,
-        tag: 'xg-' + user.uid
-      });
+      const n = new Notification(`${user.nick} · Xtavgram`, { body: text, icon: user.avatar || undefined, tag: 'xg-' + user.uid });
       n.onclick = () => { window.focus(); openChat(user); n.close(); };
     } catch(e) {}
   }
 }
 
-/* ==== ЗАГОЛОВОК С КОЛИЧЕСТВОМ ==== */
+/* ==== ЗАГОЛОВОК ==== */
 let baseTitle = 'Xtavgram';
 function updateTabTitle() {
   const total = chatList.reduce((acc, c) => acc + (c.unread || 0), 0);
@@ -683,16 +714,13 @@ function updateTabTitle() {
 
 /* ==== ТЕМА ==== */
 function applyTheme(theme) {
-  if (theme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
+  if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  else document.documentElement.removeAttribute('data-theme');
   localStorage.setItem('xg_theme', theme);
 }
 applyTheme(localStorage.getItem('xg_theme') || 'dark');
 
-/* ==== ЦВЕТ ПУЗЫРЕЙ ==== */
+/* ==== ЦВЕТА ПУЗЫРЕЙ ==== */
 const BUBBLE_COLORS = [
   { id: 'white', out: '#ffffff', outText: '#000000' },
   { id: 'black', out: '#000000', outText: '#ffffff' },
@@ -787,6 +815,7 @@ function bindAuth() {
   ['regNick','regPass','regPass2'].forEach(id => $(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') $('btnRegister').click(); }));
 }
 
+/* ==== СПЕЦПОЛЬЗОВАТЕЛИ ==== */
 async function ensureSpecialUsers() {
   const devSnap = await getDocs(query(collection(db, 'users'), where('nick', '==', 'скиф')));
   if (devSnap.empty) {
@@ -808,16 +837,48 @@ async function ensureSpecialUsers() {
   }
 }
 
+/* ==== СТАРТОВЫЙ КАНАЛ ==== */
+async function ensureStartChannel() {
+  const chId = 'ch_xtavgram';
+  const snap = await getDoc(doc(db, 'channels', chId));
+  if (snap.exists()) return;
+  const skifSnap = await getDocs(query(collection(db, 'users'), where('nick', '==', 'скиф')));
+  const skifUid = skifSnap.docs[0]?.id;
+  if (!skifUid) return;
+  await setDoc(doc(db, 'channels', chId), {
+    name: 'Xtavgram',
+    description: 'Официальный канал проекта Xtavgram. Пишет только скиф ⚙️',
+    ownerUid: skifUid,
+    isPublic: true,
+    created: serverTimestamp(),
+    members: [skifUid]
+  });
+  console.log('✓ Канал Xtavgram создан');
+}
+
+async function autoJoinStartChannel(uid) {
+  const chId = 'ch_xtavgram';
+  const ref = doc(db, 'channels', chId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+  const data = snap.data();
+  const members = data.members || [];
+  if (!members.includes(uid)) {
+    await updateDoc(ref, { members: [...members, uid] });
+  }
+}
+
 /* ==== ПОДПИСКА НА ЮЗЕРОВ ==== */
 function subscribeAllUsers() {
   if (unsubUsers) unsubUsers();
   unsubUsers = onSnapshot(collection(db, 'users'), snap => {
-    const prev = allUsers;
     allUsers = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
     if (currentUser) {
       chatList.forEach(c => {
-        const updated = allUsers.find(u => u.uid === c.other.uid);
-        if (updated) c.other = updated;
+        if (!c.isChannel && c.other) {
+          const updated = allUsers.find(u => u.uid === c.other.uid);
+          if (updated) c.other = updated;
+        }
       });
       renderChatList();
       if (currentChat) {
@@ -833,12 +894,18 @@ function subscribeAllUsers() {
   });
 }
 
-/* ==== ПОДПИСКА НА ЧАТЫ ==== */
+/* ==== ПОДПИСКА НА ЧАТЫ И КАНАЛЫ ==== */
+function sortChats(a, b) {
+  const ta = a.last?.ts?.toDate ? a.last.ts.toDate().getTime() : 0;
+  const tb = b.last?.ts?.toDate ? b.last.ts.toDate().getTime() : 0;
+  return tb - ta;
+}
+
 function subscribeChats() {
   if (unsubChats) unsubChats();
   const q = query(collection(db, 'chats'), where('members', 'array-contains', currentUser.uid));
   unsubChats = onSnapshot(q, async (snap) => {
-    const newList = [];
+    const normal = [];
     for (const c of snap.docs) {
       const data = c.data();
       const otherUid = data.members.find(m => m !== currentUser.uid);
@@ -851,36 +918,57 @@ function subscribeChats() {
         const m = d.data();
         return m.from !== currentUser.uid && !m.read;
       }).length;
-      newList.push({ id: c.id, other, last, unread });
+      normal.push({ id: c.id, other, last, unread, isChannel: false });
     }
-    newList.sort((a,b) => {
-      const ta = a.last?.ts?.toDate ? a.last.ts.toDate().getTime() : 0;
-      const tb = b.last?.ts?.toDate ? b.last.ts.toDate().getTime() : 0;
-      return tb - ta;
-    });
-    chatList = newList;
+    const channels = chatList.filter(c => c.isChannel);
+    chatList = [...normal, ...channels].sort(sortChats);
+    renderChatList();
+    updateTabTitle();
+  });
+
+  if (unsubChannelChats) unsubChannelChats();
+  const qCh = query(collection(db, 'channels'), where('members', 'array-contains', currentUser.uid));
+  unsubChannelChats = onSnapshot(qCh, async (snap) => {
+    const channels = [];
+    for (const c of snap.docs) {
+      const data = c.data();
+      const msgsSnap = await getDocs(query(collection(db, 'channels', c.id, 'messages'), orderBy('ts', 'desc'), limit(1)));
+      const last = msgsSnap.docs[0]?.data() || null;
+      const allMsgs = await getDocs(collection(db, 'channels', c.id, 'messages'));
+      const unread = allMsgs.docs.filter(d => {
+        const m = d.data();
+        return m.from !== currentUser.uid && !m.read;
+      }).length;
+      channels.push({ id: c.id, isChannel: true, channel: { id: c.id, ...data }, last, unread });
+    }
+    const normal = chatList.filter(c => !c.isChannel);
+    chatList = [...normal, ...channels].sort(sortChats);
     renderChatList();
     updateTabTitle();
   });
 }
 
-/* ==== ПОДПИСКА НА УВЕДОМЛЕНИЯ (новые сообщения) ==== */
-function subscribeToAllMessages() {
-  // Следим за новыми сообщениями во всех чатах пользователя
-  const myChatIds = () => chatList.map(c => c.id);
-  let lastSeenMsgIds = new Set();
-
+/* ==== ПОДПИСКА НА НОВЫЕ СООБЩЕНИЯ (уведомления) ==== */
+let notifMsgIds = new Set();
+function subscribeToNotifications() {
   chatList.forEach(c => {
-    // Подписка на последние сообщения чата
-    onSnapshot(query(collection(db, 'chats', c.id, 'messages'), orderBy('ts', 'desc'), limit(1)), snap => {
+    const collName = c.isChannel ? 'channels' : 'chats';
+    onSnapshot(query(collection(db, collName, c.id, 'messages'), orderBy('ts', 'desc'), limit(1)), snap => {
       snap.docs.forEach(d => {
         const m = { id: d.id, ...d.data() };
         if (m.from === currentUser.uid) return;
-        if (!lastSeenMsgIds.has(m.id)) {
-          lastSeenMsgIds.add(m.id);
-          // Отмечаем прочитанным
-          updateDoc(d.ref, { read: true }).catch(()=>{});
-          // Если это не открытый чат — показываем уведомление
+        const key = c.id + '_' + m.id;
+        if (notifMsgIds.has(key)) return;
+        notifMsgIds.add(key);
+        updateDoc(d.ref, { read: true }).catch(()=>{});
+        if (c.isChannel) {
+          if (currentChannel?.id !== c.id) {
+            playNotificationSound();
+            vibrate();
+            const fakeUser = { nick: c.channel.name, avatar: null, uid: c.id };
+            showBrowserNotification(fakeUser, m.text || '📎 вложение');
+          }
+        } else {
           if (!currentChat || currentChat.uid !== c.other.uid) {
             playNotificationSound();
             vibrate();
@@ -902,48 +990,156 @@ function renderChatList() {
   }
   list.innerHTML = '';
   chatList.forEach(c => {
-    const other = allUsers.find(u => u.uid === c.other.uid) || c.other;
-    const online = isOnline(other);
     const el = document.createElement('div');
-    el.className = 'chat-item' + (currentChat?.uid === other.uid ? ' active' : '');
-    const lastText = c.last
-      ? (c.last.type === 'voice' ? '🎤 Голосовое'
-        : c.last.type === 'image' ? '📷 Фото'
-        : c.last.type === 'video' ? '🎥 Видео'
-        : escapeHtml(c.last.text || ''))
-      : 'Нет сообщений';
+    const isCh = c.isChannel;
+    let avatarHtml, nick, online = false, lastText, active;
+
+    if (isCh) {
+      const ch = c.channel;
+      active = currentChannel && currentChannel.id === ch.id;
+      avatarHtml = `<div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af);font-size:22px">📢</div>`;
+      nick = escapeHtml(ch.name) + ' <span class="channel-badge">канал</span>';
+      lastText = c.last ? (c.last.text ? escapeHtml(c.last.text) : '📎 вложение') : 'Нет сообщений';
+    } else {
+      const other = allUsers.find(u => u.uid === c.other.uid) || c.other;
+      online = isOnline(other);
+      active = currentChat?.uid === other.uid;
+      avatarHtml = `<div class="avatar" style="${avatarStyle(other)}">${other.avatar?'':initials(other.nick)}</div>`;
+      nick = escapeHtml(other.nick) + (other.isDev?' ⚙️':'') + (other.isAI?' 🤖':'');
+      lastText = c.last
+        ? (c.last.type === 'voice' ? '🎤 Голосовое'
+          : c.last.type === 'image' ? '📷 Фото'
+          : c.last.type === 'video' ? '🎥 Видео'
+          : escapeHtml(c.last.text || ''))
+        : 'Нет сообщений';
+    }
+
+    el.className = 'chat-item' + (active ? ' active' : '');
     el.innerHTML = `
-      <div class="avatar" style="${avatarStyle(other)}">${other.avatar?'':initials(other.nick)}</div>
-      <div class="online-dot ${online?'':'off'}"></div>
+      ${avatarHtml}
+      ${!isCh ? `<div class="online-dot ${online?'':'off'}"></div>` : ''}
       <div class="info">
-        <div class="nick">${escapeHtml(other.nick)}${other.isDev?' ⚙️':''}${other.isAI?' 🤖':''}</div>
+        <div class="nick">${nick}</div>
         <div class="last">${lastText}</div>
       </div>
       ${c.unread ? `<div class="unread">${c.unread}</div>` : ''}
     `;
-    el.addEventListener('click', () => openChat(other));
+    if (isCh) {
+      el.addEventListener('click', () => openChannel(c.channel));
+    } else {
+      const other = allUsers.find(u => u.uid === c.other.uid) || c.other;
+      el.addEventListener('click', () => openChat(other));
+    }
     list.appendChild(el);
+  });
+}
+
+/* ==== ЗАКРЕПЛЁННОЕ ==== */
+function subscribePinned(chatId, collName) {
+  if (unsubPinned) unsubPinned();
+  unsubPinned = onSnapshot(doc(db, collName, chatId), snap => {
+    const data = snap.data();
+    const pinned = data?.pinnedMessage;
+    $('pinnedBar')?.remove();
+    if (pinned && pinned.text) {
+      const bar = document.createElement('div');
+      bar.className = 'pinned-bar';
+      bar.id = 'pinnedBar';
+      bar.innerHTML = `
+        <svg class="pin-icon" viewBox="0 0 24 24"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6h2v-6h5v-2l-2-2z"/></svg>
+        <div class="pin-content">
+          <div class="pin-label">Закреплённое</div>
+          <div class="pin-text">${escapeHtml(pinned.text || '')}</div>
+        </div>
+        <button class="pin-close" type="button" title="Открепить">✕</button>
+      `;
+      bar.querySelector('.pin-close').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await setDoc(doc(db, collName, chatId), { pinnedMessage: null }, { merge: true });
+        toast('Откреплено');
+      });
+      const chatHeader = document.querySelector('.chat-header');
+      if (chatHeader) chatHeader.parentNode.insertBefore(bar, chatHeader.nextSibling);
+    }
+  });
+}
+
+/* ==== ОТКРЫТИЕ КАНАЛА ==== */
+async function openChannel(channel) {
+  removePageViews();
+  currentChat = null;
+  currentChannel = channel;
+  $('chatEmpty').classList.add('hidden');
+  $('chatActive').classList.remove('hidden');
+  $('readonlyBar')?.remove();
+  $('pinnedBar')?.remove();
+  $('chatAvatar').style.cssText = 'background:linear-gradient(135deg,#3b82f6,#1e40af);font-size:22px';
+  $('chatAvatar').textContent = '📢';
+  $('chatNick').innerHTML = escapeHtml(channel.name) + ' <span class="channel-badge">канал</span>';
+  $('chatStatus').textContent = `${(channel.members||[]).length} участников`;
+  $('chatStatus').className = 'chat-status';
+  $('bottomNav').classList.add('hide');
+  $('mainContent').classList.add('no-nav');
+  if (window.innerWidth <= 820) {
+    $('chatsPanel').classList.add('mobile-hidden');
+    $('chatWindow').classList.remove('mobile-hidden');
+  }
+
+  const canWrite = channel.ownerUid === currentUser.uid;
+  const inputBar = $('inputBar');
+  if (canWrite) {
+    inputBar.classList.remove('hidden');
+  } else {
+    inputBar.classList.add('hidden');
+    const rb = document.createElement('div');
+    rb.className = 'readonly-bar';
+    rb.id = 'readonlyBar';
+    rb.textContent = '📢 Только администратор может писать в этом канале';
+    inputBar.parentNode.appendChild(rb);
+  }
+
+  subscribePinned(channel.id, 'channels');
+
+  if (unsubMessages) unsubMessages();
+  const q = query(collection(db, 'channels', channel.id, 'messages'), orderBy('ts', 'asc'), limit(300));
+  unsubMessages = onSnapshot(q, async (snap) => {
+    const box = $('messages');
+    box.innerHTML = '';
+    snap.docs.forEach(d => box.appendChild(buildMessageEl({ id: d.id, ...d.data() }, channel.id, true)));
+    box.scrollTop = box.scrollHeight;
+    const batch = writeBatch(db);
+    let hasUnread = false;
+    snap.docs.forEach(d => {
+      const m = d.data();
+      if (m.from !== currentUser.uid && !m.read) {
+        batch.update(d.ref, { read: true });
+        hasUnread = true;
+      }
+    });
+    if (hasUnread) await batch.commit().catch(()=>{});
+    setTimeout(updateTabTitle, 100);
   });
 }
 
 /* ==== ОТКРЫТИЕ ЧАТА ==== */
 async function openChat(other) {
   removePageViews();
+  currentChannel = null;
   const chatId = chatIdFor(currentUser.uid, other.uid);
   const chatRef = doc(db, 'chats', chatId);
   const chatSnap = await getDoc(chatRef);
   if (!chatSnap.exists()) {
-    await setDoc(chatRef, {
-      members: [currentUser.uid, other.uid],
-      created: serverTimestamp()
-    });
+    await setDoc(chatRef, { members: [currentUser.uid, other.uid], created: serverTimestamp() });
   }
   currentChat = other;
   $('chatEmpty').classList.add('hidden');
   $('chatActive').classList.remove('hidden');
+  $('readonlyBar')?.remove();
+  $('pinnedBar')?.remove();
+  $('inputBar')?.classList.remove('hidden');
   $('chatAvatar').style.cssText = avatarStyle(other);
   $('chatAvatar').textContent = other.avatar ? '' : initials(other.nick);
-  $('chatNick').textContent = other.nick + (other.isDev?' ⚙️':'') + (other.isAI?' 🤖':'');
+  $('chatNick').innerHTML = escapeHtml(other.nick) + (other.isDev?' ⚙️':'') + (other.isAI?' 🤖':'');
   updateChatStatus(other);
   $('bottomNav').classList.add('hide');
   $('mainContent').classList.add('no-nav');
@@ -952,8 +1148,8 @@ async function openChat(other) {
     $('chatWindow').classList.remove('mobile-hidden');
   }
   if (unsubMessages) unsubMessages();
+  subscribePinned(chatId, 'chats');
 
-  // Слушаем "печатает"
   const chatMetaRef = doc(db, 'chats', chatId);
   const unsubTyping = onSnapshot(chatMetaRef, snap => {
     const data = snap.data();
@@ -972,10 +1168,8 @@ async function openChat(other) {
   unsubMessages = onSnapshot(q, async (snap) => {
     const box = $('messages');
     box.innerHTML = '';
-    snap.docs.forEach(d => box.appendChild(buildMessageEl({ id: d.id, ...d.data() }, chatId)));
-    // Кнопка скролла вниз
+    snap.docs.forEach(d => box.appendChild(buildMessageEl({ id: d.id, ...d.data() }, chatId, false)));
     box.scrollTop = box.scrollHeight;
-    // Отмечаем прочитанными
     const batch = writeBatch(db);
     let hasUnread = false;
     snap.docs.forEach(d => {
@@ -986,21 +1180,24 @@ async function openChat(other) {
       }
     });
     if (hasUnread) await batch.commit().catch(()=>{});
-    // Обновляем заголовок
     setTimeout(updateTabTitle, 100);
   });
 
-  // Отписываемся от typing при смене чата
   window._unsubTyping?.();
   window._unsubTyping = unsubTyping;
 }
 
 function closeChatView() {
   if (unsubMessages) { unsubMessages(); unsubMessages = null; }
+  if (unsubPinned) { unsubPinned(); unsubPinned = null; }
   window._unsubTyping?.();
   window._unsubTyping = null;
   replyTo = null;
+  currentChannel = null;
   $('replyBar')?.remove();
+  $('pinnedBar')?.remove();
+  $('readonlyBar')?.remove();
+  $('inputBar')?.classList.remove('hidden');
   currentChat = null;
   $('chatActive').classList.add('hidden');
   $('chatEmpty').classList.remove('hidden');
@@ -1025,11 +1222,12 @@ function ticksHtml(read) {
   return `<span class="ticks"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>`;
 }
 
-function buildMessageEl(m, chatId) {
+function buildMessageEl(m, chatId, isChannel = false) {
   const el = document.createElement('div');
   const mine = m.from === currentUser.uid;
   el.className = 'msg ' + (mine ? 'out' : 'in');
   el.dataset.msgId = m.id;
+  if (m.forwarded) el.classList.add('forwarded');
 
   let replyHtml = '';
   if (m.reply) {
@@ -1038,9 +1236,13 @@ function buildMessageEl(m, chatId) {
     replyHtml = `<div class="reply-quote"><span class="rq-nick">${escapeHtml(rAuthor)}</span><span class="rq-text">${rText}</span></div>`;
   }
 
-  const metaHtml = `<div class="meta">${m.edited ? '<span class="edited-mark">изменено</span> ' : ''}${fmtTime(m.ts)} ${mine ? ticksHtml(m.read) : ''}</div>`;
+  let forwardHtml = '';
+  if (m.forwarded) {
+    forwardHtml = `<div class="forward-label">➡️ Переслано от ${escapeHtml(m.forwarded.from || 'пользователя')}</div>`;
+  }
 
-  // Реакции
+  const metaHtml = `<div class="meta">${m.edited ? '<span class="edited-mark">изменено</span> ' : ''}${fmtTime(m.ts)} ${mine && !isChannel ? ticksHtml(m.read) : ''}</div>`;
+
   let reactionsHtml = '';
   if (m.reactions && Object.keys(m.reactions).length > 0) {
     const counts = {};
@@ -1057,7 +1259,7 @@ function buildMessageEl(m, chatId) {
     el.classList.add('media');
     let bars = '';
     for (let i=0;i<24;i++) bars += `<span style="height:${6+Math.round(Math.sin(i*1.3)*8+8)}px"></span>`;
-    el.innerHTML = `${replyHtml}<div class="voice-msg">
+    el.innerHTML = `${replyHtml}${forwardHtml}<div class="voice-msg">
       <button class="voice-play" type="button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
       <div class="voice-wave">${bars}</div>
       <div class="voice-dur">${fmtDur(m.duration)}</div>
@@ -1065,30 +1267,28 @@ function buildMessageEl(m, chatId) {
     el.querySelector('.voice-play').addEventListener('click', e => { e.stopPropagation(); playVoice(m.media, el); });
   } else if (m.type === 'image') {
     el.classList.add('media');
-    el.innerHTML = `${replyHtml}<img src="${m.media}" alt="" onerror="this.style.display='none'">${reactionsHtml}${metaHtml}`;
+    el.innerHTML = `${replyHtml}${forwardHtml}<img src="${m.media}" alt="" onerror="this.style.display='none'">${reactionsHtml}${metaHtml}`;
   } else if (m.type === 'video') {
     el.classList.add('media');
-    el.innerHTML = `${replyHtml}<video src="${m.media}" controls playsinline></video>${reactionsHtml}${metaHtml}`;
+    el.innerHTML = `${replyHtml}${forwardHtml}<video src="${m.media}" controls playsinline></video>${reactionsHtml}${metaHtml}`;
   } else {
-    el.innerHTML = `${replyHtml}${escapeHtml(m.text).replace(/\n/g,'<br>')}${reactionsHtml}${metaHtml}`;
+    el.innerHTML = `${replyHtml}${forwardHtml}${escapeHtml(m.text).replace(/\n/g,'<br>')}${reactionsHtml}${metaHtml}`;
   }
 
-  // Обработка кликов по реакциям
   el.querySelectorAll('.reaction').forEach(r => {
     r.addEventListener('click', async (e) => {
       e.stopPropagation();
-      await toggleReaction(chatId, m, r.dataset.emoji);
+      await toggleReaction(chatId, m, r.dataset.emoji, isChannel);
     });
   });
 
-  // Долгое нажатие — меню
   let longPressTimer = null;
   let longPressFired = false;
   el.addEventListener('touchstart', (e) => {
     longPressFired = false;
     longPressTimer = setTimeout(() => {
       longPressFired = true;
-      showMessageMenu(e.touches[0].clientX, e.touches[0].clientY, m, chatId, mine);
+      showMessageMenu(e.touches[0].clientX, e.touches[0].clientY, m, chatId, mine, isChannel);
     }, 500);
   }, { passive: true });
   el.addEventListener('touchend', (e) => {
@@ -1098,42 +1298,38 @@ function buildMessageEl(m, chatId) {
   el.addEventListener('touchmove', () => clearTimeout(longPressTimer), { passive: true });
   el.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    showMessageMenu(e.clientX, e.clientY, m, chatId, mine);
+    showMessageMenu(e.clientX, e.clientY, m, chatId, mine, isChannel);
   });
 
   return el;
 }
 
 /* ==== РЕАКЦИИ ==== */
-async function toggleReaction(chatId, m, emoji) {
-  const ref = doc(db, 'chats', chatId, 'messages', m.id);
+async function toggleReaction(chatId, m, emoji, isChannel = false) {
+  const collName = isChannel ? 'channels' : 'chats';
+  const ref = doc(db, collName, chatId, 'messages', m.id);
   const reactions = { ...(m.reactions || {}) };
-  if (reactions[currentUser.uid] === emoji) {
-    delete reactions[currentUser.uid];
-  } else {
-    reactions[currentUser.uid] = emoji;
-  }
+  if (reactions[currentUser.uid] === emoji) delete reactions[currentUser.uid];
+  else reactions[currentUser.uid] = emoji;
   await updateDoc(ref, { reactions });
 }
 
 /* ==== МЕНЮ СООБЩЕНИЯ ==== */
-function showMessageMenu(x, y, m, chatId, mine) {
+function showMessageMenu(x, y, m, chatId, mine, isChannel = false) {
   document.querySelectorAll('.reaction-picker, .msg-menu').forEach(el => el.remove());
+  const collName = isChannel ? 'channels' : 'chats';
 
-  // Плавное появление
   const picker = document.createElement('div');
   picker.className = 'reaction-picker';
   picker.style.left = Math.min(x, window.innerWidth - 280) + 'px';
   picker.style.top = Math.max(10, y - 60) + 'px';
-  const emojis = ['❤️', '👍', '😂', '😮', '😢', '🔥'];
-  emojis.forEach(e => {
+  ['❤️', '👍', '😂', '😮', '😢', '🔥'].forEach(e => {
     const b = document.createElement('button');
     b.textContent = e;
     b.addEventListener('click', async (ev) => {
       ev.stopPropagation();
-      await toggleReaction(chatId, m, e);
-      picker.remove();
-      menu.remove();
+      await toggleReaction(chatId, m, e, isChannel);
+      picker.remove(); menu.remove();
     });
     picker.appendChild(b);
   });
@@ -1153,13 +1349,38 @@ function showMessageMenu(x, y, m, chatId, mine) {
   });
   menu.appendChild(btnReply);
 
-  if (mine && m.type === 'text') {
+  const btnForward = document.createElement('button');
+  btnForward.innerHTML = '➡️ Переслать';
+  btnForward.addEventListener('click', () => {
+    forwardMessage = m;
+    forwardMessage._fromNick = isChannel ? (currentChannel?.name || 'канал') : (mine ? currentUser.nick : currentChat?.nick || 'собеседник');
+    openForwardList();
+    menu.remove(); picker.remove();
+  });
+  menu.appendChild(btnForward);
+
+  const btnPin = document.createElement('button');
+  btnPin.innerHTML = '📌 Закрепить';
+  btnPin.addEventListener('click', async () => {
+    await setDoc(doc(db, collName, chatId), {
+      pinnedMessage: {
+        id: m.id,
+        text: m.text || (m.type === 'image' ? '📷 Фото' : m.type === 'voice' ? '🎤 Голосовое' : m.type === 'video' ? '🎥 Видео' : '📎 вложение'),
+        from: m.from
+      }
+    }, { merge: true });
+    toast('Закреплено ✓');
+    menu.remove(); picker.remove();
+  });
+  menu.appendChild(btnPin);
+
+  if (mine && m.type === 'text' && !isChannel) {
     const btnEdit = document.createElement('button');
     btnEdit.innerHTML = '✏️ Изменить';
     btnEdit.addEventListener('click', () => {
       const newText = prompt('Изменить сообщение:', m.text);
       if (newText && newText.trim() && newText !== m.text) {
-        updateDoc(doc(db, 'chats', chatId, 'messages', m.id), { text: newText.trim(), edited: true });
+        updateDoc(doc(db, collName, chatId, 'messages', m.id), { text: newText.trim(), edited: true });
       }
       menu.remove(); picker.remove();
     });
@@ -1172,7 +1393,7 @@ function showMessageMenu(x, y, m, chatId, mine) {
     btnDel.innerHTML = '🗑 Удалить';
     btnDel.addEventListener('click', async () => {
       if (!confirm('Удалить сообщение?')) return;
-      await deleteDoc(doc(db, 'chats', chatId, 'messages', m.id));
+      await deleteDoc(doc(db, collName, chatId, 'messages', m.id));
       menu.remove(); picker.remove();
     });
     menu.appendChild(btnDel);
@@ -1189,6 +1410,49 @@ function showMessageMenu(x, y, m, chatId, mine) {
   setTimeout(() => document.addEventListener('click', closeAll), 50);
 }
 
+/* ==== ПЕРЕСЫЛКА ==== */
+function openForwardList() {
+  if (!forwardMessage) return;
+  const body = $('forwardListBody');
+  body.innerHTML = '';
+  if (chatList.length === 0) {
+    body.innerHTML = '<div class="placeholder-empty">Нет чатов для пересылки</div>';
+  }
+  chatList.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'forward-item';
+    let avatarHtml, nick;
+    if (c.isChannel) {
+      avatarHtml = `<div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af)">📢</div>`;
+      nick = escapeHtml(c.channel.name);
+    } else {
+      const other = allUsers.find(u => u.uid === c.other.uid) || c.other;
+      avatarHtml = `<div class="avatar" style="${avatarStyle(other)}">${other.avatar?'':initials(other.nick)}</div>`;
+      nick = escapeHtml(other.nick);
+    }
+    el.innerHTML = `${avatarHtml}<div class="fi-info"><div class="fi-nick">${nick}</div></div>`;
+    el.addEventListener('click', async () => {
+      const collName = c.isChannel ? 'channels' : 'chats';
+      const msgData = {
+        from: currentUser.uid,
+        type: forwardMessage.type || 'text',
+        text: forwardMessage.text || null,
+        media: forwardMessage.media || null,
+        duration: forwardMessage.duration || null,
+        read: false,
+        ts: serverTimestamp(),
+        forwarded: { from: forwardMessage._fromNick || 'пользователя' }
+      };
+      await addDoc(collection(db, collName, c.id, 'messages'), msgData);
+      closeModal('forwardModal');
+      toast('Переслано ✓');
+      forwardMessage = null;
+    });
+    body.appendChild(el);
+  });
+  openModal('forwardModal');
+}
+
 /* ==== ПАНЕЛЬ ОТВЕТА ==== */
 function showReplyBar() {
   $('replyBar')?.remove();
@@ -1196,7 +1460,7 @@ function showReplyBar() {
   const bar = document.createElement('div');
   bar.className = 'reply-bar';
   bar.id = 'replyBar';
-  const author = replyTo.from === currentUser.uid ? 'Вы' : (currentChat.nick || 'Сообщение');
+  const author = replyTo.from === currentUser.uid ? 'Вы' : (currentChat?.nick || currentChannel?.name || 'Сообщение');
   const text = replyTo.text ? escapeHtml(replyTo.text).slice(0, 80) : '📎 вложение';
   bar.innerHTML = `
     <div class="reply-info">
@@ -1212,7 +1476,7 @@ function showReplyBar() {
   $('inputBar').insertBefore(bar, $('inputBar').firstChild);
 }
 
-/* ==== ПРОИГРЫВАНИЕ ГОЛОСОВЫХ ==== */
+/* ==== ГОЛОСОВЫЕ ==== */
 let currentVoiceAudio = null;
 function playVoice(data, el) {
   const btn = el.querySelector('.voice-play');
@@ -1254,66 +1518,67 @@ function playVoice(data, el) {
 async function sendTextMsg() {
   const input = $('messageInput');
   const text = input.value.trim();
-  if (!text || !currentChat) return;
+  if (!text) return;
+  let chatId, collName;
+  if (currentChannel) {
+    if (currentChannel.ownerUid !== currentUser.uid) { toast('Только админ может писать'); return; }
+    chatId = currentChannel.id;
+    collName = 'channels';
+  } else if (currentChat) {
+    chatId = chatIdFor(currentUser.uid, currentChat.uid);
+    collName = 'chats';
+  } else return;
   input.value = '';
-  const chatId = chatIdFor(currentUser.uid, currentChat.uid);
-  const msg = {
-    from: currentUser.uid, type: 'text', text, read: false, ts: serverTimestamp()
-  };
+  const msg = { from: currentUser.uid, type: 'text', text, read: false, ts: serverTimestamp() };
   if (replyTo) {
-    msg.reply = {
-      id: replyTo.id,
-      nick: replyTo.from === currentUser.uid ? 'Вы' : currentChat.nick,
-      text: replyTo.text || ''
-    };
+    msg.reply = { id: replyTo.id, nick: replyTo.from === currentUser.uid ? 'Вы' : (currentChat?.nick || currentChannel?.name || 'канал'), text: replyTo.text || '' };
     replyTo = null;
     $('replyBar')?.remove();
   }
-  const ref = await addDoc(collection(db, 'chats', chatId, 'messages'), msg);
-  // Анимация "just sent"
+  const ref = await addDoc(collection(db, collName, chatId, 'messages'), msg);
   setTimeout(() => {
     const el = document.querySelector(`[data-msg-id="${ref.id}"]`);
     if (el) el.classList.add('just-sent');
   }, 50);
-  if (currentChat.isAI) replyAI(chatId, text);
-  // Снимаем флаг печати
-  stopTyping(chatId);
+  if (currentChat?.isAI) replyAI(chatId, text);
+  if (currentChat) stopTyping(chatId);
 }
 
 async function sendMedia(type, media, duration) {
-  if (!currentChat) return;
-  const chatId = chatIdFor(currentUser.uid, currentChat.uid);
+  let chatId, collName;
+  if (currentChannel) {
+    if (currentChannel.ownerUid !== currentUser.uid) return;
+    chatId = currentChannel.id;
+    collName = 'channels';
+  } else if (currentChat) {
+    chatId = chatIdFor(currentUser.uid, currentChat.uid);
+    collName = 'chats';
+  } else return;
   const msg = { from: currentUser.uid, type, media, duration: duration || null, read: false, ts: serverTimestamp() };
   if (replyTo) {
-    msg.reply = { id: replyTo.id, nick: replyTo.from === currentUser.uid ? 'Вы' : currentChat.nick, text: replyTo.text || '' };
+    msg.reply = { id: replyTo.id, nick: replyTo.from === currentUser.uid ? 'Вы' : (currentChat?.nick || currentChannel?.name || 'канал'), text: replyTo.text || '' };
     replyTo = null;
     $('replyBar')?.remove();
   }
-  await addDoc(collection(db, 'chats', chatId, 'messages'), msg);
+  await addDoc(collection(db, collName, chatId, 'messages'), msg);
 }
 
 /* ==== ПЕЧАТАЕТ ==== */
 async function sendTyping() {
-  if (!currentChat) return;
+  if (!currentChat || currentChannel) return;
   const chatId = chatIdFor(currentUser.uid, currentChat.uid);
   if (localTypingState) return;
   localTypingState = true;
-  await updateDoc(doc(db, 'chats', chatId), {
-    [`typing.${currentUser.uid}`]: Date.now()
-  }).catch(()=>{});
+  await updateDoc(doc(db, 'chats', chatId), { [`typing.${currentUser.uid}`]: Date.now() }).catch(()=>{});
   clearTimeout(typingTimeout);
   typingTimeout = setTimeout(() => {
     localTypingState = false;
-    updateDoc(doc(db, 'chats', chatId), {
-      [`typing.${currentUser.uid}`]: 0
-    }).catch(()=>{});
+    updateDoc(doc(db, 'chats', chatId), { [`typing.${currentUser.uid}`]: 0 }).catch(()=>{});
   }, 3500);
 }
 function stopTyping(chatId) {
   localTypingState = false;
-  updateDoc(doc(db, 'chats', chatId), {
-    [`typing.${currentUser.uid}`]: 0
-  }).catch(()=>{});
+  updateDoc(doc(db, 'chats', chatId), { [`typing.${currentUser.uid}`]: 0 }).catch(()=>{});
 }
 
 /* ==== ИИ ==== */
@@ -1324,7 +1589,7 @@ async function replyAI(chatId, userText) {
   let reply = 'Я Xtav AI 🤖 Спроси про онлайн, функции или настройки.';
   if (s.includes('онлайн')) reply = `🟢 Онлайн: ${online}\n👥 Всего: ${total}`;
   else if (s.includes('привет')) reply = 'Привет! 👋 Я Xtav AI — навигатор Xtavgram.';
-  else if (s.includes('функц') || s.includes('умеешь')) reply = 'Умею: сообщения, голосовые, реакции, ответы, фото, друзей, профили.';
+  else if (s.includes('функц') || s.includes('умеешь')) reply = 'Умею: сообщения, голосовые, реакции, ответы, фото, каналы, закреплённые сообщения.';
   else if (s.includes('пароль')) reply = '🔒 К паролям доступа не имею.';
   else if (s.includes('разработчик') || s.includes('скиф')) reply = 'Разработчик — «скиф» ⚙️';
   const aiUser = allUsers.find(u => u.isAI);
@@ -1336,7 +1601,7 @@ async function replyAI(chatId, userText) {
   }, 800);
 }
 
-/* ==== ГОЛОСОВЫЕ ==== */
+/* ==== ГОЛОСОВАЯ ЗАПИСЬ ==== */
 let mediaRecorder = null, audioChunks = [], recStream = null, recTimer = null, recStart = 0, micBusy = false;
 async function startRecording() {
   if (!navigator.mediaDevices || !window.MediaRecorder) { alert('Запись не поддерживается'); return; }
@@ -1407,18 +1672,18 @@ function fileToCompressedAvatar(file) {
 /* ==== ДРУЗЬЯ ==== */
 function showFriendsView() {
   removePageViews();
-  if (currentChat) closeChatView();
+  if (currentChat || currentChannel) closeChatView();
   const p = document.createElement('div');
   p.className = 'page-view';
   const others = allUsers.filter(u => u.uid !== currentUser.uid);
-  let html = `<h2>👥 Друзья и пользователи <span style="font-size:14px;color:var(--text-3);font-weight:500">(${others.length})</span></h2>`;
+  let html = `<h2>👥 Друзья <span style="font-size:14px;color:var(--text-3);font-weight:500">(${others.length})</span></h2>`;
   if (others.length === 0) {
-    html += '<div class="placeholder-empty"><span class="em">👤</span>Пока нет других пользователей.<br><small>Позови друга — пусть зарегистрируется.</small></div>';
+    html += '<div class="placeholder-empty"><span class="em">👤</span>Пока нет других пользователей.</div>';
   } else {
     others.sort((a,b) => (isOnline(b)?1:0) - (isOnline(a)?1:0));
     others.forEach(u => {
       const online = isOnline(u);
-      const chatExists = chatList.some(c => c.other.uid === u.uid);
+      const chatExists = chatList.some(c => !c.isChannel && c.other && c.other.uid === u.uid);
       html += `<div class="friend-card" data-uid="${u.uid}">
         <div class="avatar" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
         <div class="fc-info">
@@ -1448,10 +1713,7 @@ function showFriendsView() {
       const chatId = chatIdFor(currentUser.uid, u.uid);
       const snap = await getDoc(doc(db, 'chats', chatId));
       if (!snap.exists()) {
-        await setDoc(doc(db, 'chats', chatId), {
-          members: [currentUser.uid, u.uid],
-          created: serverTimestamp()
-        });
+        await setDoc(doc(db, 'chats', chatId), { members: [currentUser.uid, u.uid], created: serverTimestamp() });
         toast(`Чат с ${u.nick} создан`);
       }
       setTimeout(() => openChat(u), 300);
@@ -1491,7 +1753,7 @@ function showUserProfile(u) {
 /* ==== МОЙ ПРОФИЛЬ ==== */
 function showMyProfileView() {
   removePageViews();
-  if (currentChat) closeChatView();
+  if (currentChat || currentChannel) closeChatView();
   const u = currentUser;
   const daysOnSite = u.created?.toDate
     ? Math.max(1, Math.floor((Date.now() - u.created.toDate().getTime()) / 86400000))
@@ -1582,6 +1844,65 @@ function openCall() {
   setTimeout(() => { $('callStatus').textContent = 'Соединение установлено'; }, 1500);
 }
 
+/* ==== СОЗДАНИЕ И СПИСОК КАНАЛОВ ==== */
+function openCreateChannel() {
+  $('chName').value = '';
+  $('chDesc').value = '';
+  openModal('channelModal');
+}
+async function createChannel() {
+  const name = $('chName').value.trim();
+  const desc = $('chDesc').value.trim();
+  if (!name || name.length < 2) { toast('Введите название'); return; }
+  const chId = channelIdFor(name) + '_' + Date.now().toString(36);
+  await setDoc(doc(db, 'channels', chId), {
+    name, description: desc || '',
+    ownerUid: currentUser.uid,
+    isPublic: true,
+    created: serverTimestamp(),
+    members: [currentUser.uid]
+  });
+  closeModal('channelModal');
+  toast('Канал создан ✓');
+}
+
+async function openChannelsList() {
+  const body = $('channelsListBody');
+  body.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3)">Загрузка...</div>';
+  openModal('channelsListModal');
+  const snap = await getDocs(collection(db, 'channels'));
+  body.innerHTML = '';
+  if (snap.empty) {
+    body.innerHTML = '<div class="placeholder-empty">Каналов пока нет</div>';
+    return;
+  }
+  snap.docs.forEach(d => {
+    const ch = { id: d.id, ...d.data() };
+    const isMember = (ch.members || []).includes(currentUser.uid);
+    const el = document.createElement('div');
+    el.className = 'forward-item';
+    el.innerHTML = `
+      <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af)">📢</div>
+      <div class="fi-info">
+        <div class="fi-nick">${escapeHtml(ch.name)}</div>
+        <div class="fi-last">${(ch.members||[]).length} участников</div>
+      </div>
+      <button class="btn-secondary" style="padding:8px 12px;font-size:12px;flex-shrink:0">${isMember ? '✓ В канале' : 'Вступить'}</button>
+    `;
+    el.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!isMember) {
+        await updateDoc(doc(db, 'channels', ch.id), { members: [...(ch.members||[]), currentUser.uid] });
+        toast('Вступил в канал ✓');
+      }
+      closeModal('channelsListModal');
+      setTimeout(() => openChannel({ ...ch, members: isMember ? ch.members : [...(ch.members||[]), currentUser.uid] }), 300);
+    });
+    body.appendChild(el);
+  });
+}
+
+/* ==== НАВИГАЦИЯ ==== */
 function bindNav() {
   document.querySelectorAll('.nav-btn').forEach(b => {
     b.addEventListener('click', () => {
@@ -1608,8 +1929,8 @@ function showTextModal(title, text) {
   $('textModalBody').textContent = text;
   openModal('textModal');
 }
-window.openTerms = (e) => { if (e) e.preventDefault(); showTextModal('Пользовательское соглашение', `ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n1. Общие положения\n1.1. Используя Xtavgram, вы соглашаетесь с условиями.\n\n2. Обязанности\n2.1. Не оскорблять других.\n2.2. Не распространять незаконный контент.\n\n© Xtavgram`); return false; };
-window.openPrivacy = (e) => { if (e) e.preventDefault(); showTextModal('Политика конфиденциальности', `ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\n1. Данные хранятся в Firebase Firestore.\n2. Мы не передаём данные третьим лицам.\n3. Вы можете удалить аккаунт в любой момент.\n\n© Xtavgram`); return false; };
+window.openTerms = (e) => { if (e) e.preventDefault(); showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n1. Используя сервис, вы соглашаетесь с правилами.\n2. Не оскорбляйте других.\n\n© Xtavgram'); return false; };
+window.openPrivacy = (e) => { if (e) e.preventDefault(); showTextModal('Политика конфиденциальности', 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\nДанные хранятся в Firebase. Мы не передаём их третьим лицам.\n\n© Xtavgram'); return false; };
 
 /* ==== НАСТРОЙКИ ==== */
 function bindSettings() {
@@ -1617,20 +1938,24 @@ function bindSettings() {
     b.addEventListener('click', async () => {
       const s = b.dataset.s;
       closeModal('settingsModal');
-      if (s === 'theme') {
-        const cur = localStorage.getItem('xg_theme') || 'dark';
-        applyTheme(cur === 'dark' ? 'light' : 'dark');
-        toast('Тема: ' + (cur === 'dark' ? 'светлая' : 'тёмная'));
-      }
-      if (s === 'bubble') openBubbleColorPicker();
-      if (s === 'terms') showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n1. Используя сервис, вы соглашаетесь с правилами.\n2. Не оскорбляйте других.\n\n© Xtavgram');
-      if (s === 'privacyPolicy') showTextModal('Политика конфиденциальности', 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\nДанные хранятся в Firebase. Мы не передаём их третьим лицам.\n\n© Xtavgram');
-      if (s === 'notif') {
-        await requestNotifPermission();
-        toast('Разрешение: ' + Notification.permission);
-      }
-      if (s === 'reset') { if (confirm('Сбросить локальные данные?')) { localStorage.clear(); location.reload(); } }
-      if (s === 'logout') { if (confirm('Выйти?')) { await signOut(auth); location.reload(); } }
+      try {
+        if (s === 'channels') openChannelsList();
+        if (s === 'theme') {
+          const cur = localStorage.getItem('xg_theme') || 'dark';
+          applyTheme(cur === 'dark' ? 'light' : 'dark');
+          toast('Тема: ' + (cur === 'dark' ? 'светлая' : 'тёмная'));
+        }
+        if (s === 'bubble') openBubbleColorPicker();
+        if (s === 'terms') showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n© Xtavgram');
+        if (s === 'privacyPolicy') showTextModal('Политика конфиденциальности', 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\n© Xtavgram');
+        if (s === 'notif') {
+          if (!('Notification' in window)) { toast('Уведомления не поддерживаются'); return; }
+          await requestNotifPermission();
+          toast('Разрешение: ' + Notification.permission);
+        }
+        if (s === 'reset') { if (confirm('Сбросить локальные данные?')) { localStorage.clear(); location.reload(); } }
+        if (s === 'logout') { if (confirm('Выйти?')) { await signOut(auth); location.reload(); } }
+      } catch(e) { console.error(e); toast('Ошибка: ' + e.message); }
     });
   });
 }
@@ -1650,7 +1975,8 @@ function openBubbleColorPicker() {
       toast('Цвет изменён');
     });
   });
-  $('bubbleClose').onclick = () => closeModal('textModal');
+  const bc = $('bubbleClose');
+  if (bc) bc.onclick = () => closeModal('textModal');
 }
 
 function bindCloseButtons() {
@@ -1694,9 +2020,7 @@ function bindInput() {
   $('btnSend')?.addEventListener('click', sendTextMsg);
   const inp = $('messageInput');
   inp?.addEventListener('keydown', e => { if (e.key === 'Enter') sendTextMsg(); });
-  inp?.addEventListener('input', () => {
-    if (inp.value.trim()) sendTyping();
-  });
+  inp?.addEventListener('input', () => { if (inp.value.trim()) sendTyping(); });
   $('btnMic')?.addEventListener('click', async () => {
     if (micBusy) return;
     micBusy = true;
@@ -1745,12 +2069,23 @@ function bindBack() {
   });
 }
 
+function bindChannels() {
+  $('chOpenCreate')?.addEventListener('click', () => {
+    closeModal('channelsListModal');
+    setTimeout(openCreateChannel, 200);
+  });
+  $('chCreate')?.addEventListener('click', createChannel);
+}
+
+/* ==== СТАРТ ==== */
 async function startApp() {
   await ensureSpecialUsers();
+  await ensureStartChannel();
+  await autoJoinStartChannel(currentUser.uid);
   subscribeAllUsers();
-  await new Promise(r => setTimeout(r, 600));
+  await new Promise(r => setTimeout(r, 700));
   subscribeChats();
-  setTimeout(subscribeToAllMessages, 1500);
+  setTimeout(subscribeToNotifications, 2000);
   showWelcome(currentUser.nick);
   document.title = baseTitle;
   setInterval(() => {
@@ -1781,6 +2116,7 @@ onAuthStateChanged(auth, async (fbUser) => {
   } else {
     currentUser = null;
     currentChat = null;
+    currentChannel = null;
     document.title = baseTitle;
     $('authScreen').classList.remove('hidden');
     $('app').classList.add('hidden');
@@ -1797,6 +2133,7 @@ bindAttach();
 bindInput();
 bindAvatar();
 bindBack();
+bindChannels();
 </script>
 </body>
 </html>

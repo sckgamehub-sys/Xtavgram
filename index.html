@@ -310,14 +310,14 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .browser-notif .bn-text{opacity:.8;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .browser-notif .bn-close{background:transparent;border:none;color:inherit;cursor:pointer;font-size:18px;opacity:.5;padding:0;width:24px;height:24px;border-radius:50%}
 
-@media(max-width:820px)
-/* ===== КАТЕГОРИИ ЧАТОВ ===== */
-.chat-tabs{display:flex;gap:4px;padding:0 12px 10px;background:var(--bg);flex-shrink:0}
-.chat-tab{flex:1;padding:8px 6px;border:none;background:var(--bg-3);color:var(--text-2);font-size:12.5px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .25s;font-family:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ===== КАТЕГОРИИ ЧАТОВ (СВЕРХУ) ===== */
+.chat-tabs{display:flex;gap:6px;padding:16px 14px 10px 14px;background:var(--bg);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.chat-tabs::-webkit-scrollbar{display:none}
+.chat-tab{flex-shrink:0;padding:8px 14px;border:none;background:var(--bg-3);color:var(--text-2);font-size:13px;font-weight:600;border-radius:20px;cursor:pointer;transition:all .25s;font-family:inherit}
 .chat-tab:hover{background:var(--bg-4);color:var(--text)}
 .chat-tab.active{background:#fff;color:#000}
 [data-theme="light"] .chat-tab.active{background:#000;color:#fff}
-.chat-tab .count{opacity:.6;margin-left:3px;font-size:11px}
+.chat-tab .count{opacity:.6;margin-left:4px;font-size:11px}
 
 /* ===== КНОПКА ВНИЗ ===== */
 .scroll-bottom-btn{position:absolute;right:20px;bottom:80px;width:44px;height:44px;border-radius:50%;border:none;background:var(--bg-3);color:var(--text);cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:10;transition:all .25s;border:1px solid var(--border)}
@@ -346,7 +346,36 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .chat-search-bar .search-count{font-size:12px;color:var(--text-3);min-width:50px;text-align:center}
 .msg.search-match{box-shadow:0 0 0 2px rgba(10,132,255,.6);animation:searchPulse .8s ease}
 .msg.search-match.current{box-shadow:0 0 0 3px #0a84ff,0 0 20px rgba(10,132,255,.5)}
-@keyframes searchPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}{
+@keyframes searchPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+
+/* ===== ПОДАРКИ И ВАЛЮТА ===== */
+.gift-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
+.gift-card{background:var(--bg-3);border:1px solid var(--border);border-radius:16px;padding:15px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.gift-card:hover{background:var(--bg-4);border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
+.gift-card .emoji{font-size:36px;display:block;margin-bottom:8px}
+.gift-card .name{font-weight:700;font-size:14px;margin-bottom:4px}
+.gift-card .price{color:var(--text-3);font-size:12px;font-weight:600}
+
+.profile-gifts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.profile-gift-item{background:var(--bg-4);border:1px solid var(--border);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:14px}
+.profile-gift-item .emoji{font-size:20px}
+
+.admin-panel{background:rgba(255,50,50,0.1);border:1px solid rgba(255,50,50,0.3);border-radius:16px;padding:15px;margin-top:15px}
+.admin-panel h3{color:#ff5555;margin-bottom:10px;font-size:16px}
+.admin-input-group{display:flex;gap:8px;margin-bottom:10px}
+.admin-input-group input{margin-bottom:0;flex:1}
+.admin-input-group button{padding:0 16px;border-radius:12px;border:none;background:#ff5555;color:white;font-weight:700;cursor:pointer}
+.admin-input-group button:hover{background:#ff3333}
+.user-search-results{max-height:150px;overflow-y:auto;background:var(--bg-4);border-radius:12px;margin-bottom:10px;border:1px solid var(--border);display:none}
+.user-search-item{padding:10px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.user-search-item:hover{background:var(--glass)}
+.user-search-item:last-child{border-bottom:none}
+.admin-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.admin-btns button{padding:10px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+.btn-give-gift{background:#fff;color:#000}
+.btn-give-coins{background:#22c55e;color:#fff}
+
+@media(max-width: 820px) {
   .chats-panel{position:absolute;inset:0;width:100%;z-index:15;transition:transform .35s}
   .chats-panel.mobile-hidden{transform:translateX(-100%)}
   .chat-window{position:absolute;inset:0;z-index:16;transition:transform .35s}
@@ -418,18 +447,18 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   </div>
 
   <div class="main-content" id="mainContent">
-    <aside class="chats-panel" id="chatsPanel">
-      <div class="chats-header">
-        <h2>Чаты</h2>
+   <aside class="chats-panel" id="chatsPanel">
+  <div class="chat-tabs" id="chatTabs">
+    <button class="chat-tab active" data-cat="all" type="button">Все <span class="count" id="cntAll">0</span></button>
+    <button class="chat-tab" data-cat="personal" type="button">Личные <span class="count" id="cntPersonal">0</span></button>
+    <button class="chat-tab" data-cat="channels" type="button">Каналы <span class="count" id="cntChannels">0</span></button>
+    <button class="chat-tab" data-cat="archive" type="button">Архив <span class="count" id="cntArchive">0</span></button>
+  </div>
+  <div class="chats-header">
+    <h2>Чаты</h2>
         <button class="icon-btn small" id="btnAddFriend" title="Друзья" type="button"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
       </div>
       <div id="chatList" class="chat-list"></div>
-<div class="chat-tabs" id="chatTabs">
-  <button class="chat-tab active" data-cat="all" type="button">Все <span class="count" id="cntAll">0</span></button>
-  <button class="chat-tab" data-cat="personal" type="button">Личные <span class="count" id="cntPersonal">0</span></button>
-  <button class="chat-tab" data-cat="channels" type="button">Каналы <span class="count" id="cntChannels">0</span></button>
-  <button class="chat-tab" data-cat="archive" type="button">Архив <span class="count" id="cntArchive">0</span></button>
-</div>
     </aside>
 
     <section class="chat-window" id="chatWindow">
@@ -499,6 +528,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 
 <div id="chatMenuModal" class="modal hidden">
   <div class="modal-content menu-content">
+<button class="menu-option" data-action="gift" type="button">🎁 Подарить подарок</button>
     <button class="menu-option" data-action="viewProfile" type="button">👤 Посмотреть профиль</button>
     <button class="menu-option" data-action="localNick" type="button">✏️ Изменить локальный никнейм</button>
     <button class="menu-option" data-action="block" type="button">🚫 Заблокировать</button>
@@ -510,6 +540,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   <div class="modal-content settings-content">
     <h2>Настройки</h2>
     <div class="settings-list">
+<button class="settings-item" data-s="wallet" type="button">💰 Валюта X <span class="arrow">›</span></button>
       <button class="settings-item" data-s="channels" type="button">📢 Каналы <span class="arrow">›</span></button>
       <button class="settings-item" data-s="theme" type="button">🎨 Сменить тему <span class="arrow">›</span></button>
       <button class="settings-item" data-s="bubble" type="button">💬 Цвет пузырей <span class="arrow">›</span></button>
@@ -591,6 +622,55 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   </div>
 </div>
 
+<div id="giftStoreModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>🎁 Магазин подарков</h2>
+    <p style="color:var(--text-2); font-size:13px; margin-bottom:10px;" id="giftStoreTargetName"></p>
+    <div class="gift-grid">
+      <div class="gift-card" data-gift="bear">
+        <span class="emoji">🧸</span><div class="name">Мишка</div><div class="price">15 X</div>
+      </div>
+      <div class="gift-card" data-gift="star">
+        <span class="emoji">⭐</span><div class="name">Звезда</div><div class="price">15 X</div>
+      </div>
+      <div class="gift-card" data-gift="demon">
+        <span class="emoji">😈</span><div class="name">Демон</div><div class="price">50 X</div>
+      </div>
+      <div class="gift-card" data-gift="clown">
+        <span class="emoji">🤡</span><div class="name">Клоун</div><div class="price">50 X</div>
+      </div>
+      <div class="gift-card" data-gift="zedki" style="grid-column: span 2;">
+        <span class="emoji">💤</span><div class="name">Зедки</div><div class="price">500 X</div>
+      </div>
+    </div>
+    <button class="btn-close" data-close="giftStoreModal" type="button">Отмена</button>
+  </div>
+</div>
+
+<div id="walletModal" class="modal hidden">
+  <div class="modal-content" style="text-align:center;">
+    <h2>💰 Ваш баланс</h2>
+    <div style="font-size:48px; font-weight:900; margin:20px 0; color:#fff;" id="walletBalance">0 X</div>
+    <button class="btn-primary" id="btnMsgAdmin" type="button" style="width:100%;">Написать Админу за валютой</button>
+    <button class="btn-close" data-close="walletModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="adminGiftModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>👑 Выдача подарка</h2>
+    <p style="color:var(--text-2); font-size:13px; margin-bottom:10px;">Выберите подарок для пользователя <b id="adminGiftTargetNick"></b></p>
+    <div class="gift-grid">
+      <div class="gift-card" data-gift="bear"><span class="emoji">🧸</span><div class="name">Мишка</div></div>
+      <div class="gift-card" data-gift="star"><span class="emoji">⭐</span><div class="name">Звезда</div></div>
+      <div class="gift-card" data-gift="demon"><span class="emoji">😈</span><div class="name">Демон</div></div>
+      <div class="gift-card" data-gift="clown"><span class="emoji">🤡</span><div class="name">Клоун</div></div>
+      <div class="gift-card" data-gift="zedki" style="grid-column: span 2;"><span class="emoji">💤</span><div class="name">Зедки</div></div>
+    </div>
+    <button class="btn-close" data-close="adminGiftModal" type="button">Отмена</button>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
@@ -624,7 +704,7 @@ let forwardMessage = null;
 let typingTimeout = null;
 let localTypingState = false;
 let audioCtxUnlocked = false;
-let currentCategory = 'all'; // all | personal | channels | archive
+let currentCategory = 'all';
 let archivedChats = JSON.parse(localStorage.getItem('xg_archived') || '{}');
 let searchQuery = '';
 let searchMatches = [];
@@ -677,7 +757,10 @@ function openModal(id) { $(id)?.classList.remove('hidden'); }
 function closeModal(id) { $(id)?.classList.add('hidden'); }
 function chatIdFor(a, b) { return [a, b].sort().join('__'); }
 function channelIdFor(name) { return 'ch_' + name.toLowerCase().replace(/[^a-zа-я0-9]/gi, '_').slice(0, 40); }
-function removePageViews() /* ==== АРХИВ ==== */
+
+function removePageViews() { document.querySelectorAll('.page-view').forEach(p => p.remove()); }
+
+/* ==== АРХИВ ==== */
 function isArchived(chatId) { return !!archivedChats[chatId]; }
 function toggleArchive(chatId) {
   if (archivedChats[chatId]) delete archivedChats[chatId];
@@ -685,7 +768,7 @@ function toggleArchive(chatId) {
   localStorage.setItem('xg_archived', JSON.stringify(archivedChats));
   renderChatList();
   toast(archivedChats[chatId] ? 'В архиве' : 'Из архива');
-} { document.querySelectorAll('.page-view').forEach(p => p.remove()); }
+}
 
 /* ==== ЗВУК ==== */
 function unlockAudio() {
@@ -719,7 +802,6 @@ function playNotificationSound() {
 }
 function vibrate() { if (navigator.vibrate) navigator.vibrate([100, 50, 100]); }
 
-/* ==== УВЕДОМЛЕНИЯ ==== */
 async function requestNotifPermission() {
   if (!('Notification' in window)) return;
   if (Notification.permission === 'default') {
@@ -765,14 +847,12 @@ function showBrowserNotification(user, text) {
   }
 }
 
-/* ==== ЗАГОЛОВОК ==== */
 let baseTitle = 'Xtavgram';
 function updateTabTitle() {
   const total = chatList.reduce((acc, c) => acc + (c.unread || 0), 0);
   document.title = total > 0 ? `(${total}) Xtavgram` : baseTitle;
 }
 
-/* ==== ТЕМА ==== */
 function applyTheme(theme) {
   if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
   else document.documentElement.removeAttribute('data-theme');
@@ -780,7 +860,6 @@ function applyTheme(theme) {
 }
 applyTheme(localStorage.getItem('xg_theme') || 'dark');
 
-/* ==== ЦВЕТА ПУЗЫРЕЙ ==== */
 const BUBBLE_COLORS = [
   { id: 'white', out: '#ffffff', outText: '#000000' },
   { id: 'black', out: '#000000', outText: '#ffffff' },
@@ -799,7 +878,6 @@ function applyBubbleColor(id) {
 }
 applyBubbleColor(localStorage.getItem('xg_bubble') || 'white');
 
-/* ==== ГЛАЗОК ==== */
 function bindEyeButtons() {
   document.querySelectorAll('.eye-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -813,7 +891,6 @@ function bindEyeButtons() {
   });
 }
 
-/* ==== АВТОРИЗАЦИЯ ==== */
 function showAuthError(msg) {
   const el = $('authError');
   el.textContent = msg;
@@ -859,7 +936,7 @@ function bindAuth() {
       $('btnRegister').disabled = true;
       const cred = await createUserWithEmailAndPassword(auth, nickToEmail(nick), pass);
       await setDoc(doc(db, 'users', cred.user.uid), {
-        nick, avatar: null, bio: '', isDev: false, isAI: false,
+        nick, avatar: null, bio: '', isDev: false, isAI: false, coins: 0, gifts: [],
         created: serverTimestamp(), lastSeen: serverTimestamp()
       });
       toast('Аккаунт создан!');
@@ -875,7 +952,6 @@ function bindAuth() {
   ['regNick','regPass','regPass2'].forEach(id => $(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') $('btnRegister').click(); }));
 }
 
-/* ==== СПЕЦПОЛЬЗОВАТЕЛИ ==== */
 async function ensureSpecialUsers() {
   const devSnap = await getDocs(query(collection(db, 'users'), where('nick', '==', 'скиф')));
   if (devSnap.empty) {
@@ -897,7 +973,6 @@ async function ensureSpecialUsers() {
   }
 }
 
-/* ==== СТАРТОВЫЙ КАНАЛ ==== */
 async function ensureStartChannel() {
   const chId = 'ch_xtavgram';
   const snap = await getDoc(doc(db, 'channels', chId));
@@ -928,7 +1003,6 @@ async function autoJoinStartChannel(uid) {
   }
 }
 
-/* ==== ПОДПИСКА НА ЮЗЕРОВ ==== */
 function subscribeAllUsers() {
   if (unsubUsers) unsubUsers();
   unsubUsers = onSnapshot(collection(db, 'users'), snap => {
@@ -954,7 +1028,6 @@ function subscribeAllUsers() {
   });
 }
 
-/* ==== ПОДПИСКА НА ЧАТЫ И КАНАЛЫ ==== */
 function sortChats(a, b) {
   const ta = a.last?.ts?.toDate ? a.last.ts.toDate().getTime() : 0;
   const tb = b.last?.ts?.toDate ? b.last.ts.toDate().getTime() : 0;
@@ -1008,7 +1081,6 @@ function subscribeChats() {
   });
 }
 
-/* ==== ПОДПИСКА НА НОВЫЕ СООБЩЕНИЯ (уведомления) ==== */
 let notifMsgIds = new Set();
 function subscribeToNotifications() {
   chatList.forEach(c => {
@@ -1040,24 +1112,20 @@ function subscribeToNotifications() {
   });
 }
 
-/* ==== СПИСОК ЧАТОВ ==== */
-  funnction renderChatList() {
+function renderChatList() {
   const list = $('chatList');
   if (!list) return;
 
-  // Считаем категории
   const personal = chatList.filter(c => !c.isChannel && !isArchived(c.id));
   const channels = chatList.filter(c => c.isChannel && !isArchived(c.id));
   const archived = chatList.filter(c => isArchived(c.id));
 
-  // Обновляем счётчики
   const cnt = (id, n) => { const el = $(id); if (el) el.textContent = n; };
   cnt('cntAll', personal.length + channels.length);
   cnt('cntPersonal', personal.length);
   cnt('cntChannels', channels.length);
   cnt('cntArchive', archived.length);
 
-  // Фильтруем по категории
   let visible = [];
   if (currentCategory === 'all') visible = [...personal, ...channels];
   else if (currentCategory === 'personal') visible = personal;
@@ -1118,7 +1186,6 @@ function subscribeToNotifications() {
       el.addEventListener('click', () => openChat(other));
     }
 
-    // Долгое нажатие — меню (архив, очистка)
     let longPressTimer = null;
     let longPressFired = false;
     el.addEventListener('touchstart', (e) => {
@@ -1142,7 +1209,6 @@ function subscribeToNotifications() {
   });
 }
 
-/* ==== МЕНЮ ЧАТА (долгое нажатие) ==== */
 function showChatMenu(x, y, c) {
   document.querySelectorAll('.chat-menu-popup').forEach(el => el.remove());
   const menu = document.createElement('div');
@@ -1179,7 +1245,6 @@ function showChatMenu(x, y, c) {
   setTimeout(() => document.addEventListener('click', closeAll), 50);
 }
 
-/* ==== ЗАКРЕПЛЁННОЕ ==== */
 function subscribePinned(chatId, collName) {
   if (unsubPinned) unsubPinned();
   unsubPinned = onSnapshot(doc(db, collName, chatId), snap => {
@@ -1209,7 +1274,6 @@ function subscribePinned(chatId, collName) {
   });
 }
 
-/* ==== ОТКРЫТИЕ КАНАЛА ==== */
 async function openChannel(channel) {
   removePageViews();
   currentChat = null;
@@ -1247,8 +1311,6 @@ async function openChannel(channel) {
 
   if (unsubMessages) unsubMessages();
   const q = query(collection(db, 'channels', channel.id, 'messages'), orderBy('ts', 'asc'), limit(300));
-  unsubMessages = onSnapshotif (unsubMessages) unsubMessages();
-  const q = query(collection(db, 'channels', channel.id, 'messages'), orderBy('ts', 'asc'), limit(300));
   let firstLoad = true;
   unsubMessages = onSnapshot(q, async (snap) => {
     const box = $('messages');
@@ -1282,26 +1344,9 @@ async function openChannel(channel) {
     });
     if (hasUnread) await batch.commit().catch(()=>{});
     setTimeout(updateTabTitle, 100);
-  });(q, async (snap) => {
-    const box = $('messages');
-    box.innerHTML = '';
-    snap.docs.forEach(d => box.appendChild(buildMessageEl({ id: d.id, ...d.data() }, channel.id, true)));
-    box.scrollTop = box.scrollHeight;
-    const batch = writeBatch(db);
-    let hasUnread = false;
-    snap.docs.forEach(d => {
-      const m = d.data();
-      if (m.from !== currentUser.uid && !m.read) {
-        batch.update(d.ref, { read: true });
-        hasUnread = true;
-      }
-    });
-    if (hasUnread) await batch.commit().catch(()=>{});
-    setTimeout(updateTabTitle, 100);
   });
 }
 
-/* ==== ОТКРЫТИЕ ЧАТА ==== */
 async function openChat(other) {
   removePageViews();
   currentChannel = null;
@@ -1384,121 +1429,7 @@ async function openChat(other) {
 }
 
 function closeChatView() {
-closeChatSearchIfOpen();
-/* ==== КНОПКА ВНИЗ ==== */
-function updateScrollBottomBtn() {
-  const box = $('messages');
-  const btn = $('scrollBottomBtn');
-  if (!box || !btn) return;
-  const dist = box.scrollHeight - box.scrollTop - box.clientHeight;
-  if (dist > 200) btn.classList.add('show');
-  else btn.classList.remove('show');
-}
-
-function bindScrollBottom() {
-  const box = $('messages');
-  const btn = $('scrollBottomBtn');
-  if (!box || !btn) return;
-  box.addEventListener('scroll', updateScrollBottomBtn);
-  btn.addEventListener('click', () => {
-    box.scrollTop = box.scrollHeight;
-    btn.classList.remove('show');
-  });
-}
-
-/* ==== ПОИСК В ЧАТЕ ==== */
-function bindChatSearch() {
-  // Добавляем кнопку поиска в шапку чата
-  const chatActions = document.querySelector('.chat-actions');
-  if (!chatActions) return;
-  const btnSearch = document.createElement('button');
-  btnSearch.className = 'icon-btn';
-  btnSearch.title = 'Поиск';
-  btnSearch.type = 'button';
-  btnSearch.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>';
-  chatActions.insertBefore(btnSearch, chatActions.firstChild);
-  btnSearch.addEventListener('click', toggleChatSearch);
-}
-
-function toggleChatSearch() {
-  const existing = $('chatSearchBar');
-  if (existing) {
-    closeChatSearch();
-    return;
-  }
-  const bar = document.createElement('div');
-  bar.className = 'chat-search-bar';
-  bar.id = 'chatSearchBar';
-  bar.innerHTML = `
-    <input type="text" id="chatSearchInput" placeholder="Поиск в чате...">
-    <span class="search-count" id="searchCount">0</span>
-    <div class="search-nav">
-      <button type="button" id="searchPrev" title="Предыдущее">▲</button>
-      <button type="button" id="searchNext" title="Следующее">▼</button>
-    </div>
-    <button class="close-search" type="button" id="searchClose">✕</button>
-  `;
-  const messagesBox = $('messages');
-  messagesBox.parentNode.insertBefore(bar, messagesBox);
-  const input = $('chatSearchInput');
-  input.focus();
-  input.addEventListener('input', doChatSearch);
-  $('searchPrev').addEventListener('click', () => navigateSearch(-1));
-  $('searchNext').addEventListener('click', () => navigateSearch(1));
-  $('searchClose').addEventListener('click', closeChatSearch);
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') navigateSearch(e.shiftKey ? -1 : 1);
-    if (e.key === 'Escape') closeChatSearch();
-  });
-}
-
-function closeChatSearch() {
-  $('chatSearchBar')?.remove();
-  searchActive = false;
-  searchQuery = '';
-  searchMatches = [];
-  searchIndex = -1;
-  document.querySelectorAll('.msg.search-match').forEach(el => {
-    el.classList.remove('search-match', 'current');
-  });
-}
-
-function doChatSearch() {
-  const q = $('chatSearchInput').value.trim().toLowerCase();
-  searchQuery = q;
-  document.querySelectorAll('.msg.search-match').forEach(el => {
-    el.classList.remove('search-match', 'current');
-  });
-  searchMatches = [];
-  searchIndex = -1;
-  if (!q) { $('searchCount').textContent = '0'; return; }
-  const msgs = document.querySelectorAll('.msg');
-  msgs.forEach(el => {
-    const text = (el.textContent || '').toLowerCase();
-    if (text.includes(q)) {
-      el.classList.add('search-match');
-      searchMatches.push(el);
-    }
-  });
-  $('searchCount').textContent = searchMatches.length;
-  if (searchMatches.length > 0) {
-    searchIndex = searchMatches.length - 1;
-    searchMatches[searchIndex].classList.add('current');
-    searchMatches[searchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-}
-
-function navigateSearch(dir) {
-  if (searchMatches.length === 0) return;
-  searchMatches[searchIndex]?.classList.remove('current');
-  searchIndex = (searchIndex + dir + searchMatches.length) % searchMatches.length;
-  searchMatches[searchIndex].classList.add('current');
-  searchMatches[searchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-function closeChatSearchIfOpen() {
-  if ($('chatSearchBar')) closeChatSearch();
-}
+  closeChatSearchIfOpen();
   if (unsubMessages) { unsubMessages(); unsubMessages = null; }
   if (unsubPinned) { unsubPinned(); unsubPinned = null; }
   window._unsubTyping?.();
@@ -1519,6 +1450,7 @@ function closeChatSearchIfOpen() {
     $('chatWindow').classList.add('mobile-hidden');
   }
 }
+
 function updateChatStatus(other) {
   const st = $('chatStatus');
   if (!st || !other) return;
@@ -1527,7 +1459,6 @@ function updateChatStatus(other) {
   st.className = 'chat-status' + (online?' online':'');
 }
 
-/* ==== РЕНДЕР СООБЩЕНИЙ ==== */
 function ticksHtml(read) {
   if (read) return `<span class="ticks read"><svg viewBox="0 0 24 24"><path d="M0.41 13.41l6 6L18 7.83l-1.41-1.41L6.41 15.59l-4.59-4.59L0.41 13.41z"/><path d="M11.41 18.59l1.41 1.41L24 7.83l-1.41-1.41L11.41 18.59z"/></svg></span>`;
   return `<span class="ticks"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>`;
@@ -1615,7 +1546,6 @@ function buildMessageEl(m, chatId, isChannel = false) {
   return el;
 }
 
-/* ==== РЕАКЦИИ ==== */
 async function toggleReaction(chatId, m, emoji, isChannel = false) {
   const collName = isChannel ? 'channels' : 'chats';
   const ref = doc(db, collName, chatId, 'messages', m.id);
@@ -1625,7 +1555,6 @@ async function toggleReaction(chatId, m, emoji, isChannel = false) {
   await updateDoc(ref, { reactions });
 }
 
-/* ==== МЕНЮ СООБЩЕНИЯ ==== */
 function showMessageMenu(x, y, m, chatId, mine, isChannel = false) {
   document.querySelectorAll('.reaction-picker, .msg-menu').forEach(el => el.remove());
   const collName = isChannel ? 'channels' : 'chats';
@@ -1721,7 +1650,6 @@ function showMessageMenu(x, y, m, chatId, mine, isChannel = false) {
   setTimeout(() => document.addEventListener('click', closeAll), 50);
 }
 
-/* ==== ПЕРЕСЫЛКА ==== */
 function openForwardList() {
   if (!forwardMessage) return;
   const body = $('forwardListBody');
@@ -1764,7 +1692,6 @@ function openForwardList() {
   openModal('forwardModal');
 }
 
-/* ==== ПАНЕЛЬ ОТВЕТА ==== */
 function showReplyBar() {
   $('replyBar')?.remove();
   if (!replyTo) return;
@@ -1787,7 +1714,6 @@ function showReplyBar() {
   $('inputBar').insertBefore(bar, $('inputBar').firstChild);
 }
 
-/* ==== ГОЛОСОВЫЕ ==== */
 let currentVoiceAudio = null;
 function playVoice(data, el) {
   const btn = el.querySelector('.voice-play');
@@ -1825,7 +1751,6 @@ function playVoice(data, el) {
   }).catch(err => console.warn(err));
 }
 
-/* ==== ОТПРАВКА ==== */
 async function sendTextMsg() {
   const input = $('messageInput');
   const text = input.value.trim();
@@ -1874,7 +1799,6 @@ async function sendMedia(type, media, duration) {
   await addDoc(collection(db, collName, chatId, 'messages'), msg);
 }
 
-/* ==== ПЕЧАТАЕТ ==== */
 async function sendTyping() {
   if (!currentChat || currentChannel) return;
   const chatId = chatIdFor(currentUser.uid, currentChat.uid);
@@ -1892,7 +1816,6 @@ function stopTyping(chatId) {
   updateDoc(doc(db, 'chats', chatId), { [`typing.${currentUser.uid}`]: 0 }).catch(()=>{});
 }
 
-/* ==== ИИ ==== */
 async function replyAI(chatId, userText) {
   const online = allUsers.filter(u => !u.isAI && isOnline(u)).length;
   const total = allUsers.filter(u => !u.isAI).length;
@@ -1912,7 +1835,6 @@ async function replyAI(chatId, userText) {
   }, 800);
 }
 
-/* ==== ГОЛОСОВАЯ ЗАПИСЬ ==== */
 let mediaRecorder = null, audioChunks = [], recStream = null, recTimer = null, recStart = 0, micBusy = false;
 async function startRecording() {
   if (!navigator.mediaDevices || !window.MediaRecorder) { alert('Запись не поддерживается'); return; }
@@ -1957,7 +1879,6 @@ function stopRecording() {
   micBtn.style.background = '';
 }
 
-/* ==== АВАТАР ==== */
 function fileToCompressedAvatar(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1980,7 +1901,6 @@ function fileToCompressedAvatar(file) {
   });
 }
 
-/* ==== ДРУЗЬЯ ==== */
 function showFriendsView() {
   removePageViews();
   if (currentChat || currentChannel) closeChatView();
@@ -2032,7 +1952,6 @@ function showFriendsView() {
   });
 }
 
-/* ==== ПРОФИЛЬ ДРУГОГО ==== */
 function showUserProfile(u) {
   removePageViews();
   const p = document.createElement('div');
@@ -2061,7 +1980,6 @@ function showUserProfile(u) {
   $('profCloseBtn').onclick = () => removePageViews();
 }
 
-/* ==== МОЙ ПРОФИЛЬ ==== */
 function showMyProfileView() {
   removePageViews();
   if (currentChat || currentChannel) closeChatView();
@@ -2088,6 +2006,31 @@ function showMyProfileView() {
       <div class="stat-card"><div class="stat-value">${allUsers.filter(x => x.uid !== u.uid).length}</div><div class="stat-label">Юзеров</div></div>
     </div>
     <div class="profile-section">
+      <div class="profile-section-title">Мои подарки</div>
+      <div class="profile-gifts">
+        ${(u.gifts && u.gifts.length > 0) ? u.gifts.map(g => `<div class="profile-gift-item"><span class="emoji">${GIFTS_DB[g]?.emoji || '🎁'}</span></div>`).join('') : '<span style="color:var(--text-3);font-size:13px;">У вас пока нет подарков</span>'}
+      </div>
+    </div>
+    ${u.isDev ? `
+    <div class="admin-panel">
+      <h3>👑 Панель разработчика</h3>
+      <div style="margin-bottom:15px;">
+        <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:5px;">Выдать Х пользователю</label>
+        <div class="admin-input-group">
+          <input type="text" id="adminCoinSearch" placeholder="Введите ник...">
+          <input type="number" id="adminCoinAmount" placeholder="Сумма" style="width:80px;">
+          <button id="adminGiveCoinsBtn" type="button">OK</button>
+        </div>
+        <div class="user-search-results" id="adminSearchResults"></div>
+        <button id="adminSelfCoinsBtn" class="btn-secondary" style="width:100%;padding:8px;font-size:12px;margin-top:5px;">Выдать себе 1000 X</button>
+      </div>
+      <div style="border-top:1px solid rgba(255,50,50,.3);padding-top:10px;">
+         <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:5px;">Выдать подарки себе</label>
+         <button id="adminSelfGiftBtn" class="btn-give-gift" style="width:100%;padding:10px;border-radius:10px;font-weight:bold;">Открыть меню подарков</button>
+      </div>
+    </div>
+    ` : ''}
+    <div class="profile-section">
       <div class="profile-section-title">Информация</div>
       <div class="profile-info-row"><span class="label">Никнейм:</span><span>${escapeHtml(u.nick)}</span></div>
       <div class="profile-info-row"><span class="label">Биография:</span><span>${u.bio ? escapeHtml(u.bio) : '—'}</span></div>
@@ -2099,6 +2042,54 @@ function showMyProfileView() {
   </div>`;
   $('mainContent').appendChild(p);
   $('btnEditMyProfile').onclick = openEditProfile;
+
+  if (u.isDev) {
+    $('adminSelfCoinsBtn').onclick = async () => {
+      const newBal = (currentUser.coins || 0) + 1000;
+      await updateDoc(doc(db, 'users', currentUser.uid), { coins: newBal });
+      currentUser.coins = newBal;
+      showMyProfileView();
+      toast('Выдано 1000 X ✓');
+    };
+    $('adminSelfGiftBtn').onclick = () => {
+      adminTarget = currentUser;
+      $('adminGiftTargetNick').textContent = currentUser.nick;
+      openModal('adminGiftModal');
+    };
+    const searchInp = $('adminCoinSearch');
+    const resDiv = $('adminSearchResults');
+    let selectedUid = null;
+    searchInp.oninput = () => {
+      const q = searchInp.value.toLowerCase().trim();
+      if (!q) { resDiv.style.display = 'none'; return; }
+      const found = allUsers.filter(user => user.nick.toLowerCase().includes(q)).slice(0, 5);
+      if (found.length === 0) {
+        resDiv.innerHTML = '<div style="padding:10px;color:var(--text-3);font-size:13px;">Никого не найдено</div>';
+      } else {
+        resDiv.innerHTML = found.map(user => `<div class="user-search-item" data-uid="${user.uid}"><span>${escapeHtml(user.nick)}</span><span style="font-size:12px;color:var(--text-3)">${user.coins||0} X</span></div>`).join('');
+        resDiv.querySelectorAll('.user-search-item').forEach(el => {
+          el.onclick = () => {
+            selectedUid = el.dataset.uid;
+            searchInp.value = allUsers.find(u=>u.uid===selectedUid).nick;
+            resDiv.style.display = 'none';
+          };
+        });
+      }
+      resDiv.style.display = 'block';
+    };
+    $('adminGiveCoinsBtn').onclick = async () => {
+      const amount = parseInt($('adminCoinAmount').value);
+      if (!selectedUid || isNaN(amount) || amount <= 0) { toast('Выберите юзера и сумму'); return; }
+      const targetUser = allUsers.find(u => u.uid === selectedUid);
+      if (!targetUser) return;
+      const newBal = (targetUser.coins || 0) + amount;
+      await updateDoc(doc(db, 'users', selectedUid), { coins: newBal });
+      toast(`Выдано ${amount} X для ${targetUser.nick}`);
+      searchInp.value = '';
+      $('adminCoinAmount').value = '';
+      selectedUid = null;
+    };
+  }
 }
 
 function openEditProfile() {
@@ -2155,7 +2146,6 @@ function openCall() {
   setTimeout(() => { $('callStatus').textContent = 'Соединение установлено'; }, 1500);
 }
 
-/* ==== СОЗДАНИЕ И СПИСОК КАНАЛОВ ==== */
 function openCreateChannel() {
   $('chName').value = '';
   $('chDesc').value = '';
@@ -2213,7 +2203,6 @@ async function openChannelsList() {
   });
 }
 
-/* ==== НАВИГАЦИЯ ==== */
 function bindNav() {
   document.querySelectorAll('.nav-btn').forEach(b => {
     b.addEventListener('click', () => {
@@ -2227,7 +2216,15 @@ function bindNav() {
     });
   });
 }
+
 function showChatsView() {
+  removePageViews();
+  $('chatsPanel').classList.remove('mobile-hidden');
+  $('chatWindow').classList.add('mobile-hidden');
+  $('bottomNav').classList.remove('hide');
+  $('mainContent').classList.remove('no-nav');
+}
+
 function bindChatTabs() {
   document.querySelectorAll('.chat-tab').forEach(t => {
     t.addEventListener('click', () => {
@@ -2238,11 +2235,117 @@ function bindChatTabs() {
     });
   });
 }
-  removePageViews();
-  $('chatsPanel').classList.remove('mobile-hidden');
-  $('chatWindow').classList.add('mobile-hidden');
-  $('bottomNav').classList.remove('hide');
-  $('mainContent').classList.remove('no-nav');
+
+function updateScrollBottomBtn() {
+  const box = $('messages');
+  const btn = $('scrollBottomBtn');
+  if (!box || !btn) return;
+  const dist = box.scrollHeight - box.scrollTop - box.clientHeight;
+  if (dist > 200) btn.classList.add('show');
+  else btn.classList.remove('show');
+}
+
+function bindScrollBottom() {
+  const box = $('messages');
+  const btn = $('scrollBottomBtn');
+  if (!box || !btn) return;
+  box.addEventListener('scroll', updateScrollBottomBtn);
+  btn.addEventListener('click', () => {
+    box.scrollTop = box.scrollHeight;
+    btn.classList.remove('show');
+  });
+}
+
+function bindChatSearch() {
+  const chatActions = document.querySelector('.chat-actions');
+  if (!chatActions) return;
+  const btnSearch = document.createElement('button');
+  btnSearch.className = 'icon-btn';
+  btnSearch.title = 'Поиск';
+  btnSearch.type = 'button';
+  btnSearch.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>';
+  chatActions.insertBefore(btnSearch, chatActions.firstChild);
+  btnSearch.addEventListener('click', toggleChatSearch);
+}
+
+function toggleChatSearch() {
+  const existing = $('chatSearchBar');
+  if (existing) {
+    closeChatSearch();
+    return;
+  }
+  const bar = document.createElement('div');
+  bar.className = 'chat-search-bar';
+  bar.id = 'chatSearchBar';
+  bar.innerHTML = `
+    <input type="text" id="chatSearchInput" placeholder="Поиск в чате...">
+    <span class="search-count" id="searchCount">0</span>
+    <div class="search-nav">
+      <button type="button" id="searchPrev" title="Предыдущее">▲</button>
+      <button type="button" id="searchNext" title="Следующее">▼</button>
+    </div>
+    <button class="close-search" type="button" id="searchClose">✕</button>
+  `;
+  const messagesBox = $('messages');
+  messagesBox.parentNode.insertBefore(bar, messagesBox);
+  const input = $('chatSearchInput');
+  input.focus();
+  input.addEventListener('input', doChatSearch);
+  $('searchPrev').addEventListener('click', () => navigateSearch(-1));
+  $('searchNext').addEventListener('click', () => navigateSearch(1));
+  $('searchClose').addEventListener('click', closeChatSearch);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') navigateSearch(e.shiftKey ? -1 : 1);
+    if (e.key === 'Escape') closeChatSearch();
+  });
+}
+
+function closeChatSearch() {
+  $('chatSearchBar')?.remove();
+  searchActive = false;
+  searchQuery = '';
+  searchMatches = [];
+  searchIndex = -1;
+  document.querySelectorAll('.msg.search-match').forEach(el => {
+    el.classList.remove('search-match', 'current');
+  });
+}
+
+function doChatSearch() {
+  const q = $('chatSearchInput').value.trim().toLowerCase();
+  searchQuery = q;
+  document.querySelectorAll('.msg.search-match').forEach(el => {
+    el.classList.remove('search-match', 'current');
+  });
+  searchMatches = [];
+  searchIndex = -1;
+  if (!q) { $('searchCount').textContent = '0'; return; }
+  const msgs = document.querySelectorAll('.msg');
+  msgs.forEach(el => {
+    const text = (el.textContent || '').toLowerCase();
+    if (text.includes(q)) {
+      el.classList.add('search-match');
+      searchMatches.push(el);
+    }
+  });
+  $('searchCount').textContent = searchMatches.length;
+  if (searchMatches.length > 0) {
+    searchIndex = searchMatches.length - 1;
+    searchMatches[searchIndex].classList.add('current');
+    searchMatches[searchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function navigateSearch(dir) {
+  if (searchMatches.length === 0) return;
+  searchMatches[searchIndex]?.classList.remove('current');
+  searchIndex = (searchIndex + dir + searchMatches.length) % searchMatches.length;
+  searchMatches[searchIndex].classList.add('current');
+  searchMatches[searchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function closeChatSearchIfOpen() {
+  if ($('chatSearchBar')) closeChatSearch();
 }
 
 function showTextModal(title, text) {
@@ -2253,7 +2356,6 @@ function showTextModal(title, text) {
 window.openTerms = (e) => { if (e) e.preventDefault(); showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ Xtavgram\n\n1. Используя сервис, вы соглашаетесь с правилами.\n2. Не оскорбляйте других.\n\n© Xtavgram'); return false; };
 window.openPrivacy = (e) => { if (e) e.preventDefault(); showTextModal('Политика конфиденциальности', 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ\n\nДанные хранятся в Firebase. Мы не передаём их третьим лицам.\n\n© Xtavgram'); return false; };
 
-/* ==== НАСТРОЙКИ ==== */
 function bindSettings() {
   document.querySelectorAll('.settings-item').forEach(b => {
     b.addEventListener('click', async () => {
@@ -2319,6 +2421,7 @@ function bindChatMenu() {
       if (a === 'viewProfile' && currentChat) showUserProfile(currentChat);
       if (a === 'localNick') changeLocalNick();
       if (a === 'block') blockUser();
+      if (a === 'gift' && currentChat) openGiftStore(currentChat);
     });
   });
   $('btnCall')?.addEventListener('click', openCall);
@@ -2389,7 +2492,6 @@ function bindBack() {
     showFriendsView();
   });
 }
-
 function bindChannels() {
   $('chOpenCreate')?.addEventListener('click', () => {
     closeModal('channelsListModal');
@@ -2398,7 +2500,92 @@ function bindChannels() {
   $('chCreate')?.addEventListener('click', createChannel);
 }
 
-/* ==== СТАРТ ==== */
+/* ==== ВАЛЮТА И ПОДАРКИ ==== */
+let giftTarget = null;
+let adminTarget = null;
+
+const GIFTS_DB = {
+  bear: { name: 'Мишка', emoji: '🧸', price: 15 },
+  star: { name: 'Звезда', emoji: '⭐', price: 15 },
+  demon: { name: 'Демон', emoji: '😈', price: 50 },
+  clown: { name: 'Клоун', emoji: '🤡', price: 50 },
+  zedki: { name: 'Зедки', emoji: '💤', price: 500 }
+};
+
+function openGiftStore(user) {
+  giftTarget = user;
+  $('giftStoreTargetName').textContent = `Кому: ${user.nick}`;
+  openModal('giftStoreModal');
+}
+
+async function buyGift(giftId) {
+  if (!giftTarget) return;
+  const gift = GIFTS_DB[giftId];
+  const myCoins = currentUser.coins || 0;
+
+  if (myCoins < gift.price) {
+    toast('Недостаточно X!');
+    return;
+  }
+
+  if (!confirm(`Подарить "${gift.name}" за ${gift.price} X?`)) return;
+
+  const myRef = doc(db, 'users', currentUser.uid);
+  const myGifts = currentUser.gifts || [];
+  myGifts.push(giftId);
+  await updateDoc(myRef, { coins: myCoins - gift.price, gifts: myGifts });
+  currentUser.coins -= gift.price;
+  currentUser.gifts = myGifts;
+
+  const targetRef = doc(db, 'users', giftTarget.uid);
+  const targetGifts = giftTarget.gifts || [];
+  targetGifts.push(giftId);
+  await updateDoc(targetRef, { gifts: targetGifts });
+  giftTarget.gifts = targetGifts;
+
+  closeModal('giftStoreModal');
+  toast(`Вы подарили ${gift.name}!`);
+}
+
+async function adminGiveGift(giftId) {
+  if (!adminTarget) return;
+  const gift = GIFTS_DB[giftId];
+  const targetRef = doc(db, 'users', adminTarget.uid);
+  const targetGifts = adminTarget.gifts || [];
+  targetGifts.push(giftId);
+  await updateDoc(targetRef, { gifts: targetGifts });
+  adminTarget.gifts = targetGifts;
+  closeModal('adminGiftModal');
+  toast(`Выдан подарок ${gift.name} для ${adminTarget.nick}`);
+  if (adminTarget.uid === currentUser.uid) showMyProfileView();
+}
+
+function bindGifts() {
+  document.querySelectorAll('#giftStoreModal .gift-card').forEach(c => {
+    c.addEventListener('click', () => buyGift(c.dataset.gift));
+  });
+
+  document.querySelectorAll('#adminGiftModal .gift-card').forEach(c => {
+    c.addEventListener('click', () => adminGiveGift(c.dataset.gift));
+  });
+
+  $('btnMsgAdmin').addEventListener('click', () => {
+    closeModal('walletModal');
+    const skif = allUsers.find(u => u.nick === 'скиф');
+    if (skif) openChat(skif);
+  });
+
+  document.querySelectorAll('.settings-item').forEach(b => {
+    if (b.dataset.s === 'wallet') {
+      b.addEventListener('click', () => {
+        closeModal('settingsModal');
+        $('walletBalance').textContent = `${currentUser.coins || 0} X`;
+        openModal('walletModal');
+      });
+    }
+  });
+}
+
 async function startApp() {
   await ensureSpecialUsers();
   await ensureStartChannel();
@@ -2458,6 +2645,7 @@ bindChannels();
 bindChatTabs();
 bindScrollBottom();
 bindChatSearch();
+bindGifts();
 </script>
 </body>
-</html>
+        </html>

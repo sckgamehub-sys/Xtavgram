@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Xtavgram</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23555555'/%3E%3Cstop offset='0.5' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%23999999'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%23141414'/%3E%3Cpath d='M14 50 L88 14 L54 88 L46 56 Z' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linejoin='round'/%3E%3Cpath d='M46 56 L88 14' stroke='url(%23g)' stroke-width='5' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -132,6 +130,13 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .msg .reply-quote .rq-nick{font-weight:700;margin-bottom:2px;display:block}
 .msg .reply-quote .rq-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .msg .edited-mark{font-size:10px;opacity:.55;font-style:italic}
+
+/* Подарок в чате */
+.msg-gift { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 15px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 20px; margin: 5px auto; min-width: 220px; }
+.msg-gift .gift-emoji { font-size: 48px; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
+.msg-gift .gift-title { font-weight: 700; font-size: 15px; color: var(--text); }
+.msg-gift .gift-price { font-size: 12px; color: var(--green); font-weight: 600; margin-bottom: 10px; }
+.msg-gift button { background: #fff; color: #000; padding: 8px 16px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; font-size: 13px; }
 
 .msg .reactions{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
 .msg .reaction{background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:2px 8px;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px}
@@ -357,7 +362,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .gift-card .price{color:var(--text-3);font-size:12px;font-weight:600}
 
 .profile-gifts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.profile-gift-item{background:var(--bg-4);border:1px solid var(--border);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:14px}
+.profile-gift-item{background:var(--bg-4);border:1px solid var(--border);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
 .profile-gift-item .emoji{font-size:20px}
 
 .admin-panel{background:rgba(255,50,50,0.1);border:1px solid rgba(255,50,50,0.3);border-radius:16px;padding:15px;margin-top:15px}
@@ -374,6 +379,47 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .admin-btns button{padding:10px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
 .btn-give-gift{background:#fff;color:#000}
 .btn-give-coins{background:#22c55e;color:#fff}
+
+/* ===== МУЛЬТИПРОФИЛИ И НАСТРОЙКИ ===== */
+.profile-switcher-modal { max-width: 420px; background: var(--bg); }
+.profile-switcher-list { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
+.profile-switch-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-3); border-radius: 16px; cursor: pointer; transition: .2s; border: 2px solid transparent; }
+.profile-switch-card:hover { background: var(--bg-4); }
+.profile-switch-card.active { border-color: var(--green); background: rgba(34, 197, 94, 0.1); }
+.profile-switch-card .avatar { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; background-size: cover; background-position: center; color: #fff; }
+.profile-switch-card .info { flex: 1; }
+.profile-switch-card .nick { font-weight: 700; font-size: 16px; }
+.profile-switch-card .status { font-size: 12px; color: var(--text-3); }
+
+/* Полноэкранные настройки */
+.full-settings-page { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; flex-direction: column; animation: slideInRight .3s; overflow-y: auto; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.full-settings-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--border); background: rgba(0,0,0,.85); position: sticky; top: 0; z-index: 10; backdrop-filter: blur(20px); }
+.full-settings-header h2 { font-size: 20px; font-weight: 800; margin: 0; }
+.settings-buttons-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px; }
+.settings-big-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px 10px; background: var(--bg-3); border-radius: 20px; border: none; color: var(--text); cursor: pointer; transition: .2s; }
+.settings-big-btn:hover { background: var(--bg-4); transform: translateY(-2px); }
+.settings-big-btn svg { width: 28px; height: 28px; fill: var(--text); }
+.settings-big-btn span { font-size: 13px; font-weight: 600; }
+
+/* Экран подарков в профиле */
+.profile-gifts-tabs { display: flex; gap: 10px; overflow-x: auto; padding: 0 20px 15px; scrollbar-width: none; }
+.profile-gifts-tabs::-webkit-scrollbar { display: none; }
+.gift-tab { padding: 8px 16px; border-radius: 20px; background: var(--bg-3); color: var(--text-2); font-size: 14px; font-weight: 600; white-space: nowrap; border: none; cursor: pointer; transition: .2s; }
+.gift-tab.active { background: #fff; color: #000; }
+.gift-tab .count { background: rgba(0,0,0,.1); padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 6px; }
+.gift-tab.active .count { background: rgba(0,0,0,.15); }
+
+/* Окно конкретного подарка */
+.gift-detail-icon { width: 120px; height: 120px; background: var(--bg-3); border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 64px; margin: 20px auto; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.gift-detail-name { text-align: center; font-size: 24px; font-weight: 800; margin-bottom: 5px; }
+.gift-detail-from { text-align: center; font-size: 14px; color: var(--text-2); margin-bottom: 20px; }
+.gift-detail-meta { background: var(--bg-3); border-radius: 16px; padding: 15px; margin-bottom: 15px; }
+.gift-detail-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
+.gift-detail-row:last-child { margin-bottom: 0; }
+.btn-sell { width: 100%; padding: 14px; border-radius: 14px; background: #ff5555; color: white; border: none; font-weight: 700; font-size: 15px; cursor: pointer; transition: .2s; margin-top: 10px; }
+.btn-sell:hover { background: #ff3333; }
+.btn-sell:disabled { background: var(--bg-4); color: var(--text-3); cursor: not-allowed; }
 
 @media(max-width: 820px) {
   .chats-panel{position:absolute;inset:0;width:100%;z-index:15;transition:transform .35s}
@@ -436,7 +482,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 <!-- APP -->
 <div id="app" class="app hidden">
   <div class="top-bar">
-    <div class="xg-logo small">
+    <div class="xg-logo small" id="btnProfileSwitcherTop" style="cursor:pointer" title="Сменить профиль">
       <svg viewBox="0 0 100 100">
         <defs><linearGradient id="g2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#fff"/><stop offset="1" stop-color="#999"/></linearGradient></defs>
         <path d="M14 50 L88 14 L54 88 L46 56 Z" fill="none" stroke="url(#g2)" stroke-width="4.5" stroke-linejoin="round"/>
@@ -528,29 +574,11 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 
 <div id="chatMenuModal" class="modal hidden">
   <div class="modal-content menu-content">
-<button class="menu-option" data-action="gift" type="button">🎁 Подарить подарок</button>
+    <button class="menu-option" data-action="gift" type="button">🎁 Подарить подарок</button>
     <button class="menu-option" data-action="viewProfile" type="button">👤 Посмотреть профиль</button>
     <button class="menu-option" data-action="localNick" type="button">✏️ Изменить локальный никнейм</button>
     <button class="menu-option" data-action="block" type="button">🚫 Заблокировать</button>
     <button class="menu-option danger" data-action="close" type="button">Закрыть</button>
-  </div>
-</div>
-
-<div id="settingsModal" class="modal hidden">
-  <div class="modal-content settings-content">
-    <h2>Настройки</h2>
-    <div class="settings-list">
-<button class="settings-item" data-s="wallet" type="button">💰 Валюта X <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="channels" type="button">📢 Каналы <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="theme" type="button">🎨 Сменить тему <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="bubble" type="button">💬 Цвет пузырей <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="notif" type="button">🔔 Уведомления <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="terms" type="button">📄 Пользовательское соглашение <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="privacyPolicy" type="button">🛡 Политика конфиденциальности <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="reset" type="button">🔄 Сбросить данные <span class="arrow">›</span></button>
-      <button class="settings-item" data-s="logout" type="button">🚪 Выйти из аккаунта <span class="arrow">›</span></button>
-    </div>
-    <button class="btn-close" data-close="settingsModal" type="button">Закрыть</button>
   </div>
 </div>
 
@@ -671,6 +699,29 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   </div>
 </div>
 
+<div id="profileSwitcherModal" class="modal hidden">
+  <div class="modal-content profile-switcher-modal">
+    <h2>Ваши профили</h2>
+    <div class="profile-switcher-list" id="profileSwitcherList"></div>
+    <button class="btn-primary" id="btnAddProfile" type="button" style="width:100%">+ Добавить профиль</button>
+    <button class="btn-close" data-close="profileSwitcherModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="giftDetailModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="gift-detail-icon" id="gdIcon">🎁</div>
+    <div class="gift-detail-name" id="gdName">Подарок</div>
+    <div class="gift-detail-from" id="gdFrom">От: ...</div>
+    <div class="gift-detail-meta">
+      <div class="gift-detail-row"><span>Дата отправки:</span> <span id="gdDate">...</span></div>
+      <div class="gift-detail-row"><span>Можно продать до:</span> <span id="gdSellDate">...</span></div>
+    </div>
+    <button class="btn-sell" id="btnSellGift" type="button">Продать за 7 X</button>
+    <button class="btn-close" data-close="giftDetailModal" type="button">Закрыть</button>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
@@ -710,6 +761,9 @@ let searchQuery = '';
 let searchMatches = [];
 let searchIndex = -1;
 let searchActive = false;
+let giftTarget = null;
+let adminTarget = null;
+let myProfiles = JSON.parse(localStorage.getItem('xg_profiles') || '[]');
 
 const $ = id => document.getElementById(id);
 const escapeHtml = s => (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -739,6 +793,10 @@ function fmtDate(ts) {
   const d = ts?.toDate ? ts.toDate() : new Date(ts || Date.now());
   return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
 }
+function fmtDateTime(ts) {
+  const d = ts?.toDate ? ts.toDate() : new Date(ts || Date.now());
+  return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+}
 function isOnline(user) {
   if (!user) return false;
   if (user.isAI || user.isDev) return true;
@@ -759,6 +817,14 @@ function chatIdFor(a, b) { return [a, b].sort().join('__'); }
 function channelIdFor(name) { return 'ch_' + name.toLowerCase().replace(/[^a-zа-я0-9]/gi, '_').slice(0, 40); }
 
 function removePageViews() { document.querySelectorAll('.page-view').forEach(p => p.remove()); }
+
+const GIFTS_DB = {
+  bear: { name: 'Мишка', emoji: '🧸', price: 15 },
+  star: { name: 'Звезда', emoji: '⭐', price: 15 },
+  demon: { name: 'Демон', emoji: '😈', price: 50 },
+  clown: { name: 'Клоун', emoji: '🤡', price: 50 },
+  zedki: { name: 'Зедки', emoji: '💤', price: 500 }
+};
 
 /* ==== АРХИВ ==== */
 function isArchived(chatId) { return !!archivedChats[chatId]; }
@@ -939,6 +1005,9 @@ function bindAuth() {
         nick, avatar: null, bio: '', isDev: false, isAI: false, coins: 0, gifts: [],
         created: serverTimestamp(), lastSeen: serverTimestamp()
       });
+      const localProfiles = JSON.parse(localStorage.getItem('xg_profiles') || '[]');
+      localProfiles.push({ uid: cred.user.uid, nick, avatar: null });
+      localStorage.setItem('xg_profiles', JSON.stringify(localProfiles));
       toast('Аккаунт создан!');
       requestNotifPermission();
     } catch (e) {
@@ -958,7 +1027,7 @@ async function ensureSpecialUsers() {
     await addDoc(collection(db, 'users'), {
       nick: 'скиф', avatar: null,
       bio: 'Основатель проекта Xtavgram ⚙️',
-      isDev: true, isAI: false,
+      isDev: true, isAI: false, coins: 100000, gifts: [],
       created: serverTimestamp(), lastSeen: serverTimestamp()
     });
   }
@@ -1471,6 +1540,24 @@ function buildMessageEl(m, chatId, isChannel = false) {
   el.dataset.msgId = m.id;
   if (m.forwarded) el.classList.add('forwarded');
 
+  if (m.type === 'gift') {
+    el.style.background = 'transparent';
+    el.style.padding = '0';
+    el.style.maxWidth = '100%';
+    const g = GIFTS_DB[m.giftId];
+    el.innerHTML = `<div class="msg-gift">
+      <div class="gift-emoji">${g ? g.emoji : '🎁'}</div>
+      <div class="gift-title">${g ? g.name : 'Подарок'}</div>
+      <div class="gift-price">за ${g ? g.price : 0} X</div>
+      <button type="button" class="btn-view-gift" data-giftid="${m.id}">Посмотреть</button>
+    </div>`;
+    el.querySelector('.btn-view-gift').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openGiftDetailFromMessage(m);
+    });
+    return el;
+  }
+
   let replyHtml = '';
   if (m.reply) {
     const rAuthor = m.reply.nick || 'Сообщение';
@@ -1823,7 +1910,7 @@ async function replyAI(chatId, userText) {
   let reply = 'Я Xtav AI 🤖 Спроси про онлайн, функции или настройки.';
   if (s.includes('онлайн')) reply = `🟢 Онлайн: ${online}\n👥 Всего: ${total}`;
   else if (s.includes('привет')) reply = 'Привет! 👋 Я Xtav AI — навигатор Xtavgram.';
-  else if (s.includes('функц') || s.includes('умеешь')) reply = 'Умею: сообщения, голосовые, реакции, ответы, фото, каналы, закреплённые сообщения.';
+  else if (s.includes('функц') || s.includes('умеешь')) reply = 'Умею: сообщения, голосовые, реакции, ответы, фото, каналы, закреплённые сообщения, подарки.';
   else if (s.includes('пароль')) reply = '🔒 К паролям доступа не имею.';
   else if (s.includes('разработчик') || s.includes('скиф')) reply = 'Разработчик — «скиф» ⚙️';
   const aiUser = allUsers.find(u => u.isAI);
@@ -2008,7 +2095,7 @@ function showMyProfileView() {
     <div class="profile-section">
       <div class="profile-section-title">Мои подарки</div>
       <div class="profile-gifts">
-        ${(u.gifts && u.gifts.length > 0) ? u.gifts.map(g => `<div class="profile-gift-item"><span class="emoji">${GIFTS_DB[g]?.emoji || '🎁'}</span></div>`).join('') : '<span style="color:var(--text-3);font-size:13px;">У вас пока нет подарков</span>'}
+        ${(u.gifts && u.gifts.length > 0) ? u.gifts.map(g => `<div class="profile-gift-item" data-giftid="${g.id||g}" data-from="${g.from||''}" data-ts="${g.ts||''}"><span class="emoji">${GIFTS_DB[g.id||g]?.emoji || '🎁'}</span></div>`).join('') : '<span style="color:var(--text-3);font-size:13px;">У вас пока нет подарков</span>'}
       </div>
     </div>
     ${u.isDev ? `
@@ -2042,6 +2129,15 @@ function showMyProfileView() {
   </div>`;
   $('mainContent').appendChild(p);
   $('btnEditMyProfile').onclick = openEditProfile;
+
+  p.querySelectorAll('.profile-gift-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const giftId = item.dataset.giftid;
+      const from = item.dataset.from;
+      const ts = item.dataset.ts;
+      openGiftDetail(giftId, from, ts);
+    });
+  });
 
   if (u.isDev) {
     $('adminSelfCoinsBtn').onclick = async () => {
@@ -2500,18 +2596,7 @@ function bindChannels() {
   $('chCreate')?.addEventListener('click', createChannel);
 }
 
-/* ==== ВАЛЮТА И ПОДАРКИ ==== */
-let giftTarget = null;
-let adminTarget = null;
-
-const GIFTS_DB = {
-  bear: { name: 'Мишка', emoji: '🧸', price: 15 },
-  star: { name: 'Звезда', emoji: '⭐', price: 15 },
-  demon: { name: 'Демон', emoji: '😈', price: 50 },
-  clown: { name: 'Клоун', emoji: '🤡', price: 50 },
-  zedki: { name: 'Зедки', emoji: '💤', price: 500 }
-};
-
+/* ==== ПОДАРКИ ==== */
 function openGiftStore(user) {
   giftTarget = user;
   $('giftStoreTargetName').textContent = `Кому: ${user.nick}`;
@@ -2523,25 +2608,33 @@ async function buyGift(giftId) {
   const gift = GIFTS_DB[giftId];
   const myCoins = currentUser.coins || 0;
 
-  if (myCoins < gift.price) {
-    toast('Недостаточно X!');
-    return;
-  }
-
+  if (myCoins < gift.price) { toast('Недостаточно X!'); return; }
   if (!confirm(`Подарить "${gift.name}" за ${gift.price} X?`)) return;
 
   const myRef = doc(db, 'users', currentUser.uid);
   const myGifts = currentUser.gifts || [];
-  myGifts.push(giftId);
+  const newGift = { id: giftId, from: currentUser.nick, ts: Date.now() };
+  myGifts.push(newGift);
   await updateDoc(myRef, { coins: myCoins - gift.price, gifts: myGifts });
   currentUser.coins -= gift.price;
   currentUser.gifts = myGifts;
 
   const targetRef = doc(db, 'users', giftTarget.uid);
   const targetGifts = giftTarget.gifts || [];
-  targetGifts.push(giftId);
+  const targetGift = { id: giftId, from: currentUser.nick, ts: Date.now() };
+  targetGifts.push(targetGift);
   await updateDoc(targetRef, { gifts: targetGifts });
   giftTarget.gifts = targetGifts;
+
+  const chatId = chatIdFor(currentUser.uid, giftTarget.uid);
+  const chatRef = doc(db, 'chats', chatId);
+  const chatSnap = await getDoc(chatRef);
+  if (!chatSnap.exists()) {
+    await setDoc(chatRef, { members: [currentUser.uid, giftTarget.uid], created: serverTimestamp() });
+  }
+  await addDoc(collection(db, 'chats', chatId, 'messages'), {
+    from: currentUser.uid, type: 'gift', giftId, read: false, ts: serverTimestamp()
+  });
 
   closeModal('giftStoreModal');
   toast(`Вы подарили ${gift.name}!`);
@@ -2552,12 +2645,58 @@ async function adminGiveGift(giftId) {
   const gift = GIFTS_DB[giftId];
   const targetRef = doc(db, 'users', adminTarget.uid);
   const targetGifts = adminTarget.gifts || [];
-  targetGifts.push(giftId);
+  const newGift = { id: giftId, from: currentUser.nick, ts: Date.now() };
+  targetGifts.push(newGift);
   await updateDoc(targetRef, { gifts: targetGifts });
   adminTarget.gifts = targetGifts;
   closeModal('adminGiftModal');
   toast(`Выдан подарок ${gift.name} для ${adminTarget.nick}`);
   if (adminTarget.uid === currentUser.uid) showMyProfileView();
+}
+
+function openGiftDetailFromMessage(m) {
+  const g = GIFTS_DB[m.giftId];
+  const authorUser = allUsers.find(u => u.nick === (m.from === currentUser.uid ? 'Вы' : currentChat?.nick));
+  openGiftDetail(m.giftId, m.from, m.ts, g?.price || 7);
+}
+
+function openGiftDetail(giftId, fromNick, ts, price) {
+  const g = GIFTS_DB[giftId];
+  $('gdIcon').textContent = g ? g.emoji : '🎁';
+  $('gdName').textContent = g ? g.name : 'Подарок';
+  $('gdFrom').textContent = `От: ${fromNick || 'неизвестно'}`;
+  
+  const dateStr = ts ? fmtDateTime(ts) : '—';
+  $('gdDate').textContent = dateStr;
+
+  let sellDateStr = '—';
+  let canSell = false;
+  if (ts) {
+    const tsDate = typeof ts === 'number' ? ts : (ts.toDate ? ts.toDate().getTime() : Date.now());
+    const canSellUntil = tsDate + 7 * 24 * 60 * 60 * 1000;
+    sellDateStr = fmtDateTime(canSellUntil);
+    canSell = Date.now() < canSellUntil;
+  }
+  $('gdSellDate').textContent = sellDateStr;
+
+  const btnSell = $('btnSellGift');
+  btnSell.textContent = `Продать за ${price || g?.price || 7} X`;
+  btnSell.disabled = !canSell;
+
+  btnSell.onclick = async () => {
+    if (!canSell) return;
+    if (!confirm('Вы уверены, что хотите продать подарок?')) return;
+    const myGifts = (currentUser.gifts || []).filter(g => !(g.id === giftId && g.ts === ts));
+    const newCoins = (currentUser.coins || 0) + (price || g?.price || 7);
+    await updateDoc(doc(db, 'users', currentUser.uid), { gifts: myGifts, coins: newCoins });
+    currentUser.gifts = myGifts;
+    currentUser.coins = newCoins;
+    closeModal('giftDetailModal');
+    showMyProfileView();
+    toast(`Продано за ${price || g?.price || 7} X!`);
+  };
+
+  openModal('giftDetailModal');
 }
 
 function bindGifts() {
@@ -2574,16 +2713,49 @@ function bindGifts() {
     const skif = allUsers.find(u => u.nick === 'скиф');
     if (skif) openChat(skif);
   });
+}
 
-  document.querySelectorAll('.settings-item').forEach(b => {
-    if (b.dataset.s === 'wallet') {
-      b.addEventListener('click', () => {
-        closeModal('settingsModal');
-        $('walletBalance').textContent = `${currentUser.coins || 0} X`;
-        openModal('walletModal');
-      });
-    }
+/* ==== МУЛЬТИПРОФИЛИ ==== */
+function openProfileSwitcher() {
+  const list = $('profileSwitcherList');
+  list.innerHTML = '';
+  myProfiles.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'profile-switch-card' + (currentUser.uid === p.uid ? ' active' : '');
+    el.innerHTML = `
+      <div class="avatar" style="${avatarStyle(p)}">${p.avatar?'':initials(p.nick)}</div>
+      <div class="info">
+        <div class="nick">${escapeHtml(p.nick)}</div>
+        <div class="status">${p.uid === currentUser.uid ? 'Активный' : 'Нажми чтобы войти'}</div>
+      </div>
+    `;
+    el.onclick = async () => {
+      if (p.uid === currentUser.uid) return;
+      await switchToProfile(p.uid);
+    };
+    list.appendChild(el);
   });
+  openModal('profileSwitcherModal');
+}
+
+async function switchToProfile(uid) {
+  const snap = await getDoc(doc(db, 'users', uid));
+  if (!snap.exists()) { toast('Профиль не найден'); return; }
+  currentUser = { uid, ...snap.data() };
+  localStorage.setItem('xg_active_profile', uid);
+  closeModal('profileSwitcherModal');
+  closeChatView();
+  showChatsView();
+  renderChatList();
+  toast('Вошли как ' + currentUser.nick);
+}
+
+function bindProfiles() {
+  $('btnProfileSwitcherTop').onclick = openProfileSwitcher;
+  $('btnAddProfile').onclick = () => {
+    closeModal('profileSwitcherModal');
+    logout();
+  };
 }
 
 async function startApp() {
@@ -2618,6 +2790,13 @@ onAuthStateChanged(auth, async (fbUser) => {
       currentUser = { uid: fbUser.uid, ...snap2.data() };
     }
     await updateDoc(doc(db, 'users', fbUser.uid), { lastSeen: serverTimestamp() });
+    
+    let profiles = JSON.parse(localStorage.getItem('xg_profiles') || '[]');
+    if (!profiles.find(p => p.uid === currentUser.uid)) {
+      profiles.push({ uid: currentUser.uid, nick: currentUser.nick, avatar: currentUser.avatar });
+      localStorage.setItem('xg_profiles', JSON.stringify(profiles));
+    }
+    
     $('authScreen').classList.add('hidden');
     $('app').classList.remove('hidden');
     startApp();
@@ -2630,6 +2809,19 @@ onAuthStateChanged(auth, async (fbUser) => {
     $('app').classList.add('hidden');
   }
 });
+
+function logout() {
+  if (!confirm('Выйти из аккаунта?')) return;
+  signOut(auth);
+  localStorage.removeItem('xg_session');
+  currentUser = null;
+  currentChat = null;
+  currentChannel = null;
+  document.title = baseTitle;
+  $('authScreen').classList.remove('hidden');
+  $('app').classList.add('hidden');
+  // После выхода можно будет зарегистрировать новый профиль
+}
 
 bindEyeButtons();
 bindAuth();
@@ -2646,6 +2838,8 @@ bindChatTabs();
 bindScrollBottom();
 bindChatSearch();
 bindGifts();
+bindProfiles();
+
 </script>
 </body>
-        </html>
+                                  </html>

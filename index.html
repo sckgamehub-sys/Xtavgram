@@ -125,7 +125,7 @@
     border-radius: 20px;
     font-size: 13.5px;
     font-weight: 600;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     backdrop-filter: blur(20px);
   }
 
@@ -141,6 +141,21 @@
   @keyframes dotPulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.4; transform: scale(0.75); }
+  }
+
+  /* Дата релиза */
+  .release-date {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 30px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .release-date b {
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
   }
 
   /* Описание */
@@ -169,6 +184,7 @@
     max-width: 300px;
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.25s;
     box-shadow: 0 8px 24px rgba(255,255,255,0.12);
+    cursor: pointer;
   }
 
   .tg-btn:hover {
@@ -204,7 +220,8 @@
     .logo-wrap { width: 80px; height: 80px; margin-bottom: 18px; }
     .title { font-size: 26px; }
     .description { margin-bottom: 24px; font-size: 14px; }
-    .status-badge { margin-bottom: 20px; }
+    .status-badge { margin-bottom: 14px; }
+    .release-date { margin-bottom: 20px; }
   }
 </style>
 </head>
@@ -235,13 +252,18 @@
       В разработке
     </div>
 
+    <!-- Дата релиза -->
+    <div class="release-date">
+      Релиз: <b>10.11</b>
+    </div>
+
     <!-- Описание -->
     <p class="description">
       Приложение находится на стадии активной разработки. Скоро всё заработает — следи за новостями!
     </p>
 
     <!-- Кнопка Telegram -->
-    <a href="https://t.me/Xtavgram" target="_blank" rel="noopener" class="tg-btn">
+    <a href="https://t.me/Xtavgram" target="_blank" rel="noopener noreferrer" class="tg-btn">
       <svg viewBox="0 0 24 24">
         <path d="M9.04 15.51l-.38 5.36c.54 0 .78-.24 1.06-.52l2.54-2.45 5.27 3.88c.97.53 1.66.25 1.92-.9L22.6 3.8c.31-1.42-.51-1.98-1.45-1.63L2.44 9.32c-1.39.54-1.37 1.32-.24 1.67l4.78 1.49 11.12-7c.52-.35 1-.16.6.19l-9 8.11z"/>
       </svg>

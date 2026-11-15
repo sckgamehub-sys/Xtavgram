@@ -511,6 +511,33 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .fav-item small{display:flex;justify-content:space-between;align-items:center;color:var(--text-3);font-size:11px;margin-bottom:4px}
 .fav-item .fav-actions{display:flex;gap:6px;margin-top:8px}
 .fav-item .fav-actions button{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:10px;padding:5px 10px;font-size:12px}
+/* ===== ПРОФИЛИ TELEGRAM-STYLE ===== */
+.tg-profile{max-width:640px;margin:0 auto}
+.tg-banner{height:150px;border-radius:22px;position:relative;overflow:hidden;border:1px solid var(--border)}
+.tg-banner-btn{position:absolute;top:10px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.45);color:#fff;font-size:18px;backdrop-filter:blur(10px)}
+.tg-banner-btn.left{left:10px}.tg-banner-btn.right{right:10px}
+.tg-head{text-align:center;padding:0 6px 4px}
+.tg-avatar-wrap{width:fit-content;margin:-58px auto 12px;padding:4px;border-radius:50%;position:relative;box-shadow:0 0 0 4px var(--bg)}
+.tg-avatar{width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;color:#fff;background-size:cover;background-position:center;border:4px solid var(--bg)}
+.tg-usernames{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
+.tg-uname{padding:5px 11px;border-radius:14px;background:var(--bg-3);border:1px solid var(--border);color:#60a5fa;font-size:13px;font-weight:600}
+.tg-uname.add{color:var(--text-3);border-style:dashed}
+.tg-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 2px}
+.tg-actions button{flex:1;min-width:110px;padding:12px}
+.tg-gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tg-gift{background:var(--bg-3);border:1px solid var(--border);border-radius:16px;padding:14px 8px;text-align:center;cursor:default}
+.tg-gift .ge{font-size:36px;display:block;margin-bottom:6px}
+.tg-gift b{font-size:12.5px;display:block}
+.tg-gift small{font-size:10.5px;color:var(--text-3)}
+.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.shop-tile{background:var(--bg-3);border:2px solid transparent;border-radius:16px;padding:10px;text-align:center;cursor:pointer;transition:.2s}
+.shop-tile:hover{background:var(--bg-4)}
+.shop-tile.current{border-color:var(--green)}
+.shop-tile b{display:block;font-size:13px;margin-top:8px}
+.shop-tile small{font-size:11.5px;color:var(--text-3)}
+.shop-prev{height:54px;border-radius:12px}
+.shop-ring{width:64px;height:64px;border-radius:50%;margin:0 auto;padding:4px}
+.shop-ring-in{width:100%;height:100%;border-radius:50%;background:var(--bg-3);border:3px solid var(--bg-3);box-shadow:inset 0 0 0 40px #555}
 </style>
 </head>
 <body>
@@ -805,6 +832,14 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   </div>
 </div>
 
+<div id="styleModal" class="modal hidden">
+  <div class="modal-content" style="max-width:440px">
+    <h2>🎨 Оформление профиля</h2>
+    <div id="styleBody"></div>
+    <button class="btn-close" data-close="styleModal" type="button">Закрыть</button>
+  </div>
+</div>
+
 <div id="commentsModal" class="modal hidden">
   <div class="modal-content">
     <h2>💬 Комментарии</h2>
@@ -888,7 +923,12 @@ function nickToEmail(nick) {
   if (!clean) clean = 'user' + Math.floor(Math.random() * 100000);
   return clean + '@xtavgram.local';
 }
-function avatarStyle(user) {
+function avatarStyle(user, noRing) {
+  let s = avatarStyleBase(user);
+  if (!noRing && user && user.ring) { const r = RINGS.find(x => x.id === user.ring); if (r && r.color) s += `;box-shadow:0 0 0 2px var(--bg),0 0 0 4px ${r.color}`; }
+  return s;
+}
+function avatarStyleBase(user) {
   if (user && user.avatar) return `background-image:url('${user.avatar}');background-size:cover;background-position:center`;
   let h = 0; const n = (user && user.nick) || '?';
   for (let i=0;i<n.length;i++) h = (h*31 + n.charCodeAt(i)) % AVATAR_GRAD.length;
@@ -2143,46 +2183,63 @@ function fileToCompressedAvatar(file) {
   });
 }
 
+let searchTabSel = 'accounts';
+let searchChannelsCache = null;
+let searchPostsCache = null;
 function showFriendsView() {
   removePageViews();
   if (currentChat || currentChannel) closeChatView();
+  searchChannelsCache = null; searchPostsCache = null;
   const p = document.createElement('div');
   p.className = 'page-view';
-  const others = allUsers.filter(u => u.uid !== currentUser.uid);
-  let html = `<h2>👥 Друзья <span style="font-size:14px;color:var(--text-3);font-weight:500">(${others.length})</span></h2>`;
-  if (others.length === 0) {
-    html += '<div class="placeholder-empty"><span class="em">👤</span>Пока нет других пользователей.</div>';
-  } else {
-    others.sort((a,b) => (isOnline(b)?1:0) - (isOnline(a)?1:0));
-    others.forEach(u => {
-      const online = isOnline(u);
-      const chatExists = chatList.some(c => !c.isChannel && c.other && c.other.uid === u.uid);
-      html += `<div class="friend-card" data-uid="${u.uid}">
-        <div class="avatar" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
-        <div class="fc-info">
-          <div class="fc-nick">${escapeHtml(u.nick)}${u.isDev?' ⚙️':''}${u.isAI?' 🤖':''}</div>
-          <div class="fc-status ${online?'online':''}">${online?'онлайн':'оффлайн'}${u.bio?' · '+escapeHtml(u.bio.slice(0,40)):''}</div>
-        </div>
-        <button class="add-btn ${chatExists?'added':''}" type="button" data-open="${u.uid}">
-          ${chatExists ? '✓ В чатах' : '+ Добавить'}
-        </button>
-      </div>`;
-    });
-  }
-  p.innerHTML = html;
+  const tabs = [['accounts', '👤 Аккаунты'], ['channels', '📢 Каналы'], ['chats', '💬 Чаты'], ['posts', '📝 Посты']];
+  p.innerHTML = `<div class="xg-page">
+    <div class="xg-page-head"><h2>🔎 Поиск</h2></div>
+    <input type="text" class="cat-search" id="gsInput" placeholder="Введи хотя бы первую букву..." autocomplete="off" maxlength="40">
+    <div class="xg-filters" id="gsTabs">${tabs.map(t => `<button type="button" class="chat-tab ${t[0] === searchTabSel ? 'active' : ''}" data-gs="${t[0]}">${t[1]}</button>`).join('')}</div>
+    <div id="gsBody"></div>
+  </div>`;
   $('mainContent').appendChild(p);
-  p.querySelectorAll('.friend-card').forEach(card => {
-    card.addEventListener('click', e => {
-      if (e.target.closest('.add-btn')) return;
-      const u = allUsers.find(x => x.uid === card.dataset.uid);
-      if (u) showUserProfile(u);
-    });
+  const inp = p.querySelector('#gsInput');
+  p.querySelectorAll('[data-gs]').forEach(b => b.onclick = () => {
+    searchTabSel = b.dataset.gs;
+    p.querySelectorAll('[data-gs]').forEach(x => x.classList.toggle('active', x === b));
+    runGlobalSearch();
   });
-  p.querySelectorAll('.add-btn').forEach(b => {
-    b.addEventListener('click', async e => {
+  inp.oninput = runGlobalSearch;
+  runGlobalSearch();
+  inp.focus();
+}
+async function runGlobalSearch() {
+  const body = $('gsBody'), inp = $('gsInput');
+  if (!body || !inp) return;
+  const q = inp.value.trim().toLowerCase();
+  if (!q) { body.innerHTML = '<div class="placeholder-empty"><span class="em">🔎</span>Начни вводить — хотя бы первую букву</div>'; return; }
+  const rank = s => { s = (s || '').toLowerCase(); return s.startsWith(q) ? 0 : 1; };
+  const empty = '<div class="placeholder-empty"><span class="em">🤷</span>Ничего не найдено</div>';
+  const tab = searchTabSel;
+  const stale = () => searchTabSel !== tab || inp.value.trim().toLowerCase() !== q || !document.body.contains(body);
+  if (tab === 'accounts') {
+    const list = allUsers.filter(u => u.uid !== currentUser.uid && userMatches(u, q))
+      .sort((a, b) => rank(a.nick) - rank(b.nick) || (a.nick || '').localeCompare(b.nick || '')).slice(0, 50);
+    if (!list.length) { body.innerHTML = empty; return; }
+    body.innerHTML = list.map(u => {
+      const chatExists = chatList.some(c => !c.isChannel && c.other && c.other.uid === u.uid);
+      const online = isOnline(u);
+      return `<div class="cat-card" data-uid="${u.uid}">
+        <div class="avatar" style="${avatarStyle(u)}">${u.avatar ? '' : initials(u.nick)}</div>
+        <div class="fc-info"><div class="fc-nick">${escapeHtml(u.nick)}${u.isDev ? ' ⚙️' : ''}${u.isAI ? ' 🤖' : ''}</div>
+        <div class="fc-status ${online ? 'online' : ''}">${online ? 'онлайн' : 'оффлайн'}${u.status ? ' · ' + escapeHtml(u.status) : ''}</div></div>
+        <button class="add-btn ${chatExists ? 'added' : ''}" type="button" data-open="${u.uid}">${chatExists ? '✓ В чатах' : '+ Добавить'}</button>
+      </div>`;
+    }).join('');
+    body.querySelectorAll('.cat-card').forEach(card => card.addEventListener('click', e => {
+      if (e.target.closest('.add-btn')) return;
+      const u = allUsers.find(x => x.uid === card.dataset.uid); if (u) showUserProfile(u);
+    }));
+    body.querySelectorAll('.add-btn').forEach(b => b.addEventListener('click', async e => {
       e.stopPropagation();
-      const u = allUsers.find(x => x.uid === b.dataset.open);
-      if (!u) return;
+      const u = allUsers.find(x => x.uid === b.dataset.open); if (!u) return;
       const chatId = chatIdFor(currentUser.uid, u.uid);
       const snap = await getDoc(doc(db, 'chats', chatId));
       if (!snap.exists()) {
@@ -2190,177 +2247,57 @@ function showFriendsView() {
         toast(`Чат с ${u.nick} создан`);
       }
       setTimeout(() => openChat(u), 300);
-    });
-  });
-}
-
-function showUserProfile(u) {
-  removePageViews();
-  const p = document.createElement('div');
-  p.className = 'page-view';
-  const online = isOnline(u);
-  p.innerHTML = `<div style="max-width:640px;margin:0 auto">
-    <div class="profile-hero">
-      <div class="profile-avatar-xl" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
-      <div class="profile-name">
-        ${escapeHtml(u.nick)}
-        ${u.isDev?'<span class="profile-badge dev">⚙️ Разработчик</span>':''}
-        ${u.isAI?'<span class="profile-badge">🤖 AI</span>':''}
-      </div>
-      <div class="profile-status-line" style="${online?'':'color:var(--text-3)'}">${online?'онлайн':'оффлайн'}</div>
-      ${u.status ? `<div style="font-size:13.5px;color:var(--text);margin:4px 0 10px">💭 ${escapeHtml(u.status)}</div>` : ''}
-      ${u.bio ? `<div class="profile-bio">${escapeHtml(u.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="opacity:.5;font-style:italic">Нет описания</div>'}
-      <div class="profile-joined">📅 В Xtavgram с ${fmtDate(u.created)}</div>
-      <div class="profile-actions">
-        ${!u.isAI ? `<button class="btn-primary" id="profMsgBtn" type="button">💬 Написать</button>` : ''}
-        <button class="btn-secondary" id="profPostsBtn" type="button">📝 Посты</button>
-        <button class="btn-secondary" id="profCloseBtn" type="button">← Назад</button>
-      </div>
-    </div>
-  </div>`;
-  $('mainContent').appendChild(p);
-  const mb = $('profMsgBtn');
-  if (mb) mb.onclick = () => openChat(u);
-  $('profCloseBtn').onclick = () => removePageViews();
-  $('profPostsBtn').onclick = () => { postsFilter = 'user:' + u.uid; document.querySelectorAll('.nav-btn').forEach(x => x.classList.toggle('active', x.dataset.nav === 'posts')); showPostsView(); };
-}
-
-function showMyProfileView() {
-  removePageViews();
-  if (currentChat || currentChannel) closeChatView();
-  const u = currentUser;
-  const daysOnSite = u.created?.toDate
-    ? Math.max(1, Math.floor((Date.now() - u.created.toDate().getTime()) / 86400000))
-    : 1;
-  const p = document.createElement('div');
-  p.className = 'page-view';
-  p.innerHTML = `<div class="my-profile">
-    <div class="profile-hero">
-      <div class="profile-avatar-xl" style="${avatarStyle(u)}">${u.avatar?'':initials(u.nick)}</div>
-      <div class="profile-name">
-        ${escapeHtml(u.nick)}
-        ${u.isDev?'<span class="profile-badge dev">⚙️ Разработчик</span>':''}
-      </div>
-      <div class="profile-status-line">онлайн</div>
-      ${u.status ? `<div style="font-size:13.5px;color:var(--text);margin:4px 0 10px">💭 ${escapeHtml(u.status)}</div>` : ''}
-      ${u.bio ? `<div class="profile-bio">${escapeHtml(u.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="opacity:.5;font-style:italic">Добавь описание о себе ✏️</div>'}
-      <div class="profile-joined">📅 В Xtavgram с ${fmtDate(u.created)}</div>
-    </div>
-    <div class="profile-stats">
-      <div class="stat-card"><div class="stat-value">${chatList.length}</div><div class="stat-label">Чатов</div></div>
-      <div class="stat-card"><div class="stat-value">${daysOnSite}</div><div class="stat-label">Дней</div></div>
-      <div class="stat-card"><div class="stat-value">${allUsers.filter(x => x.uid !== u.uid).length}</div><div class="stat-label">Юзеров</div></div>
-    </div>
-    <div class="profile-section">
-      <div class="profile-section-title">Мои подарки</div>
-      <div class="profile-gifts">
-        ${(u.gifts && u.gifts.length > 0) ? u.gifts.map(g => `<div class="profile-gift-item" data-giftid="${g.id||g}" data-from="${g.from||''}" data-ts="${g.ts||''}"><span class="emoji">${GIFTS_DB[g.id||g]?.emoji || '🎁'}</span></div>`).join('') : '<span style="color:var(--text-3);font-size:13px;">У вас пока нет подарков</span>'}
-      </div>
-    </div>
-    ${u.isDev ? `
-    <div class="admin-panel">
-      <h3>👑 Панель разработчика</h3>
-      <div style="margin-bottom:15px;">
-        <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:5px;">Выдать Х пользователю</label>
-        <div class="admin-input-group">
-          <input type="text" id="adminCoinSearch" placeholder="Введите ник...">
-          <input type="number" id="adminCoinAmount" placeholder="Сумма" style="width:80px;">
-          <button id="adminGiveCoinsBtn" type="button">OK</button>
-        </div>
-        <div class="user-search-results" id="adminSearchResults"></div>
-        <button id="adminSelfCoinsBtn" class="btn-secondary" style="width:100%;padding:8px;font-size:12px;margin-top:5px;">Выдать себе 1000 X</button>
-      </div>
-      <div style="border-top:1px solid rgba(255,50,50,.3);padding-top:10px;">
-         <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:5px;">Выдать подарки себе</label>
-         <button id="adminSelfGiftBtn" class="btn-give-gift" style="width:100%;padding:10px;border-radius:10px;font-weight:bold;">Открыть меню подарков</button>
-      </div>
-    </div>
-    ` : ''}
-    <div class="profile-section">
-      <div class="profile-section-title">Информация</div>
-      <div class="profile-info-row"><span class="label">Никнейм:</span><span>${escapeHtml(u.nick)}</span></div>
-      <div class="profile-info-row"><span class="label">Биография:</span><span>${u.bio ? escapeHtml(u.bio) : '—'}</span></div>
-      <div class="profile-info-row"><span class="label">Аватар:</span><span>${u.avatar ? 'загружен ✓' : 'по умолчанию'}</span></div>
-    </div>
-    <div class="profile-section">
-      <div class="profile-section-title">XtavGram Universe</div>
-      <div class="xg-feature-grid">
-        <button class="xg-feature-card" id="xgOpenId" type="button"><span class="ico">🆔</span><b>XtavGram ID</b><small>Твой уникальный идентификатор</small></button>
-        <button class="xg-feature-card" id="xgOpenPremium" type="button"><span class="ico">👑</span><b>Premium</b><small>Эксклюзивные возможности</small></button>
-        <button class="xg-feature-card" id="xgOpenAI" type="button"><span class="ico">🤖</span><b>Xtav AI</b><small>Помощник внутри мессенджера</small></button>
-        <button class="xg-feature-card" id="xgOpenGifts" type="button"><span class="ico">🎁</span><b>Gifts 2.0</b><small>Коллекция и редкие подарки</small></button>
-      </div>
-    </div>
-    <div class="profile-actions">
-      <button class="btn-primary" id="btnEditMyProfile" type="button">✏️ Редактировать профиль</button>
-      <button class="btn-secondary" id="btnWallet" type="button">💰 Кошелёк</button>
-      <button class="btn-secondary" id="btnFavs" type="button">⭐ Избранное</button>
-    </div>
-  </div>`;
-  $('mainContent').appendChild(p);
-  $('btnEditMyProfile').onclick = openEditProfile;
-  $('btnWallet').onclick = openWallet;
-  $('btnFavs').onclick = openFavorites;
-  $('xgOpenId').onclick = () => showXtavIdPage();
-  $('xgOpenPremium').onclick = () => showXtavPremiumPage();
-  $('xgOpenAI').onclick = () => showXtavAIPage();
-  $('xgOpenGifts').onclick = () => showXtavGiftsPage();
-
-  p.querySelectorAll('.profile-gift-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const giftId = item.dataset.giftid;
-      const from = item.dataset.from;
-      const ts = item.dataset.ts;
-      openGiftDetail(giftId, from, ts);
-    });
-  });
-
-  if (u.isDev) {
-    $('adminSelfCoinsBtn').onclick = async () => {
-      const newBal = (currentUser.coins || 0) + 1000;
-      await updateDoc(doc(db, 'users', currentUser.uid), { coins: newBal });
-      currentUser.coins = newBal;
-      showMyProfileView();
-      toast('Выдано 1000 X ✓');
-    };
-    $('adminSelfGiftBtn').onclick = () => {
-      adminTarget = currentUser;
-      $('adminGiftTargetNick').textContent = currentUser.nick;
-      openModal('adminGiftModal');
-    };
-    const searchInp = $('adminCoinSearch');
-    const resDiv = $('adminSearchResults');
-    let selectedUid = null;
-    searchInp.oninput = () => {
-      const q = searchInp.value.toLowerCase().trim();
-      if (!q) { resDiv.style.display = 'none'; return; }
-      const found = allUsers.filter(user => user.nick.toLowerCase().includes(q)).slice(0, 5);
-      if (found.length === 0) {
-        resDiv.innerHTML = '<div style="padding:10px;color:var(--text-3);font-size:13px;">Никого не найдено</div>';
-      } else {
-        resDiv.innerHTML = found.map(user => `<div class="user-search-item" data-uid="${user.uid}"><span>${escapeHtml(user.nick)}</span><span style="font-size:12px;color:var(--text-3)">${user.coins||0} X</span></div>`).join('');
-        resDiv.querySelectorAll('.user-search-item').forEach(el => {
-          el.onclick = () => {
-            selectedUid = el.dataset.uid;
-            searchInp.value = allUsers.find(u=>u.uid===selectedUid).nick;
-            resDiv.style.display = 'none';
-          };
-        });
-      }
-      resDiv.style.display = 'block';
-    };
-    $('adminGiveCoinsBtn').onclick = async () => {
-      const amount = parseInt($('adminCoinAmount').value);
-      if (!selectedUid || isNaN(amount) || amount <= 0) { toast('Выберите юзера и сумму'); return; }
-      const targetUser = allUsers.find(u => u.uid === selectedUid);
-      if (!targetUser) return;
-      const newBal = (targetUser.coins || 0) + amount;
-      await updateDoc(doc(db, 'users', selectedUid), { coins: newBal });
-      toast(`Выдано ${amount} X для ${targetUser.nick}`);
-      searchInp.value = '';
-      $('adminCoinAmount').value = '';
-      selectedUid = null;
-    };
+    }));
+  } else if (tab === 'channels') {
+    body.innerHTML = '<div class="placeholder-empty"><span class="em">📢</span>Поиск...</div>';
+    try {
+      if (!searchChannelsCache) { const snap = await getDocs(collection(db, 'channels')); searchChannelsCache = snap.docs.map(d => ({ id: d.id, ...d.data() })); }
+      if (stale()) return;
+      const list = searchChannelsCache.filter(ch => (ch.name || '').toLowerCase().includes(q)).sort((a, b) => rank(a.name) - rank(b.name)).slice(0, 50);
+      if (!list.length) { body.innerHTML = empty; return; }
+      body.innerHTML = list.map(ch => {
+        const isMember = (ch.members || []).includes(currentUser.uid);
+        return `<div class="cat-card" data-ch="${ch.id}">
+          <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af);font-size:22px">📢</div>
+          <div class="fc-info"><div class="fc-nick">${escapeHtml(ch.name || '')}</div><div class="fc-status">${(ch.members || []).length} участников</div></div>
+          <button class="add-btn ${isMember ? 'added' : ''}" type="button">${isMember ? 'Открыть' : 'Вступить'}</button></div>`;
+      }).join('');
+      body.querySelectorAll('[data-ch]').forEach(card => card.addEventListener('click', () => {
+        const ch = list.find(x => x.id === card.dataset.ch); if (ch) joinAndOpenChannel(ch);
+      }));
+    } catch (e) { body.innerHTML = '<div class="placeholder-empty">Не удалось загрузить каналы</div>'; }
+  } else if (tab === 'chats') {
+    const list = chatList.filter(c => {
+      const name = c.isChannel ? c.channel.name : (c.other && c.other.nick);
+      const last = c.last && c.last.text ? c.last.text : '';
+      return (name || '').toLowerCase().includes(q) || last.toLowerCase().includes(q);
+    }).slice(0, 50);
+    if (!list.length) { body.innerHTML = empty; return; }
+    body.innerHTML = list.map((c, i) => {
+      const name = c.isChannel ? c.channel.name : c.other.nick;
+      const av = c.isChannel ? '<div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af);font-size:22px">📢</div>'
+        : `<div class="avatar" style="${avatarStyle(c.other)}">${c.other.avatar ? '' : initials(c.other.nick)}</div>`;
+      return `<div class="cat-card" data-ci="${i}">${av}<div class="fc-info"><div class="fc-nick">${escapeHtml(name || '')}</div><div class="fc-status">${c.last ? escapeHtml(c.last.text || '📎 вложение') : 'Нет сообщений'}</div></div></div>`;
+    }).join('');
+    body.querySelectorAll('[data-ci]').forEach(card => card.addEventListener('click', () => {
+      const c = list[+card.dataset.ci];
+      document.querySelectorAll('.nav-btn').forEach(x => x.classList.toggle('active', x.dataset.nav === 'chats'));
+      if (c.isChannel) openChannel(c.channel); else openChat(allUsers.find(u => u.uid === c.other.uid) || c.other);
+    }));
+  } else if (tab === 'posts') {
+    body.innerHTML = '<div class="placeholder-empty"><span class="em">📝</span>Поиск...</div>';
+    try {
+      if (!searchPostsCache) { const snap = await getDocs(query(collection(db, 'posts'), orderBy('ts', 'desc'), limit(200))); searchPostsCache = snap.docs.map(d => ({ id: d.id, ...d.data() })); }
+      if (stale()) return;
+      const list = searchPostsCache.filter(x => (x.text || '').toLowerCase().includes(q) || (x.nick || '').toLowerCase().includes(q)).slice(0, 30);
+      if (!list.length) { body.innerHTML = empty; return; }
+      body.innerHTML = list.map(x => `<div class="cat-card" data-pu="${escapeHtml(x.uid || '')}"><div class="fc-info"><div class="fc-nick">${escapeHtml(x.nick || '?')}</div><div class="fc-status" style="white-space:normal">${escapeHtml((x.text || '').slice(0, 120))}</div></div></div>`).join('');
+      body.querySelectorAll('[data-pu]').forEach(card => card.addEventListener('click', () => {
+        postsFilter = 'user:' + card.dataset.pu;
+        document.querySelectorAll('.nav-btn').forEach(x => x.classList.toggle('active', x.dataset.nav === 'posts'));
+        showPostsView();
+      }));
+    } catch (e) { body.innerHTML = '<div class="placeholder-empty">Не удалось загрузить посты</div>'; }
   }
 }
 
@@ -3141,6 +3078,351 @@ function logout() {
   // После выхода можно будет зарегистрировать новый профиль
 }
 
+/* ===== ПРОФИЛИ В СТИЛЕ TELEGRAM ===== */
+const BANNERS = [
+  { id: 'night', name: 'Ночь', css: 'linear-gradient(135deg,#0f0f0f,#2f2f2f)', price: 0 },
+  { id: 'graphite', name: 'Графит', css: 'linear-gradient(135deg,#232526,#4b4f52)', price: 0 },
+  { id: 'ocean', name: 'Океан', css: 'linear-gradient(135deg,#0f2027,#2c5364)', price: 0 },
+  { id: 'sunset', name: 'Закат', css: 'linear-gradient(135deg,#ff512f,#dd2476)', price: 30 },
+  { id: 'aurora', name: 'Аврора', css: 'linear-gradient(135deg,#00c9ff,#92fe9d)', price: 30 },
+  { id: 'violet', name: 'Фиалка', css: 'linear-gradient(135deg,#5f2c82,#49a09d)', price: 30 },
+  { id: 'gold', name: 'Золото', css: 'linear-gradient(135deg,#bf953f,#fcf6ba,#b38728)', price: 60 },
+  { id: 'neon', name: 'Неон', css: 'linear-gradient(135deg,#f953c6,#b91d73,#3a1c71)', price: 60 }
+];
+const RINGS = [
+  { id: 'none', name: 'Без обводки', css: '', color: '', price: 0 },
+  { id: 'white', name: 'Белая', css: '#ffffff', color: '#ffffff', price: 0 },
+  { id: 'green', name: 'Зелёная', css: '#22c55e', color: '#22c55e', price: 20 },
+  { id: 'blue', name: 'Синяя', css: '#3b82f6', color: '#3b82f6', price: 20 },
+  { id: 'purple', name: 'Фиолетовая', css: '#a855f7', color: '#a855f7', price: 40 },
+  { id: 'gold', name: 'Золотая', css: 'linear-gradient(135deg,#bf953f,#fcf6ba,#b38728)', color: '#facc15', price: 60 },
+  { id: 'fire', name: 'Огонь', css: 'linear-gradient(135deg,#f12711,#f5af19)', color: '#f5af19', price: 80 },
+  { id: 'rainbow', name: 'Радуга', css: 'conic-gradient(from 0deg,#ff0080,#ff8c00,#ffe600,#22c55e,#00b4ff,#a855f7,#ff0080)', color: '#f97316', price: 100 }
+];
+const USERNAME_PRICE = 100, MAX_USERNAMES = 3, CUSTOM_BANNER_PRICE = 100;
+let profileCtx = null, profileTab = 'gifts', profilePosts = null, profilePostsUid = null, styleTab = 'banners';
+
+function bannerCss(u) {
+  const b = u && u.banner;
+  if (b && b.startsWith('u:') && /^https?:\/\/[^\s"'<>()]+$/.test(b.slice(2))) return `url('${b.slice(2)}') center/cover no-repeat, #111`;
+  return (BANNERS.find(x => x.id === b) || BANNERS[0]).css;
+}
+function ringOf(u) { return RINGS.find(r => r.id === (u && u.ring)) || RINGS[0]; }
+function userMatches(u, q) {
+  q = (q || '').toLowerCase().replace(/^@/, '');
+  if (!q) return false;
+  return (u.nick || '').toLowerCase().includes(q) || (u.usernames || []).some(n => n.includes(q));
+}
+
+function showUserProfile(u) {
+  if (currentUser && u.uid === currentUser.uid) { showMyProfileView(); return; }
+  renderTgProfile(u, false);
+}
+function showMyProfileView() { renderTgProfile(currentUser, true); }
+function refreshMyProfile() {
+  if (document.getElementById('tgProfile') && profileCtx && profileCtx.isMe) renderTgProfile(currentUser, true);
+}
+
+function adminPanelHtml() {
+  return `<div class="admin-panel">
+    <h3>👑 Панель разработчика</h3>
+    <div style="margin-bottom:15px;">
+      <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:5px;">Выдать Х пользователю</label>
+      <div class="admin-input-group">
+        <input type="text" id="adminCoinSearch" placeholder="Введите ник...">
+        <input type="number" id="adminCoinAmount" placeholder="Сумма" style="width:80px;">
+        <button id="adminGiveCoinsBtn" type="button">OK</button>
+      </div>
+      <div class="user-search-results" id="adminSearchResults"></div>
+      <button id="adminSelfCoinsBtn" class="btn-secondary" style="width:100%;padding:8px;font-size:12px;margin-top:5px;">Выдать себе 1000 X</button>
+    </div>
+    <div style="border-top:1px solid rgba(255,50,50,.3);padding-top:10px;">
+      <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:5px;">Выдать подарки себе</label>
+      <button id="adminSelfGiftBtn" class="btn-give-gift" style="width:100%;padding:10px;border-radius:10px;font-weight:bold;">Открыть меню подарков</button>
+    </div>
+  </div>`;
+}
+function bindAdminPanel() {
+  $('adminSelfCoinsBtn').onclick = async () => {
+    const newBal = (currentUser.coins || 0) + 1000;
+    await updateDoc(doc(db, 'users', currentUser.uid), { coins: newBal });
+    currentUser.coins = newBal;
+    showMyProfileView();
+    toast('Выдано 1000 X ✓');
+  };
+  $('adminSelfGiftBtn').onclick = () => {
+    adminTarget = currentUser;
+    $('adminGiftTargetNick').textContent = currentUser.nick;
+    openModal('adminGiftModal');
+  };
+  const searchInp = $('adminCoinSearch');
+  const resDiv = $('adminSearchResults');
+  let selectedUid = null;
+  searchInp.oninput = () => {
+    const q = searchInp.value.toLowerCase().trim();
+    if (!q) { resDiv.style.display = 'none'; return; }
+    const found = allUsers.filter(user => user.nick.toLowerCase().includes(q)).slice(0, 5);
+    if (found.length === 0) {
+      resDiv.innerHTML = '<div style="padding:10px;color:var(--text-3);font-size:13px;">Никого не найдено</div>';
+    } else {
+      resDiv.innerHTML = found.map(user => `<div class="user-search-item" data-uid="${user.uid}"><span>${escapeHtml(user.nick)}</span><span style="font-size:12px;color:var(--text-3)">${user.coins||0} X</span></div>`).join('');
+      resDiv.querySelectorAll('.user-search-item').forEach(el => {
+        el.onclick = () => {
+          selectedUid = el.dataset.uid;
+          searchInp.value = allUsers.find(x => x.uid === selectedUid).nick;
+          resDiv.style.display = 'none';
+        };
+      });
+    }
+    resDiv.style.display = 'block';
+  };
+  $('adminGiveCoinsBtn').onclick = async () => {
+    const amount = parseInt($('adminCoinAmount').value);
+    if (!selectedUid || isNaN(amount) || amount <= 0) { toast('Выберите юзера и сумму'); return; }
+    const targetUser = allUsers.find(x => x.uid === selectedUid);
+    if (!targetUser) return;
+    await updateDoc(doc(db, 'users', selectedUid), { coins: (targetUser.coins || 0) + amount });
+    toast(`Выдано ${amount} X для ${targetUser.nick}`);
+    searchInp.value = ''; $('adminCoinAmount').value = ''; selectedUid = null;
+  };
+}
+
+function renderTgProfile(u, isMe) {
+  removePageViews();
+  if (isMe && (currentChat || currentChannel)) closeChatView();
+  if (!profileCtx || profileCtx.u.uid !== u.uid) { profileTab = 'gifts'; profilePosts = null; profilePostsUid = null; }
+  profileCtx = { u, isMe };
+  const ring = ringOf(u);
+  const online = isMe ? true : isOnline(u);
+  const names = u.usernames || [];
+  const giftsN = (u.gifts || []).length;
+  const p = document.createElement('div');
+  p.className = 'page-view';
+  const tabs = [['gifts', `🎁 Подарки <span class="count">${giftsN}</span>`], ['posts', '📝 Посты'], ['info', 'ℹ️ Инфо']];
+  if (isMe) tabs.push(['more', '⚙️ Ещё']);
+  p.innerHTML = `<div class="tg-profile" id="tgProfile">
+    <div class="tg-banner" style="background:${bannerCss(u)}">
+      ${isMe ? '<button class="tg-banner-btn right" id="tgStyleBtn" type="button" title="Оформление">🎨</button>' : '<button class="tg-banner-btn left" id="tgBackBtn" type="button" title="Назад">←</button>'}
+    </div>
+    <div class="tg-head">
+      <div class="tg-avatar-wrap" style="${ring.css ? 'background:' + ring.css : 'background:var(--bg)'}">
+        <div class="tg-avatar" style="${avatarStyle(u, true)}">${u.avatar ? '' : initials(u.nick)}</div>
+      </div>
+      <div class="profile-name" style="font-size:25px;margin-bottom:4px">${escapeHtml(u.nick)}
+        ${u.isDev ? '<span class="profile-badge dev">⚙️ Разработчик</span>' : ''}${u.isAI ? '<span class="profile-badge">🤖 AI</span>' : ''}
+      </div>
+      <div class="profile-status-line" style="${online ? '' : 'color:var(--text-3)'}">${online ? 'онлайн' : 'оффлайн'}</div>
+      ${u.status ? `<div style="font-size:13.5px;margin:6px 0 2px">💭 ${escapeHtml(u.status)}</div>` : ''}
+      <div class="tg-usernames">
+        ${names.map(n => `<button type="button" class="tg-uname" data-un="${escapeHtml(n)}">@${escapeHtml(n)}</button>`).join('')}
+        ${isMe && names.length < MAX_USERNAMES ? '<button type="button" class="tg-uname add" id="tgAddUname">+ юзернейм</button>' : ''}
+      </div>
+      ${u.bio ? `<div class="profile-bio" style="margin-bottom:6px">${escapeHtml(u.bio).replace(/\n/g, '<br>')}</div>` : (isMe ? '<div class="profile-bio" style="opacity:.5;font-style:italic;margin-bottom:6px">Добавь описание о себе ✏️</div>' : '')}
+      <div class="tg-actions">
+        ${isMe ? '<button class="btn-primary" id="tgEditBtn" type="button">✏️ Изменить</button><button class="btn-secondary" id="tgStyle2Btn" type="button">🎨 Оформление</button><button class="btn-secondary" id="tgWalletBtn" type="button">💰 Кошелёк</button>'
+          : `${!u.isAI ? '<button class="btn-primary" id="tgMsgBtn" type="button">💬 Написать</button><button class="btn-secondary" id="tgGiftBtn" type="button">🎁 Подарить</button>' : ''}`}
+      </div>
+    </div>
+    <div class="xg-filters" id="tgTabs" style="margin-top:14px">${tabs.map(t => `<button type="button" class="chat-tab" data-pt="${t[0]}">${t[1]}</button>`).join('')}</div>
+    <div id="tgBody"></div>
+  </div>`;
+  $('mainContent').appendChild(p);
+  if (!tabs.some(t => t[0] === profileTab)) profileTab = 'gifts';
+  p.querySelectorAll('[data-pt]').forEach(b => b.onclick = () => { profileTab = b.dataset.pt; renderProfileTabBody(); });
+  p.querySelectorAll('[data-un]').forEach(b => b.onclick = () => copyText('@' + b.dataset.un));
+  $('tgBackBtn')?.addEventListener('click', () => removePageViews());
+  $('tgMsgBtn')?.addEventListener('click', () => openChat(u));
+  $('tgGiftBtn')?.addEventListener('click', () => openGiftStore(u));
+  $('tgEditBtn')?.addEventListener('click', openEditProfile);
+  $('tgStyleBtn')?.addEventListener('click', () => openStyleModal());
+  $('tgStyle2Btn')?.addEventListener('click', () => openStyleModal());
+  $('tgAddUname')?.addEventListener('click', () => openStyleModal('usernames'));
+  $('tgWalletBtn')?.addEventListener('click', openWallet);
+  renderProfileTabBody();
+}
+
+async function loadProfilePosts(uid) {
+  const snap = await getDocs(query(collection(db, 'posts'), orderBy('ts', 'desc'), limit(200)));
+  return snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => x.uid === uid);
+}
+window.addEventListener('xg-post-removed', e => {
+  if (profilePosts) {
+    profilePosts = profilePosts.filter(x => x.id !== e.detail);
+    if (document.getElementById('tgBody') && profileTab === 'posts') renderProfileTabBody();
+  }
+});
+
+async function renderProfileTabBody() {
+  const body = $('tgBody');
+  if (!body || !profileCtx) return;
+  const { u, isMe } = profileCtx;
+  document.querySelectorAll('#tgTabs [data-pt]').forEach(b => b.classList.toggle('active', b.dataset.pt === profileTab));
+  if (profileTab === 'gifts') {
+    const gifts = u.gifts || [];
+    if (!gifts.length) { body.innerHTML = `<div class="placeholder-empty"><span class="em">🎁</span>${isMe ? 'У тебя пока нет подарков' : 'Пока нет подарков'}</div>`; return; }
+    body.innerHTML = `<div class="tg-gifts">${gifts.map((g, i) => {
+      const id = g.id || g, def = GIFTS_DB[id];
+      return `<div class="tg-gift" data-gi="${i}"><span class="ge">${def ? def.emoji : '🎁'}</span><b>${def ? def.name : 'Подарок'}</b><small>${g.from ? 'от ' + escapeHtml(g.from) : ''}</small></div>`;
+    }).join('')}</div>`;
+    if (isMe) body.querySelectorAll('[data-gi]').forEach(el => el.onclick = () => {
+      const g = gifts[+el.dataset.gi];
+      openGiftDetail(g.id || g, g.from, g.ts);
+    });
+  } else if (profileTab === 'posts') {
+    if (profilePosts === null || profilePostsUid !== u.uid) {
+      body.innerHTML = '<div class="placeholder-empty"><span class="em">📝</span>Загрузка...</div>';
+      try { profilePosts = await loadProfilePosts(u.uid); profilePostsUid = u.uid; }
+      catch (e) { body.innerHTML = '<div class="placeholder-empty">Не удалось загрузить посты</div>'; return; }
+      if (profileTab !== 'posts' || !document.body.contains(body)) return;
+    }
+    if (!profilePosts.length) { body.innerHTML = '<div class="placeholder-empty"><span class="em">📝</span>Постов пока нет</div>'; return; }
+    body.innerHTML = profilePosts.map(postCardHtml).join('');
+    body.querySelectorAll('[data-like]').forEach(b => b.onclick = async () => {
+      const x = profilePosts.find(y => y.id === b.dataset.like); if (!x) return;
+      const has = (x.likes || []).includes(currentUser.uid);
+      await togglePostLike(x);
+      x.likes = has ? (x.likes || []).filter(i => i !== currentUser.uid) : [...(x.likes || []), currentUser.uid];
+      renderProfileTabBody();
+    });
+    body.querySelectorAll('[data-comment]').forEach(b => b.onclick = () => { const x = profilePosts.find(y => y.id === b.dataset.comment); if (x) openComments(x); });
+    body.querySelectorAll('[data-share]').forEach(b => b.onclick = () => {
+      const x = profilePosts.find(y => y.id === b.dataset.share); if (!x) return;
+      forwardMessage = { type: 'text', text: `📝 Пост от ${x.nick || 'игрока'}:\n${x.text || ''}${x.image ? '\n' + x.image : ''}`, _fromNick: x.nick || 'игрок' };
+      openForwardList();
+    });
+    body.querySelectorAll('[data-more]').forEach(b => b.onclick = e => { e.stopPropagation(); const x = profilePosts.find(y => y.id === b.dataset.more); if (x) showPostMenu(b, x); });
+  } else if (profileTab === 'info') {
+    const days = u.created?.toDate ? Math.max(1, Math.floor((Date.now() - u.created.toDate().getTime()) / 86400000)) : 1;
+    const names = u.usernames || [];
+    body.innerHTML = `<div class="profile-section">
+      <div class="profile-info-row"><span class="label">Никнейм:</span><span>${escapeHtml(u.nick)}</span></div>
+      <div class="profile-info-row"><span class="label">Юзернеймы:</span><span>${names.length ? names.map(n => '@' + escapeHtml(n)).join(', ') : '—'}</span></div>
+      <div class="profile-info-row"><span class="label">XtavGram ID:</span><span>${getXtavId(u)}</span></div>
+      <div class="profile-info-row"><span class="label">В Xtavgram с:</span><span>${fmtDate(u.created)}</span></div>
+      <div class="profile-info-row"><span class="label">Дней:</span><span>${days}</span></div>
+      <div class="profile-info-row"><span class="label">Подарков:</span><span>${(u.gifts || []).length}</span></div>
+      ${isMe ? `<div class="profile-info-row"><span class="label">Баланс:</span><span>${u.coins || 0} X</span></div><div class="profile-info-row"><span class="label">Чатов:</span><span>${chatList.length}</span></div>` : ''}
+    </div>`;
+  } else if (profileTab === 'more' && isMe) {
+    body.innerHTML = `<div class="profile-section">
+      <div class="profile-section-title">XtavGram Universe</div>
+      <div class="xg-feature-grid">
+        <button class="xg-feature-card" id="xgOpenId" type="button"><span class="ico">🆔</span><b>XtavGram ID</b><small>Твой уникальный идентификатор</small></button>
+        <button class="xg-feature-card" id="xgOpenPremium" type="button"><span class="ico">👑</span><b>Premium</b><small>Эксклюзивные возможности</small></button>
+        <button class="xg-feature-card" id="xgOpenAI" type="button"><span class="ico">🤖</span><b>Xtav AI</b><small>Помощник внутри мессенджера</small></button>
+        <button class="xg-feature-card" id="xgOpenGifts" type="button"><span class="ico">🎁</span><b>Gifts 2.0</b><small>Коллекция и редкие подарки</small></button>
+      </div>
+      <button class="btn-secondary" id="tgFavBtn" type="button" style="width:100%;margin-top:4px">⭐ Избранное</button>
+    </div>
+    ${u.isDev ? adminPanelHtml() : ''}`;
+    $('xgOpenId').onclick = () => showXtavIdPage();
+    $('xgOpenPremium').onclick = () => showXtavPremiumPage();
+    $('xgOpenAI').onclick = () => showXtavAIPage();
+    $('xgOpenGifts').onclick = () => showXtavGiftsPage();
+    $('tgFavBtn').onclick = openFavorites;
+    if (u.isDev) bindAdminPanel();
+  }
+}
+
+/* --- магазин оформления --- */
+function ownedSet(kind) {
+  const list = kind === 'banner' ? BANNERS : RINGS;
+  const own = (kind === 'banner' ? currentUser.ownBanners : currentUser.ownRings) || [];
+  return new Set(currentUser.isDev ? list.map(x => x.id) : [...list.filter(x => !x.price).map(x => x.id), ...own]);
+}
+function openStyleModal(tab) {
+  if (tab) styleTab = tab;
+  renderStyleModal();
+  openModal('styleModal');
+}
+function renderStyleModal() {
+  const body = $('styleBody'); if (!body) return;
+  const u = currentUser;
+  const tabs = [['banners', '🖼 Баннеры'], ['rings', '⭕ Обводки'], ['usernames', '@ Юзернеймы']];
+  let html = `<div class="xg-filters" style="padding-bottom:8px">${tabs.map(t => `<button type="button" class="chat-tab ${styleTab === t[0] ? 'active' : ''}" data-st="${t[0]}">${t[1]}</button>`).join('')}</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:10px">Баланс: <b>${u.coins || 0} X</b>${u.isDev ? ' · для разработчика бесплатно' : ''}</div>`;
+  if (styleTab === 'banners') {
+    const own = ownedSet('banner');
+    html += `<div class="shop-grid">${BANNERS.map(b => {
+      const cur = (u.banner || 'night') === b.id;
+      return `<div class="shop-tile ${cur ? 'current' : ''}" data-sb="${b.id}"><div class="shop-prev" style="background:${b.css}"></div><b>${b.name}</b><small>${cur ? '✓ Выбран' : own.has(b.id) ? 'Есть' : b.price + ' X'}</small></div>`;
+    }).join('')}</div>
+    <div class="cat-section-title">Свой баннер (картинка по ссылке)</div>
+    <input type="text" id="styleBannerUrl" placeholder="https://..." style="margin-bottom:8px">
+    <button class="btn-primary" id="styleBannerSet" type="button" style="width:100%">${u.customBanner || u.isDev ? 'Установить' : 'Купить и установить · ' + CUSTOM_BANNER_PRICE + ' X'}</button>`;
+  } else if (styleTab === 'rings') {
+    const own = ownedSet('ring');
+    html += `<div class="shop-grid">${RINGS.map(r => {
+      const cur = (u.ring || 'none') === r.id;
+      return `<div class="shop-tile ${cur ? 'current' : ''}" data-sr="${r.id}"><div class="shop-ring" style="${r.css ? 'background:' + r.css : 'background:var(--bg-4)'}"><div class="shop-ring-in"></div></div><b>${r.name}</b><small>${cur ? '✓ Выбрана' : own.has(r.id) ? 'Есть' : r.price + ' X'}</small></div>`;
+    }).join('')}</div>`;
+  } else {
+    const names = u.usernames || [];
+    html += `<p style="font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:10px">Дополнительные юзернеймы — по ним тебя можно найти в поиске. Цена: ${USERNAME_PRICE} X за штуку, максимум ${MAX_USERNAMES}.</p>
+      ${names.map(n => `<div class="fav-item" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><b>@${escapeHtml(n)}</b><button type="button" data-ud="${escapeHtml(n)}" style="border:1px solid var(--border);background:transparent;color:#ff5555;border-radius:10px;padding:5px 10px;font-size:12px">Удалить</button></div>`).join('')}
+      ${names.length < MAX_USERNAMES ? `<input type="text" id="styleUname" placeholder="новый_юзернейм" maxlength="20" autocomplete="off" style="margin:8px 0">
+      <button class="btn-primary" id="styleUnameBuy" type="button" style="width:100%">Купить · ${u.isDev ? 'бесплатно' : USERNAME_PRICE + ' X'}</button>
+      <p style="font-size:11px;color:var(--text-3);margin-top:8px">Латиница, цифры и _, от 4 до 20 символов, начинается с буквы.</p>` : '<p style="font-size:13px;color:var(--text-3)">Лимит юзернеймов достигнут.</p>'}`;
+  }
+  body.innerHTML = html;
+  body.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { styleTab = b.dataset.st; renderStyleModal(); });
+  body.querySelectorAll('[data-sb]').forEach(el => el.onclick = () => pickBanner(el.dataset.sb));
+  body.querySelectorAll('[data-sr]').forEach(el => el.onclick = () => pickRing(el.dataset.sr));
+  body.querySelectorAll('[data-ud]').forEach(el => el.onclick = () => removeUsername(el.dataset.ud));
+  $('styleBannerSet')?.addEventListener('click', setCustomBanner);
+  $('styleUnameBuy')?.addEventListener('click', buyUsername);
+}
+async function commitStyle(fields, localFn, cost, msg) {
+  const bal = currentUser.coins || 0;
+  if (cost > bal) { toast('Недостаточно X!'); return false; }
+  try {
+    const data = { ...fields };
+    if (cost > 0) data.coins = bal - cost;
+    await updateDoc(doc(db, 'users', currentUser.uid), data);
+    if (cost > 0) currentUser.coins = bal - cost;
+    localFn();
+    toast(msg);
+    renderStyleModal();
+    refreshMyProfile();
+    return true;
+  } catch (e) { console.error(e); toast('Ошибка'); return false; }
+}
+async function pickBanner(id) {
+  const it = BANNERS.find(x => x.id === id); if (!it) return;
+  if (ownedSet('banner').has(id)) { await commitStyle({ banner: id }, () => { currentUser.banner = id; }, 0, 'Баннер применён'); return; }
+  if (!confirm(`Купить баннер «${it.name}» за ${it.price} X?`)) return;
+  await commitStyle({ banner: id, ownBanners: arrayUnion(id) }, () => { currentUser.banner = id; currentUser.ownBanners = [...(currentUser.ownBanners || []), id]; }, it.price, 'Куплено ✓');
+}
+async function pickRing(id) {
+  const it = RINGS.find(x => x.id === id); if (!it) return;
+  if (ownedSet('ring').has(id)) { await commitStyle({ ring: id }, () => { currentUser.ring = id; }, 0, 'Обводка применена'); return; }
+  if (!confirm(`Купить обводку «${it.name}» за ${it.price} X?`)) return;
+  await commitStyle({ ring: id, ownRings: arrayUnion(id) }, () => { currentUser.ring = id; currentUser.ownRings = [...(currentUser.ownRings || []), id]; }, it.price, 'Куплено ✓');
+}
+async function setCustomBanner() {
+  const url = ($('styleBannerUrl').value || '').trim();
+  if (!/^https?:\/\/[^\s"'<>()]+$/.test(url)) { toast('Нужна ссылка http(s) без пробелов и скобок'); return; }
+  const free = currentUser.customBanner || currentUser.isDev;
+  const cost = free ? 0 : CUSTOM_BANNER_PRICE;
+  if (cost && !confirm(`Свой баннер стоит ${cost} X. Купить?`)) return;
+  await commitStyle({ banner: 'u:' + url, customBanner: true }, () => { currentUser.banner = 'u:' + url; currentUser.customBanner = true; }, cost, 'Баннер установлен ✓');
+}
+async function buyUsername() {
+  const raw = ($('styleUname').value || '').trim().toLowerCase().replace(/^@/, '');
+  const names = currentUser.usernames || [];
+  if (names.length >= MAX_USERNAMES) { toast('Лимит юзернеймов'); return; }
+  if (!/^[a-z][a-z0-9_]{3,19}$/.test(raw)) { toast('Латиница, цифры, _ · 4–20 символов · с буквы'); return; }
+  const taken = allUsers.some(x => (x.nick || '').toLowerCase() === raw || (x.usernames || []).includes(raw));
+  if (taken) { toast('Юзернейм занят'); return; }
+  const cost = currentUser.isDev ? 0 : USERNAME_PRICE;
+  if (cost && !confirm(`Купить @${raw} за ${cost} X?`)) return;
+  await commitStyle({ usernames: arrayUnion(raw) }, () => { currentUser.usernames = [...names, raw]; }, cost, `@${raw} твой ✓`);
+}
+async function removeUsername(n) {
+  if (!confirm(`Удалить @${n}? Деньги не возвращаются.`)) return;
+  await commitStyle({ usernames: arrayRemove(n) }, () => { currentUser.usernames = (currentUser.usernames || []).filter(x => x !== n); }, 0, 'Удалён');
+}
+
 /* ===== XG EXTRAS: посты, каталог, избранное, кошелёк и т.д. ===== */
 let unsubPosts = null;
 let postsFilter = 'all';
@@ -3441,7 +3723,7 @@ function showPostMenu(btn, post) {
   });
   if (post.uid === currentUser.uid || currentUser.isDev) add('🗑 Удалить', async () => {
     if (!confirm('Удалить пост?')) return;
-    try { await deleteDoc(doc(db, 'posts', post.id)); toast('Удалено'); } catch (e) { toast('Ошибка'); }
+    try { await deleteDoc(doc(db, 'posts', post.id)); window.dispatchEvent(new CustomEvent('xg-post-removed', { detail: post.id })); toast('Удалено'); } catch (e) { toast('Ошибка'); }
   }, true);
   document.body.appendChild(menu);
   const closeAll = e => { if (!e.target.closest('.chat-menu-popup')) { menu.remove(); document.removeEventListener('click', closeAll); } };
@@ -3564,7 +3846,7 @@ function bindUserCards(body) {
 }
 function renderCatalogPlayers(body) {
   const q = catalogQuery.toLowerCase();
-  let list = allUsers.filter(u => !u.isAI && u.uid !== currentUser.uid && (u.nick || '').toLowerCase().includes(q));
+  let list = allUsers.filter(u => !u.isAI && u.uid !== currentUser.uid && (!q || userMatches(u, q)));
   if (catalogSort === 'online') list.sort((a, b) => (isOnline(b) ? 1 : 0) - (isOnline(a) ? 1 : 0) || (a.nick || '').localeCompare(b.nick || ''));
   else if (catalogSort === 'new') list.sort((a, b) => createdMs(b) - createdMs(a));
   else if (catalogSort === 'gifts') list.sort((a, b) => giftsCount(b) - giftsCount(a));

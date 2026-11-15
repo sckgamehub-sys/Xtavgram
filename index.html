@@ -2376,9 +2376,74 @@ function bindNav() {
       if (n === 'chats') { closeChatView(); removePageViews(); showChatsView(); }
       else if (n === 'friends') showFriendsView();
       else if (n === 'profile') showMyProfileView();
-      else if (n === 'settings') openModal('settingsModal');
+      else if (n === 'settings') showSettingsPage();
     });
   });
+}
+
+function showSettingsPage() {
+  removePageViews();
+  if (currentChat || currentChannel) closeChatView();
+  $('bottomNav').classList.remove('hide');
+  $('mainContent').classList.remove('no-nav');
+  const page = document.createElement('div');
+  page.className = 'page-view';
+  page.innerHTML = `<div class="xg-page">
+    <div class="xg-page-head"><button class="xg-back" type="button" aria-label="Назад">‹</button><h2>Настройки</h2></div>
+    <div class="profile-section" style="margin-top:8px">
+      <div class="profile-section-title">Внешний вид</div>
+      <button class="settings-item" data-setting="theme" type="button"><span>🌗 Тема оформления</span><span class="arrow" id="settingsThemeValue">›</span></button>
+      <button class="settings-item" data-setting="bubble" type="button"><span>💬 Цвет сообщений</span><span class="arrow">›</span></button>
+    </div>
+    <div class="profile-section" style="margin-top:14px">
+      <div class="profile-section-title">Приложение</div>
+      <button class="settings-item" data-setting="notif" type="button"><span>🔔 Уведомления</span><span class="arrow" id="settingsNotifValue">›</span></button>
+      <button class="settings-item" data-setting="channels" type="button"><span>📢 Каналы</span><span class="arrow">›</span></button>
+    </div>
+    <div class="profile-section" style="margin-top:14px">
+      <div class="profile-section-title">Информация</div>
+      <button class="settings-item" data-setting="terms" type="button"><span>📄 Пользовательское соглашение</span><span class="arrow">›</span></button>
+      <button class="settings-item" data-setting="privacy" type="button"><span>🔒 Политика конфиденциальности</span><span class="arrow">›</span></button>
+    </div>
+    <div class="profile-section" style="margin-top:14px">
+      <div class="profile-section-title">Аккаунт</div>
+      <button class="settings-item" data-setting="reset" type="button"><span>🧹 Сбросить настройки приложения</span><span class="arrow">›</span></button>
+      <button class="settings-item" data-setting="logout" type="button"><span>🚪 Выйти из аккаунта</span><span class="arrow">›</span></button>
+    </div>
+    <p style="text-align:center;color:var(--text-3);font-size:11px;margin:22px 0 8px">XtavGram · Настройки приложения</p>
+  </div>`;
+  $('mainContent').appendChild(page);
+  page.querySelector('.xg-back').onclick = () => { document.querySelector('.nav-btn[data-nav="chats"]')?.click(); };
+  const themeValue = page.querySelector('#settingsThemeValue');
+  if (themeValue) themeValue.textContent = (localStorage.getItem('xg_theme') || 'dark') === 'dark' ? 'Тёмная ›' : 'Светлая ›';
+  const notifValue = page.querySelector('#settingsNotifValue');
+  if (notifValue) notifValue.textContent = !('Notification' in window) ? 'Недоступно' : Notification.permission === 'granted' ? 'Включены' : Notification.permission === 'denied' ? 'Запрещены' : 'Не настроены';
+  page.querySelectorAll('[data-setting]').forEach(btn => btn.addEventListener('click', async () => {
+    const action = btn.dataset.setting;
+    try {
+      if (action === 'theme') {
+        const next = (localStorage.getItem('xg_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+        applyTheme(next); toast('Включена ' + (next === 'light' ? 'светлая' : 'тёмная') + ' тема'); showSettingsPage();
+      } else if (action === 'bubble') openBubbleColorPicker();
+      else if (action === 'notif') {
+        if (!('Notification' in window)) { toast('Уведомления не поддерживаются этим браузером'); return; }
+        if (Notification.permission === 'denied') { toast('Разрешите уведомления в настройках браузера'); return; }
+        await requestNotifPermission();
+        toast(Notification.permission === 'granted' ? 'Уведомления разрешены' : 'Разрешение не получено');
+        showSettingsPage();
+      } else if (action === 'channels') openChannelsList();
+      else if (action === 'terms') showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ XtavGram\n\n1. Используйте сервис уважительно.\n2. Не публикуйте незаконный или вредоносный контент.\n\n© XtavGram');
+      else if (action === 'privacy') showTextModal('Политика конфиденциальности', 'Данные аккаунта и переписки обрабатываются сервисами, необходимыми для работы XtavGram, включая Firebase. Не отправляйте в чат пароли и другую конфиденциальную информацию.');
+      else if (action === 'reset') {
+        if (confirm('Сбросить локальные настройки приложения? Аккаунт и переписки не удалятся.')) {
+          ['xg_theme','xg_bubble','xg_premium_preview'].forEach(k => localStorage.removeItem(k));
+          applyTheme('dark'); applyBubbleColor('white'); toast('Настройки сброшены'); showSettingsPage();
+        }
+      } else if (action === 'logout') {
+        if (confirm('Выйти из аккаунта?')) { await signOut(auth); localStorage.removeItem('xg_session'); location.reload(); }
+      }
+    } catch (e) { console.error(e); toast('Не удалось выполнить действие'); }
+  }));
 }
 
 function showChatsView() {
@@ -2910,4 +2975,4 @@ bindProfiles();
 
 </script>
 </body>
- </html>
+                </html>

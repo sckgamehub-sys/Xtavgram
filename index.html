@@ -447,6 +447,70 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .xg-demo-tag{display:inline-block;border:1px solid var(--border);border-radius:20px;padding:5px 9px;color:var(--text-3);font-size:10px;margin-top:10px}
 @media(max-width:520px){.xg-page{padding:16px 12px 110px}.xg-feature-card{padding:13px;min-height:105px}.xg-id-value{font-size:24px}.xg-gift-grid{gap:8px}}
 
+
+/* ===== EXTRAS: островок только иконки, посты, каталог ===== */
+.bottom-nav{gap:2px;padding:6px}
+.nav-btn{position:relative;padding:12px 13px;border-radius:50%}
+.nav-btn span{display:none}
+.nav-btn svg{width:22px;height:22px}
+.nav-badge{position:absolute;top:1px;right:1px;min-width:16px;height:16px;border-radius:8px;background:#ff5555;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;pointer-events:none}
+.messages{zoom:var(--msg-zoom,1)}
+.msg a{color:inherit;text-decoration:underline;opacity:.9}
+
+.xg-compose{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:14px}
+.xg-compose textarea,.xg-compose input{width:100%;padding:12px 14px;background:var(--bg-4);border:1px solid var(--border);color:var(--text);border-radius:12px;font-size:14.5px;margin-bottom:8px;resize:none}
+.xg-compose textarea:focus,.xg-compose input:focus{outline:none;border-color:var(--text)}
+.xg-compose-row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.xg-tags{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.xg-tags::-webkit-scrollbar{display:none}
+.xg-tag{flex-shrink:0;padding:7px 11px;border:none;border-radius:16px;background:var(--bg-4);color:var(--text-2);font-size:12px;font-weight:600}
+.xg-tag.active{background:#fff;color:#000}
+[data-theme="light"] .xg-tag.active{background:#000;color:#fff}
+.xg-compose .btn-primary{padding:10px 16px;font-size:13px;flex-shrink:0}
+.xg-filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:0 0 12px}
+.xg-filters::-webkit-scrollbar{display:none}
+.xg-post{background:var(--bg-3);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px;animation:fadeIn .3s}
+.xg-post-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.xg-post-head .avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background-size:cover;background-position:center;color:#fff;cursor:pointer}
+.xg-post-who{flex:1;min-width:0}
+.xg-post-who b{font-size:14.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xg-post-who small{font-size:11.5px;color:var(--text-3)}
+.xg-post-more{width:34px;height:34px;border:none;background:transparent;color:var(--text-2);font-size:20px;border-radius:50%}
+.xg-post-more:hover{background:var(--glass)}
+.xg-post-text{font-size:14.5px;line-height:1.55;overflow-wrap:anywhere}
+.xg-post-text a{color:#60a5fa}
+.xg-post-img{width:100%;max-height:360px;object-fit:cover;border-radius:14px;margin-top:10px;display:block}
+.xg-post-actions{display:flex;gap:6px;margin-top:12px}
+.xg-act{border:1px solid var(--border);background:var(--bg-4);color:var(--text);padding:7px 14px;border-radius:18px;font-size:13px;font-weight:600;transition:.2s}
+.xg-act:active{transform:scale(.92)}
+.xg-act.liked{border-color:rgba(255,85,85,.55)}
+.xg-comment{padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px;line-height:1.5}
+.xg-comment:last-child{border-bottom:none}
+.xg-comment .cm-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px}
+.xg-comment .cm-head b{font-size:13px}
+.xg-comment .cm-head small{color:var(--text-3);font-size:11px}
+.xg-comment .cm-del{border:none;background:transparent;color:var(--text-3);font-size:14px;padding:2px 6px;border-radius:8px}
+.cat-search{width:100%;padding:12px 16px;background:var(--bg-3);border:1px solid var(--border);color:var(--text);border-radius:14px;font-size:14.5px;margin-bottom:10px}
+.cat-search:focus{outline:none;border-color:var(--text)}
+.cat-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg-3);border-radius:16px;margin-bottom:10px;cursor:pointer;transition:all .25s}
+.cat-card:hover{background:var(--bg-4);transform:translateX(4px)}
+.cat-card .avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;flex-shrink:0;background-size:cover;background-position:center;color:#fff}
+.cat-card .fc-info{flex:1;min-width:0}
+.cat-card .fc-nick{font-weight:600;font-size:15px}
+.cat-card .fc-status{font-size:12.5px;color:var(--text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cat-card .fc-status.online{color:var(--green)}
+.cat-card .add-btn{padding:8px 14px;border-radius:10px;border:none;background:#fff;color:#000;font-weight:700;font-size:13px;flex-shrink:0;cursor:pointer}
+.cat-card .add-btn.added{background:transparent;color:var(--text-3);border:1px solid var(--border)}
+.cat-card .rank{font-size:22px;width:30px;text-align:center;flex-shrink:0}
+.cat-section-title{font-size:12px;color:var(--text-3);text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin:14px 2px 10px}
+.emoji-panel{position:absolute;left:10px;bottom:70px;width:min(330px,calc(100% - 20px));display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:8px;background:rgba(30,30,30,.97);border:1px solid var(--glass-border);border-radius:16px;z-index:30;box-shadow:0 10px 40px rgba(0,0,0,.6);animation:modalIn .2s}
+[data-theme="light"] .emoji-panel{background:rgba(255,255,255,.98)}
+.emoji-panel button{border:none;background:transparent;font-size:22px;padding:6px 0;border-radius:10px;cursor:pointer}
+.emoji-panel button:hover{background:var(--glass)}
+.fav-item{padding:12px;background:var(--bg-3);border-radius:14px;margin-bottom:8px;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere}
+.fav-item small{display:flex;justify-content:space-between;align-items:center;color:var(--text-3);font-size:11px;margin-bottom:4px}
+.fav-item .fav-actions{display:flex;gap:6px;margin-top:8px}
+.fav-item .fav-actions button{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:10px;padding:5px 10px;font-size:12px}
 </style>
 </head>
 <body>
@@ -559,6 +623,8 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="nav-btn active" data-nav="chats" type="button"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg><span>Чаты</span></button>
+    <button class="nav-btn" data-nav="posts" type="button"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg><span>Посты</span></button>
+    <button class="nav-btn" data-nav="catalog" type="button"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg><span>Каталог</span></button>
     <button class="nav-btn" data-nav="friends" type="button"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Друзья</span></button>
     <button class="nav-btn" data-nav="profile" type="button"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/></svg><span>Профиль</span></button>
     <button class="nav-btn" data-nav="settings" type="button"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg><span>Настройки</span></button>
@@ -650,6 +716,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
     <h2>Редактировать профиль</h2>
     <input type="text" id="editNickInput" placeholder="Никнейм" maxlength="20" disabled>
     <textarea id="editBioInput" placeholder="О себе (биография)" rows="3" maxlength="200"></textarea>
+    <input type="text" id="editStatusInput" placeholder="Статус (например: играю в Bodycam)" maxlength="40">
     <label class="file-label"><span>Сменить аватар (до 128×128)</span><input type="file" id="editAvatarInput" accept="image/*"></label>
     <button class="btn-primary" id="btnSaveProfile" type="button">Сохранить</button>
     <button class="btn-close" data-close="editProfileModal" type="button">Отмена</button>
@@ -694,7 +761,8 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   <div class="modal-content" style="text-align:center;">
     <h2>💰 Ваш баланс</h2>
     <div style="font-size:48px; font-weight:900; margin:20px 0; color:#fff;" id="walletBalance">0 X</div>
-    <button class="btn-primary" id="btnMsgAdmin" type="button" style="width:100%;">Написать Админу за валютой</button>
+    <button class="btn-primary" id="btnDailyBonus" type="button" style="width:100%;margin-bottom:10px;">🎁 Ежедневный бонус +10 X</button>
+    <button class="btn-secondary" id="btnMsgAdmin" type="button" style="width:100%;">Написать Админу за валютой</button>
     <button class="btn-close" data-close="walletModal" type="button">Закрыть</button>
   </div>
 </div>
@@ -737,10 +805,38 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
   </div>
 </div>
 
+<div id="commentsModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>💬 Комментарии</h2>
+    <div id="commentsBody" style="max-height:45vh;overflow-y:auto"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <input type="text" id="commentInput" placeholder="Написать комментарий..." maxlength="300" style="margin-bottom:0" autocomplete="off">
+      <button class="btn-primary" id="commentSend" type="button" style="padding:0 18px">↑</button>
+    </div>
+    <button class="btn-close" data-close="commentsModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="favoritesModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>⭐ Избранное</h2>
+    <div id="favBody" style="max-height:55vh;overflow-y:auto"></div>
+    <button class="btn-close" data-close="favoritesModal" type="button">Закрыть</button>
+  </div>
+</div>
+
+<div id="blacklistModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>🚫 Чёрный список</h2>
+    <div id="blBody" style="max-height:55vh;overflow-y:auto"></div>
+    <button class="btn-close" data-close="blacklistModal" type="button">Закрыть</button>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, getDocs, collection, query, where, orderBy, limit, onSnapshot, serverTimestamp, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, getDocs, collection, query, where, orderBy, limit, onSnapshot, serverTimestamp, deleteDoc, writeBatch, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzRWgDVe-BhY5ol47vYofFQ-_AaNAwOrc",
@@ -814,6 +910,7 @@ function fmtDateTime(ts) {
 }
 function isOnline(user) {
   if (!user) return false;
+  if (user.hideOnline && currentUser && user.uid !== currentUser.uid) return false;
   if (user.isAI || user.isDev) return true;
   const last = user.lastSeen?.toDate ? user.lastSeen.toDate().getTime() : 0;
   return Date.now() - last < 60000;
@@ -831,7 +928,10 @@ function closeModal(id) { $(id)?.classList.add('hidden'); }
 function chatIdFor(a, b) { return [a, b].sort().join('__'); }
 function channelIdFor(name) { return 'ch_' + name.toLowerCase().replace(/[^a-zа-я0-9]/gi, '_').slice(0, 40); }
 
-function removePageViews() { document.querySelectorAll('.page-view').forEach(p => p.remove()); }
+function removePageViews() {
+  if (typeof unsubPosts !== 'undefined' && unsubPosts) { unsubPosts(); unsubPosts = null; }
+  document.querySelectorAll('.page-view').forEach(p => p.remove());
+}
 
 const GIFTS_DB = {
   bear: { name: 'Мишка', emoji: '🧸', price: 15 },
@@ -863,6 +963,7 @@ function unlockAudio() {
 document.addEventListener('click', unlockAudio, { once: false, passive: true });
 
 function playNotificationSound() {
+  if (localStorage.getItem('xg_sound') === '0') return;
   try {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     const ctx = new Ctx();
@@ -932,6 +1033,16 @@ let baseTitle = 'Xtavgram';
 function updateTabTitle() {
   const total = chatList.reduce((acc, c) => acc + (c.unread || 0), 0);
   document.title = total > 0 ? `(${total}) Xtavgram` : baseTitle;
+  const chatsBtn = document.querySelector('.nav-btn[data-nav="chats"]');
+  if (chatsBtn) {
+    chatsBtn.querySelector('.nav-badge')?.remove();
+    if (total > 0) {
+      const bd = document.createElement('div');
+      bd.className = 'nav-badge';
+      bd.textContent = total > 99 ? '99+' : total;
+      chatsBtn.appendChild(bd);
+    }
+  }
 }
 
 function applyTheme(theme) {
@@ -1113,6 +1224,8 @@ function subscribeAllUsers() {
 }
 
 function sortChats(a, b) {
+  const pa = isChatPinned(a.id) ? 1 : 0, pb = isChatPinned(b.id) ? 1 : 0;
+  if (pa !== pb) return pb - pa;
   const ta = a.last?.ts?.toDate ? a.last.ts.toDate().getTime() : 0;
   const tb = b.last?.ts?.toDate ? b.last.ts.toDate().getTime() : 0;
   return tb - ta;
@@ -1177,6 +1290,7 @@ function subscribeToNotifications() {
         if (notifMsgIds.has(key)) return;
         notifMsgIds.add(key);
         updateDoc(d.ref, { read: true }).catch(()=>{});
+        try { if (JSON.parse(localStorage.getItem('xg_muted') || '{}')[c.id]) return; } catch(_) {}
         if (c.isChannel) {
           if (currentChannel?.id !== c.id) {
             playNotificationSound();
@@ -1258,7 +1372,7 @@ function renderChatList() {
       ${avatarHtml}
       ${!isCh ? `<div class="online-dot ${online?'':'off'}"></div>` : ''}
       <div class="info">
-        <div class="nick">${nick}</div>
+        <div class="nick">${nick}${isChatPinned(c.id) ? ' 📌' : ''}</div>
         <div class="last">${lastText}</div>
       </div>
       ${c.unread ? `<div class="unread">${c.unread}</div>` : ''}
@@ -1307,6 +1421,16 @@ function showChatMenu(x, y, c) {
     menu.remove();
   });
   menu.appendChild(btnArch);
+
+  const btnPinChat = document.createElement('button');
+  btnPinChat.innerHTML = isChatPinned(c.id) ? '📍 Открепить чат' : '📌 Закрепить чат';
+  btnPinChat.addEventListener('click', () => { toggleChatPin(c.id); menu.remove(); });
+  menu.appendChild(btnPinChat);
+
+  const btnReadAll = document.createElement('button');
+  btnReadAll.innerHTML = '✅ Прочитать всё';
+  btnReadAll.addEventListener('click', () => { markChatRead(c); menu.remove(); });
+  menu.appendChild(btnReadAll);
 
   const btnMute = document.createElement('button');
   const muted = JSON.parse(localStorage.getItem('xg_muted') || '{}');
@@ -1392,6 +1516,7 @@ async function openChannel(channel) {
   }
 
   subscribePinned(channel.id, 'channels');
+  loadDraft();
 
   if (unsubMessages) unsubMessages();
   const q = query(collection(db, 'channels', channel.id, 'messages'), orderBy('ts', 'asc'), limit(300));
@@ -1457,6 +1582,7 @@ async function openChat(other) {
   }
   if (unsubMessages) unsubMessages();
   subscribePinned(chatId, 'chats');
+  loadDraft();
 
   const chatMetaRef = doc(db, 'chats', chatId);
   const unsubTyping = onSnapshot(chatMetaRef, snap => {
@@ -1513,6 +1639,7 @@ async function openChat(other) {
 }
 
 function closeChatView() {
+  $('emojiPanel')?.remove();
   closeChatSearchIfOpen();
   if (unsubMessages) { unsubMessages(); unsubMessages = null; }
   if (unsubPinned) { unsubPinned(); unsubPinned = null; }
@@ -1616,7 +1743,7 @@ function buildMessageEl(m, chatId, isChannel = false) {
     el.classList.add('media');
     el.innerHTML = `${replyHtml}${forwardHtml}<video src="${m.media}" controls playsinline></video>${reactionsHtml}${metaHtml}`;
   } else {
-    el.innerHTML = `${replyHtml}${forwardHtml}${escapeHtml(m.text).replace(/\n/g,'<br>')}${reactionsHtml}${metaHtml}`;
+    el.innerHTML = `${replyHtml}${forwardHtml}${linkify(escapeHtml(m.text)).replace(/\n/g,'<br>')}${reactionsHtml}${metaHtml}`;
   }
 
   el.querySelectorAll('.reaction').forEach(r => {
@@ -1700,6 +1827,19 @@ function showMessageMenu(x, y, m, chatId, mine, isChannel = false) {
     menu.remove(); picker.remove();
   });
   menu.appendChild(btnForward);
+
+  const btnCopy = document.createElement('button');
+  btnCopy.innerHTML = '📋 Копировать';
+  btnCopy.addEventListener('click', () => { copyText(m.text || m.media || ''); menu.remove(); picker.remove(); });
+  menu.appendChild(btnCopy);
+
+  const btnFav = document.createElement('button');
+  btnFav.innerHTML = '⭐ В избранное';
+  btnFav.addEventListener('click', () => {
+    saveToFav({ text: m.text || '', type: m.type || 'text', media: m.media || null, from: mine ? currentUser.nick : (currentChat?.nick || currentChannel?.name || '—'), ts: Date.now() });
+    menu.remove(); picker.remove();
+  });
+  menu.appendChild(btnFav);
 
   const btnPin = document.createElement('button');
   btnPin.innerHTML = '📌 Закрепить';
@@ -2068,10 +2208,12 @@ function showUserProfile(u) {
         ${u.isAI?'<span class="profile-badge">🤖 AI</span>':''}
       </div>
       <div class="profile-status-line" style="${online?'':'color:var(--text-3)'}">${online?'онлайн':'оффлайн'}</div>
+      ${u.status ? `<div style="font-size:13.5px;color:var(--text);margin:4px 0 10px">💭 ${escapeHtml(u.status)}</div>` : ''}
       ${u.bio ? `<div class="profile-bio">${escapeHtml(u.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="opacity:.5;font-style:italic">Нет описания</div>'}
       <div class="profile-joined">📅 В Xtavgram с ${fmtDate(u.created)}</div>
       <div class="profile-actions">
         ${!u.isAI ? `<button class="btn-primary" id="profMsgBtn" type="button">💬 Написать</button>` : ''}
+        <button class="btn-secondary" id="profPostsBtn" type="button">📝 Посты</button>
         <button class="btn-secondary" id="profCloseBtn" type="button">← Назад</button>
       </div>
     </div>
@@ -2080,6 +2222,7 @@ function showUserProfile(u) {
   const mb = $('profMsgBtn');
   if (mb) mb.onclick = () => openChat(u);
   $('profCloseBtn').onclick = () => removePageViews();
+  $('profPostsBtn').onclick = () => { postsFilter = 'user:' + u.uid; document.querySelectorAll('.nav-btn').forEach(x => x.classList.toggle('active', x.dataset.nav === 'posts')); showPostsView(); };
 }
 
 function showMyProfileView() {
@@ -2099,6 +2242,7 @@ function showMyProfileView() {
         ${u.isDev?'<span class="profile-badge dev">⚙️ Разработчик</span>':''}
       </div>
       <div class="profile-status-line">онлайн</div>
+      ${u.status ? `<div style="font-size:13.5px;color:var(--text);margin:4px 0 10px">💭 ${escapeHtml(u.status)}</div>` : ''}
       ${u.bio ? `<div class="profile-bio">${escapeHtml(u.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="opacity:.5;font-style:italic">Добавь описание о себе ✏️</div>'}
       <div class="profile-joined">📅 В Xtavgram с ${fmtDate(u.created)}</div>
     </div>
@@ -2149,10 +2293,14 @@ function showMyProfileView() {
     </div>
     <div class="profile-actions">
       <button class="btn-primary" id="btnEditMyProfile" type="button">✏️ Редактировать профиль</button>
+      <button class="btn-secondary" id="btnWallet" type="button">💰 Кошелёк</button>
+      <button class="btn-secondary" id="btnFavs" type="button">⭐ Избранное</button>
     </div>
   </div>`;
   $('mainContent').appendChild(p);
   $('btnEditMyProfile').onclick = openEditProfile;
+  $('btnWallet').onclick = openWallet;
+  $('btnFavs').onclick = openFavorites;
   $('xgOpenId').onclick = () => showXtavIdPage();
   $('xgOpenPremium').onclick = () => showXtavPremiumPage();
   $('xgOpenAI').onclick = () => showXtavAIPage();
@@ -2219,11 +2367,12 @@ function showMyProfileView() {
 function openEditProfile() {
   $('editNickInput').value = currentUser.nick;
   $('editBioInput').value = currentUser.bio || '';
+  $('editStatusInput').value = currentUser.status || '';
   openModal('editProfileModal');
 }
 async function saveProfile() {
   const bio = $('editBioInput').value.trim();
-  const updates = { bio };
+  const updates = { bio, status: ($('editStatusInput')?.value || '').trim() };
   if (currentUser._newAvatar) {
     updates.avatar = currentUser._newAvatar;
     delete currentUser._newAvatar;
@@ -2374,6 +2523,8 @@ function bindNav() {
       b.classList.add('active');
       const n = b.dataset.nav;
       if (n === 'chats') { closeChatView(); removePageViews(); showChatsView(); }
+      else if (n === 'posts') showPostsView();
+      else if (n === 'catalog') showCatalogView();
       else if (n === 'friends') showFriendsView();
       else if (n === 'profile') showMyProfileView();
       else if (n === 'settings') showSettingsPage();
@@ -2399,6 +2550,19 @@ function showSettingsPage() {
       <div class="profile-section-title">Приложение</div>
       <button class="settings-item" data-setting="notif" type="button"><span>🔔 Уведомления</span><span class="arrow" id="settingsNotifValue">›</span></button>
       <button class="settings-item" data-setting="channels" type="button"><span>📢 Каналы</span><span class="arrow">›</span></button>
+      <button class="settings-item" data-setting="sound" type="button" style="margin-top:6px"><span>🔊 Звук уведомлений</span><span class="arrow">${localStorage.getItem('xg_sound') === '0' ? 'Выкл' : 'Вкл'} ›</span></button>
+      <button class="settings-item" data-setting="fontsize" type="button" style="margin-top:6px"><span>🔠 Размер текста</span><span class="arrow">${FONT_LABELS[localStorage.getItem('xg_fontsize') || 'md']} ›</span></button>
+    </div>
+    <div class="profile-section" style="margin-top:14px">
+      <div class="profile-section-title">Мои данные</div>
+      <button class="settings-item" data-setting="wallet" type="button"><span>💰 Кошелёк и бонус</span><span class="arrow">${currentUser.coins || 0} X ›</span></button>
+      <button class="settings-item" data-setting="fav" type="button" style="margin-top:6px"><span>⭐ Избранное</span><span class="arrow">${getSaved().length} ›</span></button>
+      <button class="settings-item" data-setting="myposts" type="button" style="margin-top:6px"><span>📝 Мои посты</span><span class="arrow">›</span></button>
+    </div>
+    <div class="profile-section" style="margin-top:14px">
+      <div class="profile-section-title">Приватность</div>
+      <button class="settings-item" data-setting="hideonline" type="button"><span>🙈 Скрывать статус «онлайн»</span><span class="arrow">${currentUser.hideOnline ? 'Да' : 'Нет'} ›</span></button>
+      <button class="settings-item" data-setting="blacklist" type="button" style="margin-top:6px"><span>🚫 Чёрный список</span><span class="arrow">›</span></button>
     </div>
     <div class="profile-section" style="margin-top:14px">
       <div class="profile-section-title">Информация</div>
@@ -2432,11 +2596,32 @@ function showSettingsPage() {
         toast(Notification.permission === 'granted' ? 'Уведомления разрешены' : 'Разрешение не получено');
         showSettingsPage();
       } else if (action === 'channels') openChannelsList();
+      else if (action === 'sound') {
+        const on = localStorage.getItem('xg_sound') !== '0';
+        localStorage.setItem('xg_sound', on ? '0' : '1');
+        toast(on ? 'Звук выключен' : 'Звук включён'); showSettingsPage();
+      } else if (action === 'fontsize') {
+        const order = ['sm', 'md', 'lg'];
+        const next = order[(order.indexOf(localStorage.getItem('xg_fontsize') || 'md') + 1) % 3];
+        applyFontSize(next); toast('Размер текста: ' + FONT_LABELS[next]); showSettingsPage();
+      } else if (action === 'hideonline') {
+        const v = !currentUser.hideOnline;
+        await updateDoc(doc(db, 'users', currentUser.uid), { hideOnline: v });
+        currentUser.hideOnline = v;
+        toast(v ? 'Статус «онлайн» скрыт' : 'Статус «онлайн» виден'); showSettingsPage();
+      } else if (action === 'wallet') openWallet();
+      else if (action === 'fav') openFavorites();
+      else if (action === 'blacklist') openBlacklist();
+      else if (action === 'myposts') {
+        postsFilter = 'mine';
+        document.querySelector('.nav-btn[data-nav="posts"]')?.click();
+      }
       else if (action === 'terms') showTextModal('Пользовательское соглашение', 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ XtavGram\n\n1. Используйте сервис уважительно.\n2. Не публикуйте незаконный или вредоносный контент.\n\n© XtavGram');
       else if (action === 'privacy') showTextModal('Политика конфиденциальности', 'Данные аккаунта и переписки обрабатываются сервисами, необходимыми для работы XtavGram, включая Firebase. Не отправляйте в чат пароли и другую конфиденциальную информацию.');
       else if (action === 'reset') {
         if (confirm('Сбросить локальные настройки приложения? Аккаунт и переписки не удалятся.')) {
-          ['xg_theme','xg_bubble','xg_premium_preview'].forEach(k => localStorage.removeItem(k));
+          ['xg_theme','xg_bubble','xg_premium_preview','xg_sound','xg_fontsize'].forEach(k => localStorage.removeItem(k));
+          applyFontSize('md');
           applyTheme('dark'); applyBubbleColor('white'); toast('Настройки сброшены'); showSettingsPage();
         }
       } else if (action === 'logout') {
@@ -2956,6 +3141,540 @@ function logout() {
   // После выхода можно будет зарегистрировать новый профиль
 }
 
+/* ===== XG EXTRAS: посты, каталог, избранное, кошелёк и т.д. ===== */
+let unsubPosts = null;
+let postsFilter = 'all';
+let postsCache = [];
+let postTag = 'post';
+let lastPostAt = 0;
+let commentsPost = null;
+let catalogTab = 'players';
+let catalogQuery = '';
+let catalogSort = 'online';
+const POST_TAGS = { post: '📝 Пост', game: '🎮 Игра', skin: '🎨 Скин', question: '❓ Вопрос', news: '📰 Новость' };
+const FONT_LABELS = { sm: 'Мелкий', md: 'Обычный', lg: 'Крупный' };
+const FONT_ZOOM = { sm: 0.9, md: 1, lg: 1.12 };
+const EMOJIS = ['😀','😂','🤣','😍','😎','🥳','😢','😡','👍','👎','🙏','🔥','❤️','💔','🎉','💯','😮','🤔','😴','🤝','👀','💀','✨','🎮'];
+
+function linkify(html) {
+  return html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+function timeAgo(ts) {
+  const t = ts?.toDate ? ts.toDate().getTime() : (typeof ts === 'number' ? ts : Date.now());
+  const s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+  if (s < 60) return 'только что';
+  if (s < 3600) return Math.floor(s / 60) + ' мин назад';
+  if (s < 86400) return Math.floor(s / 3600) + ' ч назад';
+  if (s < 604800) return Math.floor(s / 86400) + ' дн назад';
+  return fmtDate(t);
+}
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); }
+  catch (e) {
+    const a = document.createElement('textarea');
+    a.value = t; document.body.appendChild(a); a.select();
+    document.execCommand('copy'); a.remove();
+  }
+  toast('Скопировано ✓');
+}
+function applyFontSize(id) {
+  const k = FONT_ZOOM[id] ? id : 'md';
+  document.documentElement.style.setProperty('--msg-zoom', FONT_ZOOM[k]);
+  localStorage.setItem('xg_fontsize', k);
+}
+
+/* --- закреплённые чаты --- */
+function getPinnedChats() { try { return JSON.parse(localStorage.getItem('xg_pinchats') || '{}'); } catch (e) { return {}; } }
+function isChatPinned(id) { return !!getPinnedChats()[id]; }
+function toggleChatPin(id) {
+  const m = getPinnedChats();
+  if (m[id]) delete m[id]; else m[id] = Date.now();
+  localStorage.setItem('xg_pinchats', JSON.stringify(m));
+  chatList.sort(sortChats);
+  renderChatList();
+  toast(m[id] ? 'Чат закреплён' : 'Чат откреплён');
+}
+async function markChatRead(c) {
+  try {
+    const coll = c.isChannel ? 'channels' : 'chats';
+    const snap = await getDocs(collection(db, coll, c.id, 'messages'));
+    const batch = writeBatch(db);
+    let n = 0;
+    snap.docs.forEach(d => {
+      const m = d.data();
+      if (m.from !== currentUser.uid && !m.read) { batch.update(d.ref, { read: true }); n++; }
+    });
+    if (n) await batch.commit();
+    c.unread = 0;
+    renderChatList(); updateTabTitle();
+    toast('Всё прочитано ✓');
+  } catch (e) { toast('Не удалось'); }
+}
+
+/* --- черновики --- */
+function draftKey() { return currentChannel ? 'ch_' + currentChannel.id : (currentChat ? 'u_' + currentChat.uid : null); }
+function loadDraft() {
+  const inp = $('messageInput'); if (!inp) return;
+  const k = draftKey();
+  let v = '';
+  try { v = (JSON.parse(localStorage.getItem('xg_drafts') || '{}'))[k] || ''; } catch (e) {}
+  inp.value = k ? v : '';
+}
+function saveDraft() {
+  const k = draftKey(); const inp = $('messageInput');
+  if (!k || !inp) return;
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('xg_drafts') || '{}'); } catch (e) {}
+  if (inp.value.trim()) m[k] = inp.value; else delete m[k];
+  localStorage.setItem('xg_drafts', JSON.stringify(m));
+}
+
+/* --- избранное --- */
+function getSaved() { try { return JSON.parse(localStorage.getItem('xg_saved') || '[]'); } catch (e) { return []; } }
+function saveToFav(item) {
+  const list = getSaved();
+  list.unshift(item);
+  localStorage.setItem('xg_saved', JSON.stringify(list.slice(0, 200)));
+  toast('Добавлено в избранное ⭐');
+}
+function openFavorites() {
+  const body = $('favBody');
+  const list = getSaved();
+  if (!list.length) {
+    body.innerHTML = '<div class="placeholder-empty"><span class="em">⭐</span>Пока пусто<br><small>Долгое нажатие на сообщение или меню поста → «В избранное»</small></div>';
+  } else {
+    body.innerHTML = list.map((it, i) => `<div class="fav-item"><small><span>${escapeHtml(it.from || '')}</span><span>${fmtDateTime(it.ts)}</span></small>
+      ${it.text ? escapeHtml(it.text).replace(/\n/g, '<br>') : ''}${it.media ? `<div style="margin-top:4px;color:var(--text-3)">📎 ${escapeHtml(it.media.slice(0, 60))}</div>` : ''}
+      <div class="fav-actions"><button type="button" data-fc="${i}">Копировать</button><button type="button" data-fd="${i}">Удалить</button></div></div>`).join('');
+    body.querySelectorAll('[data-fc]').forEach(b => b.onclick = () => { const it = list[+b.dataset.fc]; copyText(it.text || it.media || ''); });
+    body.querySelectorAll('[data-fd]').forEach(b => b.onclick = () => {
+      const l = getSaved(); l.splice(+b.dataset.fd, 1);
+      localStorage.setItem('xg_saved', JSON.stringify(l)); openFavorites();
+    });
+  }
+  openModal('favoritesModal');
+}
+
+/* --- чёрный список --- */
+async function openBlacklist() {
+  const body = $('blBody');
+  body.innerHTML = '<div class="placeholder-empty" style="padding:30px">Загрузка...</div>';
+  openModal('blacklistModal');
+  try {
+    const snap = await getDocs(collection(db, 'blocks', currentUser.uid, 'list'));
+    if (snap.empty) { body.innerHTML = '<div class="placeholder-empty"><span class="em">🚫</span>Список пуст</div>'; return; }
+    body.innerHTML = '';
+    snap.docs.forEach(d => {
+      const u = allUsers.find(x => x.uid === d.id);
+      const el = document.createElement('div');
+      el.className = 'cat-card'; el.style.cursor = 'default';
+      el.innerHTML = `<div class="avatar" style="${avatarStyle(u || { nick: '?' })}">${u && u.avatar ? '' : initials(u ? u.nick : '?')}</div>
+        <div class="fc-info"><div class="fc-nick">${escapeHtml(u ? u.nick : 'Пользователь')}</div></div>
+        <button class="add-btn" type="button">Разблокировать</button>`;
+      el.querySelector('button').onclick = async () => {
+        await deleteDoc(doc(db, 'blocks', currentUser.uid, 'list', d.id)).catch(() => {});
+        toast('Разблокирован'); openBlacklist();
+      };
+      body.appendChild(el);
+    });
+  } catch (e) { body.innerHTML = '<div class="placeholder-empty">Не удалось загрузить</div>'; }
+}
+
+/* --- кошелёк и бонус --- */
+function openWallet() {
+  $('walletBalance').textContent = (currentUser.coins || 0) + ' X';
+  const left = 86400000 - (Date.now() - (currentUser.lastBonus || 0));
+  const b = $('btnDailyBonus');
+  if (b) { b.disabled = left > 0; b.textContent = left > 0 ? `🎁 Бонус через ${Math.ceil(left / 3600000)} ч` : '🎁 Ежедневный бонус +10 X'; }
+  openModal('walletModal');
+}
+async function claimDailyBonus() {
+  const left = 86400000 - (Date.now() - (currentUser.lastBonus || 0));
+  if (left > 0) { toast(`Бонус через ${Math.ceil(left / 3600000)} ч`); return; }
+  try {
+    const coins = (currentUser.coins || 0) + 10;
+    await updateDoc(doc(db, 'users', currentUser.uid), { coins, lastBonus: Date.now() });
+    currentUser.coins = coins; currentUser.lastBonus = Date.now();
+    toast('+10 X ✓'); openWallet();
+  } catch (e) { toast('Не удалось получить бонус'); }
+}
+
+/* --- ПОСТЫ --- */
+function showPostsView() {
+  removePageViews();
+  if (currentChat || currentChannel) closeChatView();
+  $('bottomNav').classList.remove('hide');
+  $('mainContent').classList.remove('no-nav');
+  const p = document.createElement('div');
+  p.className = 'page-view';
+  const filters = [['all', 'Все'], ['popular', '🔥 Популярные'], ['mine', 'Мои'], ...Object.entries(POST_TAGS)];
+  p.innerHTML = `<div class="xg-page">
+    <div class="xg-page-head"><h2>📝 Посты</h2></div>
+    <div class="xg-compose">
+      <textarea id="postText" maxlength="500" rows="3" placeholder="Что нового? Расскажи игрокам..."></textarea>
+      <input type="text" id="postImg" placeholder="Ссылка на картинку (необязательно)" autocomplete="off">
+      <div class="xg-compose-row">
+        <div class="xg-tags" id="postTags">${Object.entries(POST_TAGS).map(([k, v]) => `<button type="button" class="xg-tag ${k === postTag ? 'active' : ''}" data-tag="${k}">${v}</button>`).join('')}</div>
+        <button class="btn-primary" id="postSend" type="button">Опубликовать</button>
+      </div>
+    </div>
+    <div class="xg-filters" id="postFilters">${filters.map(f => `<button type="button" class="chat-tab" data-pf="${f[0]}">${f[1]}</button>`).join('')}</div>
+    <div id="postsFeed"><div class="placeholder-empty"><span class="em">📝</span>Загрузка...</div></div>
+  </div>`;
+  $('mainContent').appendChild(p);
+  p.querySelectorAll('[data-tag]').forEach(b => b.onclick = () => {
+    postTag = b.dataset.tag;
+    p.querySelectorAll('[data-tag]').forEach(x => x.classList.toggle('active', x === b));
+  });
+  p.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { postsFilter = b.dataset.pf; renderPosts(); });
+  $('postSend').onclick = createPost;
+  const q = query(collection(db, 'posts'), orderBy('ts', 'desc'), limit(100));
+  unsubPosts = onSnapshot(q, snap => {
+    postsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderPosts();
+  }, err => {
+    console.error(err);
+    const f = $('postsFeed');
+    if (f) f.innerHTML = '<div class="placeholder-empty"><span class="em">⚠️</span>Не удалось загрузить посты<br><small>Проверь правила Firestore для коллекции posts</small></div>';
+  });
+  renderPosts();
+}
+
+function renderPosts() {
+  const box = $('postsFeed'); if (!box) return;
+  document.querySelectorAll('#postFilters [data-pf]').forEach(b => b.classList.toggle('active', b.dataset.pf === postsFilter));
+  let list = [...postsCache];
+  let title = '';
+  if (postsFilter === 'mine') list = list.filter(x => x.uid === currentUser.uid);
+  else if (postsFilter.startsWith('user:')) {
+    const uid = postsFilter.slice(5);
+    list = list.filter(x => x.uid === uid);
+    const u = allUsers.find(x => x.uid === uid);
+    title = `<div class="cat-section-title">Посты игрока ${escapeHtml(u ? u.nick : '')} · <a href="#" id="postsResetUser" style="color:#60a5fa">показать все</a></div>`;
+  } else if (postsFilter === 'popular') {
+    list = list.filter(x => (x.likes || []).length > 0).sort((a, b) => ((b.likes || []).length * 2 + (b.comments || 0)) - ((a.likes || []).length * 2 + (a.comments || 0)));
+  } else if (POST_TAGS[postsFilter]) list = list.filter(x => (x.tag || 'post') === postsFilter);
+  if (postsFilter !== 'popular') list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+  if (!list.length) {
+    box.innerHTML = title + '<div class="placeholder-empty"><span class="em">📝</span>Здесь пока нет постов<br><small>Будь первым — напиши что-нибудь выше</small></div>';
+  } else {
+    box.innerHTML = title + list.map(postCardHtml).join('');
+  }
+  box.querySelector('#postsResetUser')?.addEventListener('click', e => { e.preventDefault(); postsFilter = 'all'; renderPosts(); });
+  box.querySelectorAll('[data-like]').forEach(b => b.onclick = () => { const x = postsCache.find(y => y.id === b.dataset.like); if (x) togglePostLike(x); });
+  box.querySelectorAll('[data-comment]').forEach(b => b.onclick = () => { const x = postsCache.find(y => y.id === b.dataset.comment); if (x) openComments(x); });
+  box.querySelectorAll('[data-share]').forEach(b => b.onclick = () => {
+    const x = postsCache.find(y => y.id === b.dataset.share); if (!x) return;
+    forwardMessage = { type: 'text', text: `📝 Пост от ${x.nick || 'игрока'}:\n${x.text || ''}${x.image ? '\n' + x.image : ''}`, _fromNick: x.nick || 'игрок' };
+    openForwardList();
+  });
+  box.querySelectorAll('[data-more]').forEach(b => b.onclick = e => { e.stopPropagation(); const x = postsCache.find(y => y.id === b.dataset.more); if (x) showPostMenu(b, x); });
+  box.querySelectorAll('.xg-post-head .avatar').forEach(a => a.onclick = () => { const u = allUsers.find(x => x.uid === a.dataset.uid); if (u) showUserProfile(u); });
+}
+
+function postCardHtml(post) {
+  const author = allUsers.find(u => u.uid === post.uid) || { nick: post.nick || '?', avatar: null, uid: post.uid };
+  const liked = (post.likes || []).includes(currentUser.uid);
+  const tag = POST_TAGS[post.tag || 'post'] || POST_TAGS.post;
+  const img = post.image && /^https?:\/\//.test(post.image) ? `<img class="xg-post-img" src="${escapeHtml(post.image)}" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
+  return `<div class="xg-post">
+    <div class="xg-post-head">
+      <div class="avatar" data-uid="${escapeHtml(post.uid || '')}" style="${avatarStyle(author)}">${author.avatar ? '' : initials(author.nick)}</div>
+      <div class="xg-post-who"><b>${escapeHtml(author.nick)}${author.isDev ? ' ⚙️' : ''}${author.isAI ? ' 🤖' : ''}</b><small>${timeAgo(post.ts)} · ${tag}${post.pinned ? ' · 📌' : ''}</small></div>
+      <button class="xg-post-more" type="button" data-more="${post.id}">⋯</button>
+    </div>
+    ${post.text ? `<div class="xg-post-text">${linkify(escapeHtml(post.text)).replace(/\n/g, '<br>')}</div>` : ''}
+    ${img}
+    <div class="xg-post-actions">
+      <button type="button" class="xg-act ${liked ? 'liked' : ''}" data-like="${post.id}">${liked ? '❤️' : '🤍'} ${(post.likes || []).length || ''}</button>
+      <button type="button" class="xg-act" data-comment="${post.id}">💬 ${post.comments || ''}</button>
+      <button type="button" class="xg-act" data-share="${post.id}">➡️</button>
+    </div>
+  </div>`;
+}
+
+async function createPost() {
+  const ta = $('postText'), im = $('postImg');
+  const text = ta.value.trim(), image = im.value.trim();
+  if (!text && !image) { toast('Напиши что-нибудь'); return; }
+  if (image && !/^https?:\/\//.test(image)) { toast('Ссылка должна начинаться с http'); return; }
+  if (Date.now() - lastPostAt < 8000) { toast('Не так быстро'); return; }
+  const btn = $('postSend'); btn.disabled = true;
+  try {
+    await addDoc(collection(db, 'posts'), {
+      uid: currentUser.uid, nick: currentUser.nick, text, image: image || null,
+      tag: postTag, likes: [], comments: 0, pinned: false, ts: serverTimestamp()
+    });
+    lastPostAt = Date.now();
+    ta.value = ''; im.value = '';
+    toast('Опубликовано ✓');
+  } catch (e) { console.error(e); toast('Не удалось опубликовать'); }
+  finally { btn.disabled = false; }
+}
+
+async function togglePostLike(post) {
+  const has = (post.likes || []).includes(currentUser.uid);
+  try {
+    await updateDoc(doc(db, 'posts', post.id), { likes: has ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid) });
+  } catch (e) { toast('Не удалось поставить лайк'); }
+}
+
+function showPostMenu(btn, post) {
+  document.querySelectorAll('.chat-menu-popup').forEach(el => el.remove());
+  const r = btn.getBoundingClientRect();
+  const menu = document.createElement('div');
+  menu.className = 'chat-menu-popup';
+  menu.style.left = Math.max(10, Math.min(r.right - 190, window.innerWidth - 200)) + 'px';
+  menu.style.top = Math.max(10, Math.min(r.bottom + 4, window.innerHeight - 260)) + 'px';
+  const add = (label, fn, danger) => {
+    const b = document.createElement('button');
+    b.innerHTML = label;
+    if (danger) b.className = 'danger';
+    b.onclick = () => { menu.remove(); fn(); };
+    menu.appendChild(b);
+  };
+  add('📋 Копировать текст', () => copyText(post.text || post.image || ''));
+  add('⭐ В избранное', () => saveToFav({ text: post.text || '', type: 'text', media: post.image || null, from: 'Пост · ' + (post.nick || ''), ts: Date.now() }));
+  add('👤 Профиль автора', () => { const u = allUsers.find(x => x.uid === post.uid); if (u) showUserProfile(u); });
+  if (currentUser.isDev) add(post.pinned ? '📌 Открепить' : '📌 Закрепить', async () => {
+    try { await updateDoc(doc(db, 'posts', post.id), { pinned: !post.pinned }); } catch (e) { toast('Ошибка'); }
+  });
+  if (post.uid === currentUser.uid || currentUser.isDev) add('🗑 Удалить', async () => {
+    if (!confirm('Удалить пост?')) return;
+    try { await deleteDoc(doc(db, 'posts', post.id)); toast('Удалено'); } catch (e) { toast('Ошибка'); }
+  }, true);
+  document.body.appendChild(menu);
+  const closeAll = e => { if (!e.target.closest('.chat-menu-popup')) { menu.remove(); document.removeEventListener('click', closeAll); } };
+  setTimeout(() => document.addEventListener('click', closeAll), 50);
+}
+
+async function openComments(post) {
+  commentsPost = post;
+  $('commentInput').value = '';
+  openModal('commentsModal');
+  await loadComments();
+}
+async function loadComments() {
+  const body = $('commentsBody');
+  if (!commentsPost) return;
+  body.innerHTML = '<div class="placeholder-empty" style="padding:24px">Загрузка...</div>';
+  try {
+    const snap = await getDocs(query(collection(db, 'posts', commentsPost.id, 'comments'), orderBy('ts', 'asc'), limit(100)));
+    if (snap.empty) { body.innerHTML = '<div class="placeholder-empty" style="padding:24px">Комментариев пока нет</div>'; return; }
+    body.innerHTML = snap.docs.map(d => {
+      const c = d.data();
+      const can = c.uid === currentUser.uid || currentUser.isDev;
+      return `<div class="xg-comment"><div class="cm-head"><b>${escapeHtml(c.nick || '?')}</b><span><small>${timeAgo(c.ts)}</small>${can ? `<button class="cm-del" type="button" data-cd="${d.id}">✕</button>` : ''}</span></div>${escapeHtml(c.text || '')}</div>`;
+    }).join('');
+    body.querySelectorAll('[data-cd]').forEach(b => b.onclick = async () => {
+      try {
+        await deleteDoc(doc(db, 'posts', commentsPost.id, 'comments', b.dataset.cd));
+        await updateDoc(doc(db, 'posts', commentsPost.id), { comments: increment(-1) });
+      } catch (e) { toast('Ошибка'); }
+      loadComments();
+    });
+    body.scrollTop = body.scrollHeight;
+  } catch (e) { body.innerHTML = '<div class="placeholder-empty" style="padding:24px">Не удалось загрузить</div>'; }
+}
+async function sendComment() {
+  const inp = $('commentInput');
+  const text = inp.value.trim();
+  if (!text || !commentsPost) return;
+  inp.value = '';
+  try {
+    await addDoc(collection(db, 'posts', commentsPost.id, 'comments'), { uid: currentUser.uid, nick: currentUser.nick, text, ts: serverTimestamp() });
+    await updateDoc(doc(db, 'posts', commentsPost.id), { comments: increment(1) });
+  } catch (e) { toast('Не удалось отправить'); }
+  loadComments();
+}
+
+/* --- КАТАЛОГ --- */
+function giftsCount(u) { return (u.gifts || []).length; }
+function createdMs(u) { return u.created?.toDate ? u.created.toDate().getTime() : 0; }
+function showCatalogView() {
+  removePageViews();
+  if (currentChat || currentChannel) closeChatView();
+  $('bottomNav').classList.remove('hide');
+  $('mainContent').classList.remove('no-nav');
+  const p = document.createElement('div');
+  p.className = 'page-view';
+  p.innerHTML = `<div class="xg-page">
+    <div class="xg-page-head"><h2>🧭 Каталог</h2></div>
+    <div class="xg-filters" id="catTabs">
+      <button class="chat-tab" data-ct="players" type="button">👥 Игроки</button>
+      <button class="chat-tab" data-ct="channels" type="button">📢 Каналы</button>
+      <button class="chat-tab" data-ct="gifts" type="button">🎁 Подарки</button>
+      <button class="chat-tab" data-ct="top" type="button">🏆 Топ</button>
+    </div>
+    <input type="text" class="cat-search" id="catSearch" placeholder="Поиск..." autocomplete="off">
+    <div class="xg-filters" id="catSort"></div>
+    <div id="catBody"></div>
+  </div>`;
+  $('mainContent').appendChild(p);
+  const search = p.querySelector('#catSearch');
+  search.value = catalogQuery;
+  search.oninput = () => { catalogQuery = search.value.trim(); renderCatalog(); };
+  p.querySelectorAll('[data-ct]').forEach(b => b.onclick = () => { catalogTab = b.dataset.ct; renderCatalog(); });
+  renderCatalog();
+}
+function renderCatalog() {
+  const body = $('catBody'); if (!body) return;
+  document.querySelectorAll('#catTabs [data-ct]').forEach(b => b.classList.toggle('active', b.dataset.ct === catalogTab));
+  const search = $('catSearch');
+  if (search) search.style.display = (catalogTab === 'players' || catalogTab === 'channels') ? '' : 'none';
+  const sortBox = $('catSort');
+  if (sortBox) {
+    if (catalogTab === 'players') {
+      const opts = [['online', '🟢 Онлайн'], ['new', '🆕 Новые'], ['gifts', '🎁 По подаркам'], ['az', 'А–Я']];
+      sortBox.style.display = '';
+      sortBox.innerHTML = opts.map(o => `<button class="chat-tab ${catalogSort === o[0] ? 'active' : ''}" data-cs="${o[0]}" type="button">${o[1]}</button>`).join('');
+      sortBox.querySelectorAll('[data-cs]').forEach(b => b.onclick = () => { catalogSort = b.dataset.cs; renderCatalog(); });
+    } else { sortBox.style.display = 'none'; sortBox.innerHTML = ''; }
+  }
+  if (catalogTab === 'players') renderCatalogPlayers(body);
+  else if (catalogTab === 'channels') renderCatalogChannels(body);
+  else if (catalogTab === 'gifts') renderCatalogGifts(body);
+  else renderCatalogTop(body);
+}
+function userCardHtml(u, info, rank) {
+  const online = isOnline(u);
+  return `<div class="cat-card" data-uid="${u.uid}">
+    ${rank ? `<div class="rank">${rank}</div>` : ''}
+    <div class="avatar" style="${avatarStyle(u)}">${u.avatar ? '' : initials(u.nick)}</div>
+    <div class="fc-info">
+      <div class="fc-nick">${escapeHtml(u.nick)}${u.isDev ? ' ⚙️' : ''}</div>
+      <div class="fc-status ${online ? 'online' : ''}">${info || (online ? 'онлайн' : 'оффлайн')}</div>
+    </div>
+    ${rank ? '' : '<button class="add-btn" type="button" data-msg="' + u.uid + '">Написать</button>'}
+  </div>`;
+}
+function bindUserCards(body) {
+  body.querySelectorAll('.cat-card[data-uid]').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('[data-msg]')) return;
+      const u = allUsers.find(x => x.uid === card.dataset.uid);
+      if (u) showUserProfile(u);
+    });
+  });
+  body.querySelectorAll('[data-msg]').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation();
+    const u = allUsers.find(x => x.uid === b.dataset.msg);
+    if (u) openChat(u);
+  }));
+}
+function renderCatalogPlayers(body) {
+  const q = catalogQuery.toLowerCase();
+  let list = allUsers.filter(u => !u.isAI && u.uid !== currentUser.uid && (u.nick || '').toLowerCase().includes(q));
+  if (catalogSort === 'online') list.sort((a, b) => (isOnline(b) ? 1 : 0) - (isOnline(a) ? 1 : 0) || (a.nick || '').localeCompare(b.nick || ''));
+  else if (catalogSort === 'new') list.sort((a, b) => createdMs(b) - createdMs(a));
+  else if (catalogSort === 'gifts') list.sort((a, b) => giftsCount(b) - giftsCount(a));
+  else list.sort((a, b) => (a.nick || '').localeCompare(b.nick || ''));
+  if (!list.length) { body.innerHTML = '<div class="placeholder-empty"><span class="em">👤</span>Никого не найдено</div>'; return; }
+  body.innerHTML = list.map(u => {
+    const online = isOnline(u);
+    const parts = [online ? 'онлайн' : 'оффлайн'];
+    if (giftsCount(u)) parts.push('🎁 ' + giftsCount(u));
+    if (u.status) parts.push(escapeHtml(u.status));
+    return userCardHtml(u, parts.join(' · '));
+  }).join('');
+  bindUserCards(body);
+}
+async function renderCatalogChannels(body) {
+  body.innerHTML = '<div class="placeholder-empty"><span class="em">📢</span>Загрузка...</div>';
+  try {
+    const snap = await getDocs(collection(db, 'channels'));
+    if (catalogTab !== 'channels' || !document.body.contains(body)) return;
+    const q = catalogQuery.toLowerCase();
+    const list = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(ch => (ch.name || '').toLowerCase().includes(q))
+      .sort((a, b) => (b.members || []).length - (a.members || []).length);
+    let html = '<button class="btn-secondary" id="catNewCh" type="button" style="width:100%;margin-bottom:12px">+ Создать канал</button>';
+    if (!list.length) html += '<div class="placeholder-empty"><span class="em">📢</span>Каналов не найдено</div>';
+    html += list.map(ch => {
+      const isMember = (ch.members || []).includes(currentUser.uid);
+      return `<div class="cat-card" data-ch="${ch.id}">
+        <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#1e40af);font-size:22px">📢</div>
+        <div class="fc-info"><div class="fc-nick">${escapeHtml(ch.name || '')}</div><div class="fc-status">${(ch.members || []).length} участников${ch.description ? ' · ' + escapeHtml(ch.description.slice(0, 40)) : ''}</div></div>
+        <button class="add-btn ${isMember ? 'added' : ''}" type="button">${isMember ? 'Открыть' : 'Вступить'}</button>
+      </div>`;
+    }).join('');
+    body.innerHTML = html;
+    body.querySelector('#catNewCh')?.addEventListener('click', openCreateChannel);
+    body.querySelectorAll('[data-ch]').forEach(card => card.addEventListener('click', () => {
+      const ch = list.find(x => x.id === card.dataset.ch);
+      if (ch) joinAndOpenChannel(ch);
+    }));
+  } catch (e) { body.innerHTML = '<div class="placeholder-empty">Не удалось загрузить каналы</div>'; }
+}
+async function joinAndOpenChannel(ch) {
+  const isMember = (ch.members || []).includes(currentUser.uid);
+  const members = isMember ? (ch.members || []) : [...(ch.members || []), currentUser.uid];
+  if (!isMember) {
+    try { await updateDoc(doc(db, 'channels', ch.id), { members: arrayUnion(currentUser.uid) }); toast('Вступил в канал ✓'); }
+    catch (e) { toast('Не удалось вступить'); return; }
+  }
+  openChannel({ ...ch, members });
+}
+function renderCatalogGifts(body) {
+  const owned = {};
+  allUsers.forEach(u => (u.gifts || []).forEach(g => { const id = g.id || g; owned[id] = (owned[id] || 0) + 1; }));
+  const rarity = p => p <= 15 ? 'Обычный' : p <= 50 ? 'Редкий' : 'Эпический';
+  body.innerHTML = `<p style="color:var(--text-2);font-size:13px;line-height:1.5;margin:0 0 12px">Все подарки Xtavgram. Дарить можно из меню чата → «Подарить подарок».</p>
+    <div class="xg-gift-grid">${Object.entries(GIFTS_DB).map(([id, g]) => `<div class="xg-gift-card"><span class="gift-big">${g.emoji}</span><b>${g.name}</b><small>${g.price} X</small><small>У игроков: ${owned[id] || 0}</small><small class="xg-rarity">${rarity(g.price)}</small></div>`).join('')}</div>`;
+}
+function renderCatalogTop(body) {
+  const real = allUsers.filter(u => !u.isAI);
+  const medal = i => ['🥇', '🥈', '🥉'][i] || (i + 1);
+  const byGifts = [...real].filter(u => giftsCount(u) > 0).sort((a, b) => giftsCount(b) - giftsCount(a)).slice(0, 10);
+  const byCoins = real.filter(u => !u.isDev && (u.coins || 0) > 0).sort((a, b) => (b.coins || 0) - (a.coins || 0)).slice(0, 10);
+  let html = '<div class="cat-section-title">🎁 По подаркам</div>';
+  html += byGifts.length ? byGifts.map((u, i) => userCardHtml(u, giftsCount(u) + ' подарков', medal(i))).join('') : '<div class="placeholder-empty" style="padding:20px">Пока никого</div>';
+  html += '<div class="cat-section-title">💰 По балансу X</div>';
+  html += byCoins.length ? byCoins.map((u, i) => userCardHtml(u, (u.coins || 0) + ' X', medal(i))).join('') : '<div class="placeholder-empty" style="padding:20px">Пока никого</div>';
+  body.innerHTML = html;
+  bindUserCards(body);
+}
+
+/* --- прочие привязки --- */
+function bindExtras() {
+  const labels = { chats: 'Чаты', posts: 'Посты', catalog: 'Каталог', friends: 'Друзья', profile: 'Профиль', settings: 'Настройки' };
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    const l = labels[b.dataset.nav];
+    if (l) { b.title = l; b.setAttribute('aria-label', l); }
+  });
+  applyFontSize(localStorage.getItem('xg_fontsize') || 'md');
+  $('btnDailyBonus')?.addEventListener('click', claimDailyBonus);
+  $('commentSend')?.addEventListener('click', sendComment);
+  $('commentInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') sendComment(); });
+  const inp = $('messageInput');
+  inp?.addEventListener('input', saveDraft);
+  inp?.addEventListener('keydown', e => { if (e.key === 'Enter') setTimeout(saveDraft, 50); });
+  $('btnSend')?.addEventListener('click', () => setTimeout(saveDraft, 50));
+  if (inp && !$('btnEmoji')) {
+    const eb = document.createElement('button');
+    eb.className = 'icon-btn'; eb.type = 'button'; eb.id = 'btnEmoji'; eb.title = 'Эмодзи';
+    eb.textContent = '😊'; eb.style.fontSize = '20px';
+    inp.parentNode.insertBefore(eb, inp);
+    eb.addEventListener('click', e => {
+      e.stopPropagation();
+      const ex = $('emojiPanel');
+      if (ex) { ex.remove(); return; }
+      const pn = document.createElement('div');
+      pn.id = 'emojiPanel'; pn.className = 'emoji-panel';
+      pn.innerHTML = EMOJIS.map(x => `<button type="button">${x}</button>`).join('');
+      pn.addEventListener('click', ev => {
+        const b = ev.target.closest('button'); if (!b) return;
+        inp.value += b.textContent; inp.focus(); saveDraft();
+      });
+      $('chatWindow').appendChild(pn);
+      const close = ev => {
+        if (!ev.target.closest('#emojiPanel') && ev.target !== eb) { pn.remove(); document.removeEventListener('click', close); }
+      };
+      setTimeout(() => document.addEventListener('click', close), 0);
+    });
+  }
+}
+
 bindEyeButtons();
 bindAuth();
 bindCloseButtons();
@@ -2972,7 +3691,8 @@ bindScrollBottom();
 bindChatSearch();
 bindGifts();
 bindProfiles();
+bindExtras();
 
 </script>
 </body>
-                </html>
+  </html>

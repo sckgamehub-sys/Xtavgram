@@ -57,7 +57,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 
 /* APP */
 .app{height:100vh;height:100dvh;display:flex;flex-direction:column}
-.top-bar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.85);backdrop-filter:blur(20px);z-index:20;flex-shrink:0}
+.top-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.85);backdrop-filter:blur(20px);z-index:20;flex-shrink:0}
 [data-theme="light"] .top-bar{background:rgba(245,245,245,.85)}
 .logo-small{font-size:22px;font-weight:900;letter-spacing:-.8px}
 .logo-small span{color:var(--text-3)}
@@ -75,7 +75,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .chats-header h2{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .chat-list{flex:1;overflow-y:auto;padding:0 8px 8px}
 .chat-list::-webkit-scrollbar{width:0}
-.chat-item{display:flex;align-items:center;will-change:transform,background;gap:12px;padding:12px;border-radius:14px;cursor:pointer;transition:all .25s;margin-bottom:2px;position:relative;animation:chatItemIn .3s}
+.chat-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;cursor:pointer;transition:all .25s;margin-bottom:2px;position:relative;animation:chatItemIn .3s}
 @keyframes chatItemIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
 .chat-item:hover{background:var(--glass)}
 .chat-item.active{background:var(--glass)}
@@ -93,7 +93,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .chat-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text-3)}
 .empty-icon{font-size:64px;opacity:.3;animation:float 3s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.chat-active{flex:1;display:flex;flex-direction:column;overflow:hidden;animation:fadeIn .3s;transition:transform .35s cubic-bezier(.2,.9,.3,1),opacity .25s}
+.chat-active{flex:1;display:flex;flex-direction:column;overflow:hidden;animation:fadeIn .3s}
 .chat-header{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.85);backdrop-filter:blur(20px);z-index:5;flex-shrink:0}
 [data-theme="light"] .chat-header{background:rgba(245,245,245,.85)}
 .back-btn{display:none}
@@ -111,7 +111,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .messages::-webkit-scrollbar{width:6px}
 .messages::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 
-.msg{max-width:70%;padding:10px 14px;will-change:transform,opacity;border-radius:18px;font-size:14.5px;line-height:1.45;word-wrap:break-word;animation:msgIn .35s cubic-bezier(.2,.9,.3,1);display:flex;flex-direction:column;gap:4px;position:relative}
+.msg{max-width:70%;padding:10px 14px;border-radius:18px;font-size:14.5px;line-height:1.45;word-wrap:break-word;animation:msgIn .35s cubic-bezier(.2,.9,.3,1);display:flex;flex-direction:column;gap:4px;position:relative}
 @keyframes msgIn{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes msgOut{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
 .msg.just-sent{animation:msgIn .35s cubic-bezier(.2,.9,.3,1), msgOut .5s ease .35s}
@@ -539,13 +539,17 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .shop-ring{width:64px;height:64px;border-radius:50%;margin:0 auto;padding:4px}
 .shop-ring-in{width:100%;height:100%;border-radius:50%;background:var(--bg-3);border:3px solid var(--bg-3);box-shadow:inset 0 0 0 40px #555}
 
-/* XtavGram profile music, stories and premium polish */
-.xg-story-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.88);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:18px;animation:fadeIn .2s}
-.xg-story-card{width:min(440px,100%);min-height:360px;border-radius:26px;padding:22px;background:linear-gradient(145deg,#252525,#080808);border:1px solid #555;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
-.xg-story-list{display:flex;gap:10px;overflow-x:auto;padding:12px 2px 16px;scrollbar-width:none}.xg-story-chip{flex:0 0 76px;text-align:center;font-size:11px;color:var(--text-2);cursor:pointer}.xg-story-ring{width:62px;height:62px;margin:0 auto 6px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#fff,#777)}.xg-story-ring span{height:100%;display:grid;place-items:center;border-radius:50%;background:var(--bg-3);font-size:24px;border:2px solid var(--bg)}
-.xg-profile-music{margin:12px auto 8px;max-width:430px;padding:12px 14px;border:1px solid var(--border);border-radius:16px;background:var(--profile-glass,rgba(255,255,255,.07));backdrop-filter:blur(18px);text-align:left}.xg-profile-music audio{width:100%;height:34px;margin-top:7px}.xg-premium-star{color:#f5c451;text-shadow:0 0 12px rgba(245,196,81,.45);font-size:19px;vertical-align:middle}
-.profile-premium-bg{background:var(--profile-bg,linear-gradient(135deg,#141414,#0a0a0a))!important;border-color:var(--profile-accent,#333)!important}.tg-profile .profile-section,.tg-profile .tg-gift{background:rgba(255,255,255,var(--profile-opacity,.07));border-color:var(--profile-accent,var(--border));backdrop-filter:blur(16px)}
-@media(max-width:520px){.xg-story-card{min-height:330px}.xg-profile-music{margin-left:8px;margin-right:8px}}
+/* ===== РИСУНКИ ПОДАРКОВ ===== */
+.gart{display:block;margin:0 auto;width:48px;height:48px;overflow:visible}
+.gift-card .emoji .gart{width:54px;height:54px;margin-bottom:8px}
+.msg-gift .gift-emoji{font-size:0;margin-bottom:8px}
+.msg-gift .gift-emoji .gart{width:76px;height:76px}
+.tg-gift .ge{font-size:0;margin-bottom:8px}
+.tg-gift .ge .gart{width:56px;height:56px}
+.gift-detail-icon{font-size:0}
+.gift-detail-icon .gart{width:84px;height:84px}
+.xg-gift-card .gift-big{font-size:0}
+.xg-gift-card .gift-big .gart{width:60px;height:60px}
 </style>
 </head>
 <body>
@@ -604,7 +608,6 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
       </svg>
     </div>
     <div class="logo-small">Xtav<span>gram</span></div>
-    <button class="icon-btn" id="xgStoriesBtn" type="button" title="Истории" style="position:absolute;right:12px;font-size:20px">◉</button>
   </div>
 
   <div class="main-content" id="mainContent">
@@ -774,19 +777,19 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
     <p style="color:var(--text-2); font-size:13px; margin-bottom:10px;" id="giftStoreTargetName"></p>
     <div class="gift-grid">
       <div class="gift-card" data-gift="bear">
-        <span class="emoji">🧸</span><div class="name">Мишка</div><div class="price">15 X</div>
+        <span class="emoji" data-art="bear"></span><div class="name">Мишка</div><div class="price">15 X</div>
       </div>
       <div class="gift-card" data-gift="star">
-        <span class="emoji">⭐</span><div class="name">Звезда</div><div class="price">15 X</div>
+        <span class="emoji" data-art="star"></span><div class="name">Звезда</div><div class="price">15 X</div>
       </div>
       <div class="gift-card" data-gift="demon">
-        <span class="emoji">😈</span><div class="name">Демон</div><div class="price">50 X</div>
+        <span class="emoji" data-art="demon"></span><div class="name">Демон</div><div class="price">50 X</div>
       </div>
       <div class="gift-card" data-gift="clown">
-        <span class="emoji">🤡</span><div class="name">Клоун</div><div class="price">50 X</div>
+        <span class="emoji" data-art="clown"></span><div class="name">Клоун</div><div class="price">50 X</div>
       </div>
       <div class="gift-card" data-gift="zedki" style="grid-column: span 2;">
-        <span class="emoji">💤</span><div class="name">Зедки</div><div class="price">500 X</div>
+        <span class="emoji" data-art="zedki"></span><div class="name">Зедки</div><div class="price">500 X</div>
       </div>
     </div>
     <button class="btn-close" data-close="giftStoreModal" type="button">Отмена</button>
@@ -808,11 +811,11 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
     <h2>👑 Выдача подарка</h2>
     <p style="color:var(--text-2); font-size:13px; margin-bottom:10px;">Выберите подарок для пользователя <b id="adminGiftTargetNick"></b></p>
     <div class="gift-grid">
-      <div class="gift-card" data-gift="bear"><span class="emoji">🧸</span><div class="name">Мишка</div></div>
-      <div class="gift-card" data-gift="star"><span class="emoji">⭐</span><div class="name">Звезда</div></div>
-      <div class="gift-card" data-gift="demon"><span class="emoji">😈</span><div class="name">Демон</div></div>
-      <div class="gift-card" data-gift="clown"><span class="emoji">🤡</span><div class="name">Клоун</div></div>
-      <div class="gift-card" data-gift="zedki" style="grid-column: span 2;"><span class="emoji">💤</span><div class="name">Зедки</div></div>
+      <div class="gift-card" data-gift="bear"><span class="emoji" data-art="bear"></span><div class="name">Мишка</div></div>
+      <div class="gift-card" data-gift="star"><span class="emoji" data-art="star"></span><div class="name">Звезда</div></div>
+      <div class="gift-card" data-gift="demon"><span class="emoji" data-art="demon"></span><div class="name">Демон</div></div>
+      <div class="gift-card" data-gift="clown"><span class="emoji" data-art="clown"></span><div class="name">Клоун</div></div>
+      <div class="gift-card" data-gift="zedki" style="grid-column: span 2;"><span class="emoji" data-art="zedki"></span><div class="name">Зедки</div></div>
     </div>
     <button class="btn-close" data-close="adminGiftModal" type="button">Отмена</button>
   </div>
@@ -982,14 +985,32 @@ function removePageViews() {
   document.querySelectorAll('.page-view').forEach(p => p.remove());
 }
 
+
+/* ==== РИСУНКИ ПОДАРКОВ (SVG вместо эмодзи) ==== */
+let _artN = 0;
+const GIFT_ART = {
+  bear: u => `<circle cx="17" cy="16" r="8.5" fill="#b07a45" stroke="#5a3a1c" stroke-width="2"/><circle cx="17" cy="16" r="4" fill="#e9c49a"/><circle cx="47" cy="16" r="8.5" fill="#b07a45" stroke="#5a3a1c" stroke-width="2"/><circle cx="47" cy="16" r="4" fill="#e9c49a"/><circle cx="32" cy="35" r="21" fill="#c98f55" stroke="#5a3a1c" stroke-width="2"/><ellipse cx="32" cy="43" rx="10" ry="8" fill="#f2d6ae" stroke="#5a3a1c" stroke-width="1.5"/><circle cx="24" cy="30" r="2.8" fill="#2a1a0e"/><circle cx="40" cy="30" r="2.8" fill="#2a1a0e"/><circle cx="23" cy="29" r=".9" fill="#fff"/><circle cx="39" cy="29" r=".9" fill="#fff"/><ellipse cx="32" cy="39.5" rx="3.4" ry="2.5" fill="#2a1a0e"/><path d="M32 42v2.5M32 44.5q-3 3-6 0M32 44.5q3 3 6 0" fill="none" stroke="#2a1a0e" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="38" r="3" fill="#ff8fa3" opacity=".55"/><circle cx="45" cy="38" r="3" fill="#ff8fa3" opacity=".55"/>`,
+  star: u => `<defs><linearGradient id="${u}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde047"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs><polygon points="32,7 39.05,24.29 57.68,25.66 43.41,37.71 47.87,55.84 32,46 16.13,55.84 20.59,37.71 6.32,25.66 24.95,24.29" fill="url(#${u}g)" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/><circle cx="27" cy="33" r="1.9" fill="#5b3a06"/><circle cx="37" cy="33" r="1.9" fill="#5b3a06"/><path d="M28 38q4 4 8 0" fill="none" stroke="#5b3a06" stroke-width="1.8" stroke-linecap="round"/><circle cx="24" cy="38" r="2.2" fill="#fb7185" opacity=".6"/><circle cx="40" cy="38" r="2.2" fill="#fb7185" opacity=".6"/><path d="M9 4v9M4.5 8.5h9M56 3v7M52.5 6.5h7" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>`,
+  demon: u => `<defs><radialGradient id="${u}g" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#b45cf0"/><stop offset="1" stop-color="#5b1a8f"/></radialGradient></defs><path d="M15 25Q6 6 25 13Z" fill="#ef4444" stroke="#7f1d1d" stroke-width="2" stroke-linejoin="round"/><path d="M49 25Q58 6 39 13Z" fill="#ef4444" stroke="#7f1d1d" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="37" r="21" fill="url(#${u}g)" stroke="#2e0a4a" stroke-width="2"/><ellipse cx="24" cy="36" rx="4.5" ry="3" fill="#fde047" transform="rotate(18 24 36)"/><ellipse cx="40" cy="36" rx="4.5" ry="3" fill="#fde047" transform="rotate(-18 40 36)"/><circle cx="24.5" cy="36.5" r="1.5" fill="#111"/><circle cx="39.5" cy="36.5" r="1.5" fill="#111"/><path d="M16 28L29 33M48 28L35 33" stroke="#1a0630" stroke-width="3" stroke-linecap="round"/><path d="M20 45Q32 57 44 45Q32 49.5 20 45Z" fill="#1a0630" stroke="#1a0630" stroke-width="1.5" stroke-linejoin="round"/><path d="M24 46.2l2.2 4 2.2-3.3zM40 46.2l-2.2 4-2.2-3.3z" fill="#fff"/>`,
+  clown: u => `<circle cx="12" cy="34" r="9" fill="#f97316" stroke="#9a3412" stroke-width="2"/><circle cx="52" cy="34" r="9" fill="#f97316" stroke="#9a3412" stroke-width="2"/><circle cx="32" cy="36" r="19" fill="#fff1e0" stroke="#7c4a21" stroke-width="2"/><path d="M22 20L32 2l10 18Z" fill="#3b82f6" stroke="#1e3a8a" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="3.5" r="3.2" fill="#f43f5e"/><path d="M25 23l2.5 3-2.5 3-2.5-3zM39 23l2.5 3-2.5 3-2.5-3z" fill="#38bdf8"/><circle cx="25" cy="33" r="3.2" fill="#fff" stroke="#222" stroke-width="1.2"/><circle cx="25" cy="33" r="1.5" fill="#222"/><circle cx="39" cy="33" r="3.2" fill="#fff" stroke="#222" stroke-width="1.2"/><circle cx="39" cy="33" r="1.5" fill="#222"/><circle cx="32" cy="39" r="5" fill="#ef4444" stroke="#991b1b" stroke-width="1.5"/><circle cx="30.5" cy="37.5" r="1.4" fill="#fff" opacity=".7"/><path d="M21 45Q32 58 43 45Q32 50 21 45Z" fill="#ef4444" stroke="#991b1b" stroke-width="1.5" stroke-linejoin="round"/>`,
+  zedki: u => `<defs><mask id="${u}m"><rect width="64" height="64" fill="#fff"/><circle cx="42" cy="26" r="20" fill="#000"/></mask></defs><circle cx="26" cy="36" r="24" fill="#fcd34d" mask="url(#${u}m)"/><path d="M9 41q5 5 10 0" fill="none" stroke="#7c4a06" stroke-width="2" stroke-linecap="round"/><path d="M12 50q3 2 6 0" fill="none" stroke="#7c4a06" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="47" r="2.4" fill="#fb923c" opacity=".55"/><text x="38" y="30" font-size="17" font-weight="800" fill="#818cf8">Z</text><text x="48" y="19" font-size="12" font-weight="800" fill="#a5b4fc">Z</text><text x="55" y="10" font-size="8" font-weight="800" fill="#c7d2fe">z</text><circle cx="50" cy="44" r="1.6" fill="#fcd34d"/><circle cx="57" cy="36" r="1.2" fill="#fcd34d"/><circle cx="44" cy="55" r="1.2" fill="#fcd34d"/>`,
+  crystal: u => `<defs><linearGradient id="${u}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a5f3fc"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs><path d="M20 10H44L58 24L32 58L6 24Z" fill="url(#${u}g)" stroke="#312e81" stroke-width="2.5" stroke-linejoin="round"/><path d="M6 24H58M20 10L26 24L32 58L38 24L44 10M26 24L32 10L38 24" fill="none" stroke="#312e81" stroke-width="1.6" stroke-linejoin="round" opacity=".75"/><path d="M14 22L22 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>`,
+  galaxy: u => `<defs><radialGradient id="${u}b" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#312e81"/><stop offset="1" stop-color="#0b0b2b"/></radialGradient><linearGradient id="${u}p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs><circle cx="32" cy="32" r="28" fill="url(#${u}b)" stroke="#6366f1" stroke-width="2"/><g fill="#fff"><circle cx="14" cy="18" r="1.3"/><circle cx="50" cy="14" r="1.6"/><circle cx="54" cy="40" r="1.2"/><circle cx="18" cy="48" r="1.5"/><circle cx="40" cy="52" r="1"/><circle cx="26" cy="10" r="1"/></g><path d="M10 32A22 6.5 0 0 1 54 32" fill="none" stroke="#93c5fd" stroke-width="2.5" transform="rotate(-22 32 32)"/><circle cx="32" cy="32" r="11" fill="url(#${u}p)"/><path d="M10 32A22 6.5 0 0 0 54 32" fill="none" stroke="#bfdbfe" stroke-width="2.5" transform="rotate(-22 32 32)"/>`,
+  crown: u => `<defs><linearGradient id="${u}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde047"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs><path d="M8 50L6 20L21 33L32 12L43 33L58 20L56 50Z" fill="url(#${u}g)" stroke="#92400e" stroke-width="2.5" stroke-linejoin="round"/><rect x="8" y="49" width="48" height="9" rx="2.5" fill="url(#${u}g)" stroke="#92400e" stroke-width="2.5"/><circle cx="6" cy="19" r="3" fill="#ef4444" stroke="#92400e" stroke-width="1.2"/><circle cx="32" cy="11" r="3.5" fill="#38bdf8" stroke="#92400e" stroke-width="1.2"/><circle cx="58" cy="19" r="3" fill="#22c55e" stroke="#92400e" stroke-width="1.2"/><g fill="#fff"><circle cx="20" cy="53.5" r="1.8"/><circle cx="32" cy="53.5" r="1.8"/><circle cx="44" cy="53.5" r="1.8"/></g>`,
+  box: u => `<rect x="10" y="26" width="44" height="30" rx="3" fill="#ef4444" stroke="#7f1d1d" stroke-width="2.5"/><rect x="7" y="19" width="50" height="10" rx="3" fill="#f87171" stroke="#7f1d1d" stroke-width="2.5"/><path d="M32 19v37" stroke="#fde047" stroke-width="6"/><path d="M32 19C24 6 14 12 22 18ZM32 19C40 6 50 12 42 18Z" fill="none" stroke="#fde047" stroke-width="3" stroke-linejoin="round"/>`
+};
+function giftArt(id) {
+  const u = 'ga' + (++_artN);
+  const f = GIFT_ART[id] || GIFT_ART.box;
+  return `<svg class="gart" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${f(u)}</svg>`;
+}
+
 const GIFTS_DB = {
   bear: { name: 'Мишка', emoji: '🧸', price: 15 },
   star: { name: 'Звезда', emoji: '⭐', price: 15 },
   demon: { name: 'Демон', emoji: '😈', price: 50 },
   clown: { name: 'Клоун', emoji: '🤡', price: 50 },
-  zedki: { name: 'Зедки', emoji: '💤', price: 500 },
-  galaxy: { name: 'Галактика', emoji: '🌌', price: 999 },
-  crown: { name: 'Корона', emoji: '👑', price: 1499 }
+  zedki: { name: 'Зедки', emoji: '💤', price: 500 }
 };
 
 /* ==== АРХИВ ==== */
@@ -1739,7 +1760,7 @@ function buildMessageEl(m, chatId, isChannel = false) {
     el.style.maxWidth = '100%';
     const g = GIFTS_DB[m.giftId];
     el.innerHTML = `<div class="msg-gift">
-      <div class="gift-emoji">${g ? g.emoji : '🎁'}</div>
+      <div class="gift-emoji">${giftArt(m.giftId)}</div>
       <div class="gift-title">${g ? g.name : 'Подарок'}</div>
       <div class="gift-price">за ${g ? g.price : 0} X</div>
       <button type="button" class="btn-view-gift" data-giftid="${m.id}">Посмотреть</button>
@@ -2206,7 +2227,7 @@ function showFriendsView() {
   const tabs = [['accounts', '👤 Аккаунты'], ['channels', '📢 Каналы'], ['chats', '💬 Чаты'], ['posts', '📝 Посты']];
   p.innerHTML = `<div class="xg-page">
     <div class="xg-page-head"><h2>🔎 Поиск</h2></div>
-    <input type="text" class="cat-search" id="gsInput" placeholder="Ищи по @юзернейму или XtavGram ID..." autocomplete="off" maxlength="40">
+    <input type="text" class="cat-search" id="gsInput" placeholder="Введи хотя бы первую букву..." autocomplete="off" maxlength="40">
     <div class="xg-filters" id="gsTabs">${tabs.map(t => `<button type="button" class="chat-tab ${t[0] === searchTabSel ? 'active' : ''}" data-gs="${t[0]}">${t[1]}</button>`).join('')}</div>
     <div id="gsBody"></div>
   </div>`;
@@ -2225,7 +2246,7 @@ async function runGlobalSearch() {
   const body = $('gsBody'), inp = $('gsInput');
   if (!body || !inp) return;
   const q = inp.value.trim().toLowerCase();
-  if (!q) { body.innerHTML = '<div class="placeholder-empty"><span class="em">🔎</span>Введи @юзернейм или XtavGram ID</div>'; return; }
+  if (!q) { body.innerHTML = '<div class="placeholder-empty"><span class="em">🔎</span>Начни вводить — хотя бы первую букву</div>'; return; }
   const rank = s => { s = (s || '').toLowerCase(); return s.startsWith(q) ? 0 : 1; };
   const empty = '<div class="placeholder-empty"><span class="em">🤷</span>Ничего не найдено</div>';
   const tab = searchTabSel;
@@ -2425,32 +2446,7 @@ async function openChannelsList() {
 }
 
 
-async function saveUserFields(fields) {
-  await updateDoc(doc(db, 'users', currentUser.uid), fields);
-  Object.assign(currentUser, fields);
-}
-function hasPremium(u=currentUser) { return !!(u && (u.premium || u.isDev)); }
-function openStories() {
-  const old=document.getElementById('xgStoriesOverlay'); if(old) old.remove();
-  const box=document.createElement('div'); box.className='xg-story-overlay'; box.id='xgStoriesOverlay';
-  box.innerHTML=`<div class="xg-story-card"><div><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:20px">Истории</b><button id="xgStoryClose" class="icon-btn" style="color:white;font-size:24px">×</button></div><div id="xgStoryList" class="xg-story-list"></div><div id="xgStoryView" style="padding:35px 12px;text-align:center;font-size:22px;line-height:1.5">Истории на 24 часа — делись моментами с друзьями.</div></div><div><input id="xgStoryText" maxlength="220" placeholder="Что нового?" style="width:100%;padding:13px;border-radius:12px;background:#222;color:white;border:1px solid #555;margin-bottom:9px"><button id="xgStoryPublish" class="btn-primary" style="width:100%">Опубликовать историю</button></div></div>`;
-  document.body.appendChild(box);
-  box.querySelector('#xgStoryClose').onclick=()=>box.remove();
-  box.onclick=e=>{if(e.target===box)box.remove()};
-  box.querySelector('#xgStoryPublish').onclick=async()=>{const text=(box.querySelector('#xgStoryText').value||'').trim();if(!text){toast('Напиши текст истории');return;}try{await addDoc(collection(db,'stories'),{uid:currentUser.uid,nick:currentUser.nick,text,ts:Date.now(),expires:Date.now()+86400000});toast('История опубликована ✓');box.querySelector('#xgStoryText').value='';loadStoriesInto(box);}catch(e){toast('Не удалось опубликовать историю');}};
-  loadStoriesInto(box);
-}
-async function loadStoriesInto(box) {
-  const list=box.querySelector('#xgStoryList'); if(!list)return;
-  try{const snap=await getDocs(query(collection(db,'stories'),orderBy('ts','desc'),limit(60)));const items=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>(x.expires||x.ts+86400000)>Date.now());
-    list.innerHTML=items.length?items.map((x,i)=>`<div class="xg-story-chip" data-story="${i}"><div class="xg-story-ring"><span>${escapeHtml((x.nick||'?').slice(0,1).toUpperCase())}</span></div>${escapeHtml(x.nick||'Пользователь')}</div>`).join(''):'<div style="font-size:12px;color:#aaa;padding:14px">Пока нет историй — добавь первую.</div>';
-    list.querySelectorAll('[data-story]').forEach(el=>el.onclick=()=>{const x=items[+el.dataset.story];box.querySelector('#xgStoryView').textContent=x.text||'История';});
-  }catch(e){list.innerHTML='<div style="font-size:12px;color:#aaa">Истории пока недоступны.</div>';}
-}
-function bindStoriesButton(){const b=document.getElementById('xgStoriesBtn');if(b)b.onclick=openStories;}
-
 function getXtavId(user) {
-  if (user && user.customId) return String(user.customId);
   // Stable public-looking ID derived from the Firebase UID; no database write required.
   let h = 2166136261;
   for (let i=0;i<(user.uid||'').length;i++) { h ^= user.uid.charCodeAt(i); h = Math.imul(h,16777619); }
@@ -2473,17 +2469,13 @@ function showXtavIdPage() {
   page.querySelector('#xgCopyId').onclick=async()=>{try{await navigator.clipboard.writeText(id);toast('ID скопирован ✓')}catch(e){const t=document.createElement('textarea');t.value=id;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();toast('ID скопирован ✓')}};
 }
 function showXtavPremiumPage() {
-  const active=hasPremium();
-  const page=openXtavFeaturePage('XtavGram Premium',`<div class="xg-premium-hero"><div class="crown">👑</div><h3>XtavGram Premium</h3><p>Открой расширенное оформление профиля, значок Premium и лимитированные подарки.</p><div style="font-size:27px;font-weight:900;margin-top:12px">999 X</div></div><div class="xg-benefit"><span>✨</span><b>Звёздочка Premium в профиле</b></div><div class="xg-benefit"><span>🎨</span><b>Обои, цвета и прозрачность блоков профиля</b></div><div class="xg-benefit"><span>🎁</span><b>Отправка лимитированных подарков</b></div><div class="xg-benefit"><span>🎵</span><b>Музыка в профиле</b></div><p class="xg-premium-note">Покупка списывает 999 X из внутреннего баланса приложения. Это не реальная денежная оплата.</p><button class="btn-primary" id="xgPremiumBuy" style="width:100%">${currentUser.isDev?'Premium доступен разработчику':active?'Premium активен ✓':'Купить Premium · 999 X'}</button>`);
-  const btn=page.querySelector('#xgPremiumBuy');
-  if(currentUser.isDev){btn.disabled=true;return;}
-  btn.disabled=active;
-  btn.onclick=async()=>{if(hasPremium())return;if((currentUser.coins||0)<999){toast('Нужно 999 X. Пополни баланс в кошельке.');return;}if(!confirm('Купить XtavGram Premium за 999 X?'))return;try{await updateDoc(doc(db,'users',currentUser.uid),{coins:(currentUser.coins||0)-999,premium:true,premiumSince:Date.now()});currentUser.coins-=999;currentUser.premium=true;toast('Premium активирован ✨');showMyProfileView();}catch(e){toast('Не удалось активировать Premium');}};
+  const active=localStorage.getItem('xg_premium_preview')==='1';
+  const page=openXtavFeaturePage('XtavGram Premium',`<div class="xg-premium-hero"><div class="crown">👑</div><h3>Больше возможностей</h3><p>Особый стиль, коллекционные подарки и дополнительные украшения профиля — всё в одном Premium-разделе.</p><span class="xg-demo-tag">ДЕМОНСТРАЦИОННЫЙ РЕЖИМ · БЕЗ ОПЛАТЫ</span></div><div class="xg-benefit"><span>💎</span><div><b>Эксклюзивные подарки</b><div style="color:var(--text-3);font-size:12px">Особые варианты для коллекции</div></div></div><div class="xg-benefit"><span>🎨</span><div><b>Оформление профиля</b><div style="color:var(--text-3);font-size:12px">Дополнительные темы и акценты</div></div></div><div class="xg-benefit"><span>✨</span><div><b>Premium-значок</b><div style="color:var(--text-3);font-size:12px">Украшение рядом с именем</div></div></div><div class="xg-benefit"><span>🚀</span><div><b>Новые функции раньше</b><div style="color:var(--text-3);font-size:12px">Доступ к будущим экспериментам</div></div></div><p class="xg-premium-note">Пока это только макет интерфейса. Покупки, списания денег и настоящая Premium-подписка не подключены.</p><button class="btn-primary" id="xgPremiumPreview" style="width:100%">${active?'Отключить демо-значок':'Включить демо-значок'}</button>`);
+  page.querySelector('#xgPremiumPreview').onclick=()=>{const next=localStorage.getItem('xg_premium_preview')==='1'?'0':'1';localStorage.setItem('xg_premium_preview',next);toast(next==='1'?'Демо-режим Premium включён':'Демо-режим выключен');showXtavPremiumPage()};
 }
-
 function showXtavGiftsPage() {
-  const cards=[['🧸','Мишка','15 X','Обычный'],['⭐','Звезда','15 X','Обычный'],['😈','Демон','50 X','Редкий'],['🤡','Клоун','50 X','Редкий'],['💤','Зедки','500 X','Эпический'],['💠','Кристалл','—','Легендарный'],['🌌','Галактика','—','Легендарный'],['👑','Корона','—','Легендарный']];
-  const html=`<p style="color:var(--text-2);font-size:13px;line-height:1.5;margin:-5px 0 14px">Обновлённая витрина подарков. Новые предметы пока показаны как дизайн-концепты.</p><div class="xg-gift-grid">${cards.map((g,i)=>`<div class="xg-gift-card"><span class="gift-big">${g[0]}</span><b>${g[1]}</b><small>${g[2]}</small><small class="xg-rarity">${g[3]}</small></div>`).join('')}</div><p class="xg-premium-note">Новые легендарные подарки пока нельзя купить или отправить. Существующие подарки по-прежнему отправляются через меню конкретного чата.</p><button class="btn-primary" id="xgGiftGoFriends" style="width:100%;margin-top:8px">Перейти к друзьям</button>`;
+  const cards=[['bear','Мишка','15 X','Обычный'],['star','Звезда','15 X','Обычный'],['demon','Демон','50 X','Редкий'],['clown','Клоун','50 X','Редкий'],['zedki','Зедки','500 X','Эпический'],['crystal','Кристалл','—','Легендарный'],['galaxy','Галактика','—','Легендарный'],['crown','Корона','—','Легендарный']];
+  const html=`<p style="color:var(--text-2);font-size:13px;line-height:1.5;margin:-5px 0 14px">Обновлённая витрина подарков. Новые предметы пока показаны как дизайн-концепты.</p><div class="xg-gift-grid">${cards.map((g,i)=>`<div class="xg-gift-card"><span class="gift-big">${giftArt(g[0])}</span><b>${g[1]}</b><small>${g[2]}</small><small class="xg-rarity">${g[3]}</small></div>`).join('')}</div><p class="xg-premium-note">Новые легендарные подарки пока нельзя купить или отправить. Существующие подарки по-прежнему отправляются через меню конкретного чата.</p><button class="btn-primary" id="xgGiftGoFriends" style="width:100%;margin-top:8px">Перейти к друзьям</button>`;
   const page=openXtavFeaturePage('Gifts 2.0',html);
   page.querySelector('#xgGiftGoFriends').onclick=()=>{document.querySelector('.nav-btn[data-nav="friends"]')?.click()};
 }
@@ -2894,18 +2886,13 @@ function bindChannels() {
 /* ==== ПОДАРКИ ==== */
 function openGiftStore(user) {
   giftTarget = user;
-  const grid=document.querySelector('#giftStoreModal .gift-grid');
-  if(grid && !grid.querySelector('[data-gift=galaxy]')) grid.insertAdjacentHTML('beforeend', '<div class="gift-card" data-gift="galaxy"><span class="emoji">🌌</span><div class="name">Галактика · Limited</div><div class="price">999 X · Premium</div></div><div class="gift-card" data-gift="crown"><span class="emoji">👑</span><div class="name">Корона · Limited</div><div class="price">1499 X · Premium</div></div>');
   $('giftStoreTargetName').textContent = `Кому: ${user.nick}`;
   openModal('giftStoreModal');
 }
 
 async function buyGift(giftId) {
   if (!giftTarget) return;
-  const limited = {galaxy:{name:'Галактика',price:999,emoji:'🌌'},crown:{name:'Корона',price:1499,emoji:'👑'}};
-  const gift = GIFTS_DB[giftId] || limited[giftId];
-  if(!gift) return;
-  if(limited[giftId] && !hasPremium()){toast('Лимитированные подарки доступны только с Premium');return;}
+  const gift = GIFTS_DB[giftId];
   const myCoins = currentUser.coins || 0;
 
   if (myCoins < gift.price) { toast('Недостаточно X!'); return; }
@@ -2962,7 +2949,7 @@ function openGiftDetailFromMessage(m) {
 
 function openGiftDetail(giftId, fromNick, ts, price) {
   const g = GIFTS_DB[giftId];
-  $('gdIcon').textContent = g ? g.emoji : '🎁';
+  $('gdIcon').innerHTML = giftArt(giftId);
   $('gdName').textContent = g ? g.name : 'Подарок';
   $('gdFrom').textContent = `От: ${fromNick || 'неизвестно'}`;
   
@@ -3000,6 +2987,7 @@ function openGiftDetail(giftId, fromNick, ts, price) {
 }
 
 function bindGifts() {
+  document.querySelectorAll('[data-art]').forEach(el => { el.innerHTML = giftArt(el.dataset.art); });
   document.querySelectorAll('#giftStoreModal .gift-card').forEach(c => {
     c.addEventListener('click', () => buyGift(c.dataset.gift));
   });
@@ -3154,11 +3142,9 @@ function bannerCss(u) {
 }
 function ringOf(u) { return RINGS.find(r => r.id === (u && u.ring)) || RINGS[0]; }
 function userMatches(u, q) {
-  q = (q || '').trim().toLowerCase().replace(/^@/, '');
+  q = (q || '').toLowerCase().replace(/^@/, '');
   if (!q) return false;
-  const names = (u.usernames || []).map(n => String(n).toLowerCase());
-  const publicId = String(u.customId || getXtavId(u)).toLowerCase().replace(/^#/, '');
-  return names.some(n => n.includes(q)) || publicId.includes(q);
+  return (u.nick || '').toLowerCase().includes(q) || (u.usernames || []).some(n => n.includes(q));
 }
 
 function showUserProfile(u) {
@@ -3247,27 +3233,26 @@ function renderTgProfile(u, isMe) {
   p.className = 'page-view';
   const tabs = [['gifts', `🎁 Подарки <span class="count">${giftsN}</span>`], ['posts', '📝 Посты'], ['info', 'ℹ️ Инфо']];
   if (isMe) tabs.push(['more', '⚙️ Ещё']);
-  p.innerHTML = `<div class="tg-profile" id="tgProfile" style="--profile-opacity:${u.profileOpacity ?? .07};--profile-accent:${u.profileAccent || 'var(--border)'}">
-    <div class="tg-banner profile-premium-bg" style="background:${u.profileBg || bannerCss(u)};--profile-bg:${u.profileBg || 'linear-gradient(135deg,#141414,#0a0a0a)'};--profile-accent:${u.profileAccent || '#333'}">
+  p.innerHTML = `<div class="tg-profile" id="tgProfile">
+    <div class="tg-banner" style="background:${bannerCss(u)}">
       ${isMe ? '<button class="tg-banner-btn right" id="tgStyleBtn" type="button" title="Оформление">🎨</button>' : '<button class="tg-banner-btn left" id="tgBackBtn" type="button" title="Назад">←</button>'}
     </div>
     <div class="tg-head">
       <div class="tg-avatar-wrap" style="${ring.css ? 'background:' + ring.css : 'background:var(--bg)'}">
         <div class="tg-avatar" style="${avatarStyle(u, true)}">${u.avatar ? '' : initials(u.nick)}</div>
       </div>
-      <div class="profile-name" style="font-size:25px;margin-bottom:4px">${escapeHtml(u.nick)}${hasPremium(u) ? '<span class="xg-premium-star" title="Premium">★</span>' : ''}
+      <div class="profile-name" style="font-size:25px;margin-bottom:4px">${escapeHtml(u.nick)}
         ${u.isDev ? '<span class="profile-badge dev">⚙️ Разработчик</span>' : ''}${u.isAI ? '<span class="profile-badge">🤖 AI</span>' : ''}
       </div>
       <div class="profile-status-line" style="${online ? '' : 'color:var(--text-3)'}">${online ? 'онлайн' : 'оффлайн'}</div>
       ${u.status ? `<div style="font-size:13.5px;margin:6px 0 2px">💭 ${escapeHtml(u.status)}</div>` : ''}
       <div class="tg-usernames">
         ${names.map(n => `<button type="button" class="tg-uname" data-un="${escapeHtml(n)}">@${escapeHtml(n)}</button>`).join('')}
-        ${isMe && (u.isDev || names.length < MAX_USERNAMES) ? '<button type="button" class="tg-uname add" id="tgAddUname">+ юзернейм</button>' : ''}
+        ${isMe && names.length < MAX_USERNAMES ? '<button type="button" class="tg-uname add" id="tgAddUname">+ юзернейм</button>' : ''}
       </div>
       ${u.bio ? `<div class="profile-bio" style="margin-bottom:6px">${escapeHtml(u.bio).replace(/\n/g, '<br>')}</div>` : (isMe ? '<div class="profile-bio" style="opacity:.5;font-style:italic;margin-bottom:6px">Добавь описание о себе ✏️</div>' : '')}
-      ${u.profileMusic ? `<div class="xg-profile-music" style="--profile-glass:rgba(255,255,255,${Math.max(.02,Math.min(.35,Number(u.profileOpacity??.08)))})"><b>🎵 ${escapeHtml(u.musicTitle || 'Музыка профиля')}</b><audio controls preload="none" src="${escapeHtml(u.profileMusic)}"></audio></div>` : ''}
       <div class="tg-actions">
-        ${isMe ? '<button class="btn-primary" id="tgEditBtn" type="button">✏️ Изменить</button><button class="btn-secondary" id="tgStyle2Btn" type="button">🎨 Оформление</button><button class="btn-secondary" id="tgWalletBtn" type="button">💰 Кошелёк</button><button class="btn-secondary" id="tgMusicBtn" type="button">🎵 Музыка</button><button class="btn-secondary" id="tgPremiumStyleBtn" type="button">✨ Стиль Premium</button>'
+        ${isMe ? '<button class="btn-primary" id="tgEditBtn" type="button">✏️ Изменить</button><button class="btn-secondary" id="tgStyle2Btn" type="button">🎨 Оформление</button><button class="btn-secondary" id="tgWalletBtn" type="button">💰 Кошелёк</button>'
           : `${!u.isAI ? '<button class="btn-primary" id="tgMsgBtn" type="button">💬 Написать</button><button class="btn-secondary" id="tgGiftBtn" type="button">🎁 Подарить</button>' : ''}`}
       </div>
     </div>
@@ -3286,24 +3271,7 @@ function renderTgProfile(u, isMe) {
   $('tgStyle2Btn')?.addEventListener('click', () => openStyleModal());
   $('tgAddUname')?.addEventListener('click', () => openStyleModal('usernames'));
   $('tgWalletBtn')?.addEventListener('click', openWallet);
-  $('tgMusicBtn')?.addEventListener('click', editProfileMusic);
-  $('tgPremiumStyleBtn')?.addEventListener('click', editPremiumProfileStyle);
   renderProfileTabBody();
-}
-
-async function editProfileMusic(){
-  const url=prompt('Вставь прямую ссылку на аудиофайл (MP3/OGG). Пустое поле — убрать музыку.',currentUser.profileMusic||'');if(url===null)return;
-  const title=prompt('Название трека:',currentUser.musicTitle||'Моя музыка');if(title===null)return;
-  if(url && !/^https?:\/\//i.test(url)){toast('Нужна прямая ссылка http(s) на аудио');return;}
-  try{await saveUserFields({profileMusic:url.trim(),musicTitle:title.trim()||'Моя музыка'});toast(url.trim()?'Музыка добавлена в профиль ✓':'Музыка удалена');refreshMyProfile();}catch(e){toast('Не удалось сохранить музыку');}
-}
-function editPremiumProfileStyle(){
-  if(!hasPremium()){toast('Эта настройка доступна с Premium');return;}
-  const bg=prompt('Цвет/градиент фона профиля (CSS):',currentUser.profileBg||'linear-gradient(135deg,#141414,#0a0a0a)');if(bg===null)return;
-  const accent=prompt('Цвет рамок и акцентов (CSS):',currentUser.profileAccent||'#333');if(accent===null)return;
-  const opacity=prompt('Прозрачность блоков от 0.02 до 0.35:',String(currentUser.profileOpacity??.08));if(opacity===null)return;
-  const n=Math.max(.02,Math.min(.35,Number(opacity)));if(!Number.isFinite(n)){toast('Некорректная прозрачность');return;}
-  saveUserFields({profileBg:bg,profileAccent:accent,profileOpacity:n}).then(()=>{toast('Оформление профиля сохранено ✓');refreshMyProfile();}).catch(()=>toast('Не удалось сохранить оформление'));
 }
 
 async function loadProfilePosts(uid) {
@@ -3327,7 +3295,7 @@ async function renderProfileTabBody() {
     if (!gifts.length) { body.innerHTML = `<div class="placeholder-empty"><span class="em">🎁</span>${isMe ? 'У тебя пока нет подарков' : 'Пока нет подарков'}</div>`; return; }
     body.innerHTML = `<div class="tg-gifts">${gifts.map((g, i) => {
       const id = g.id || g, def = GIFTS_DB[id];
-      return `<div class="tg-gift" data-gi="${i}"><span class="ge">${def ? def.emoji : '🎁'}</span><b>${def ? def.name : 'Подарок'}</b><small>${g.from ? 'от ' + escapeHtml(g.from) : ''}</small></div>`;
+      return `<div class="tg-gift" data-gi="${i}"><span class="ge">${giftArt(id)}</span><b>${def ? def.name : 'Подарок'}</b><small>${g.from ? 'от ' + escapeHtml(g.from) : ''}</small></div>`;
     }).join('')}</div>`;
     if (isMe) body.querySelectorAll('[data-gi]').forEach(el => el.onclick = () => {
       const g = gifts[+el.dataset.gi];
@@ -3379,13 +3347,13 @@ async function renderProfileTabBody() {
       </div>
       <button class="btn-secondary" id="tgFavBtn" type="button" style="width:100%;margin-top:4px">⭐ Избранное</button>
     </div>
-    ${u.isDev ? adminPanelHtml() + `<div class="admin-panel"><h3>🆔 Настройка ID разработчика</h3><input id="devCustomId" placeholder="Любой публичный ID" value="${escapeHtml(u.customId||'')}"><button class="btn-primary" id="devSaveId" style="width:100%">Сохранить ID</button></div>` : ''}`;
+    ${u.isDev ? adminPanelHtml() : ''}`;
     $('xgOpenId').onclick = () => showXtavIdPage();
     $('xgOpenPremium').onclick = () => showXtavPremiumPage();
     $('xgOpenAI').onclick = () => showXtavAIPage();
     $('xgOpenGifts').onclick = () => showXtavGiftsPage();
     $('tgFavBtn').onclick = openFavorites;
-    if (u.isDev) { bindAdminPanel(); $('devSaveId')?.addEventListener('click', async()=>{const v=($('devCustomId').value||'').trim();if(!v){toast('Введи ID');return;}await saveUserFields({customId:v});toast('ID разработчика изменён ✓');refreshMyProfile();}); }
+    if (u.isDev) bindAdminPanel();
   }
 }
 
@@ -3423,9 +3391,9 @@ function renderStyleModal() {
     }).join('')}</div>`;
   } else {
     const names = u.usernames || [];
-    html += `<p style="font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:10px">Дополнительные юзернеймы — по ним тебя можно найти в поиске. Цена: ${USERNAME_PRICE} X за штуку, максимум ${u.isDev ? 'без ограничений для разработчика' : MAX_USERNAMES}.</p>
+    html += `<p style="font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:10px">Дополнительные юзернеймы — по ним тебя можно найти в поиске. Цена: ${USERNAME_PRICE} X за штуку, максимум ${MAX_USERNAMES}.</p>
       ${names.map(n => `<div class="fav-item" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><b>@${escapeHtml(n)}</b><button type="button" data-ud="${escapeHtml(n)}" style="border:1px solid var(--border);background:transparent;color:#ff5555;border-radius:10px;padding:5px 10px;font-size:12px">Удалить</button></div>`).join('')}
-      ${(u.isDev || names.length < MAX_USERNAMES) ? `<input type="text" id="styleUname" placeholder="новый_юзернейм" maxlength="20" autocomplete="off" style="margin:8px 0">
+      ${names.length < MAX_USERNAMES ? `<input type="text" id="styleUname" placeholder="новый_юзернейм" maxlength="20" autocomplete="off" style="margin:8px 0">
       <button class="btn-primary" id="styleUnameBuy" type="button" style="width:100%">Купить · ${u.isDev ? 'бесплатно' : USERNAME_PRICE + ' X'}</button>
       <p style="font-size:11px;color:var(--text-3);margin-top:8px">Латиница, цифры и _, от 4 до 20 символов, начинается с буквы.</p>` : '<p style="font-size:13px;color:var(--text-3)">Лимит юзернеймов достигнут.</p>'}`;
   }
@@ -3475,7 +3443,7 @@ async function setCustomBanner() {
 async function buyUsername() {
   const raw = ($('styleUname').value || '').trim().toLowerCase().replace(/^@/, '');
   const names = currentUser.usernames || [];
-  if (!currentUser.isDev && names.length >= MAX_USERNAMES) { toast('Лимит юзернеймов'); return; }
+  if (names.length >= MAX_USERNAMES) { toast('Лимит юзернеймов'); return; }
   if (!/^[a-z][a-z0-9_]{3,19}$/.test(raw)) { toast('Латиница, цифры, _ · 4–20 символов · с буквы'); return; }
   const taken = allUsers.some(x => (x.nick || '').toLowerCase() === raw || (x.usernames || []).includes(raw));
   if (taken) { toast('Юзернейм занят'); return; }
@@ -3967,7 +3935,7 @@ function renderCatalogGifts(body) {
   allUsers.forEach(u => (u.gifts || []).forEach(g => { const id = g.id || g; owned[id] = (owned[id] || 0) + 1; }));
   const rarity = p => p <= 15 ? 'Обычный' : p <= 50 ? 'Редкий' : 'Эпический';
   body.innerHTML = `<p style="color:var(--text-2);font-size:13px;line-height:1.5;margin:0 0 12px">Все подарки Xtavgram. Дарить можно из меню чата → «Подарить подарок».</p>
-    <div class="xg-gift-grid">${Object.entries(GIFTS_DB).map(([id, g]) => `<div class="xg-gift-card"><span class="gift-big">${g.emoji}</span><b>${g.name}</b><small>${g.price} X</small><small>У игроков: ${owned[id] || 0}</small><small class="xg-rarity">${rarity(g.price)}</small></div>`).join('')}</div>`;
+    <div class="xg-gift-grid">${Object.entries(GIFTS_DB).map(([id, g]) => `<div class="xg-gift-card"><span class="gift-big">${giftArt(id)}</span><b>${g.name}</b><small>${g.price} X</small><small>У игроков: ${owned[id] || 0}</small><small class="xg-rarity">${rarity(g.price)}</small></div>`).join('')}</div>`;
 }
 function renderCatalogTop(body) {
   const real = allUsers.filter(u => !u.isAI);
@@ -4039,7 +4007,6 @@ bindChatSearch();
 bindGifts();
 bindProfiles();
 bindExtras();
-bindStoriesButton();
 
 </script>
 </body>

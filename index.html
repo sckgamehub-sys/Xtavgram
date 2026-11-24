@@ -546,6 +546,28 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 .xg-profile-music{margin:12px auto 8px;max-width:430px;padding:12px 14px;border:1px solid var(--border);border-radius:16px;background:var(--profile-glass,rgba(255,255,255,.07));backdrop-filter:blur(18px);text-align:left}.xg-profile-music audio{width:100%;height:34px;margin-top:7px}.xg-premium-star{color:#f5c451;text-shadow:0 0 12px rgba(245,196,81,.45);font-size:19px;vertical-align:middle}
 .profile-premium-bg{background:var(--profile-bg,linear-gradient(135deg,#141414,#0a0a0a))!important;border-color:var(--profile-accent,#333)!important}.tg-profile .profile-section,.tg-profile .tg-gift{background:rgba(255,255,255,var(--profile-opacity,.07));border-color:var(--profile-accent,var(--border));backdrop-filter:blur(16px)}
 @media(max-width:520px){.xg-story-card{min-height:330px}.xg-profile-music{margin-left:8px;margin-right:8px}}
+
+/* Иллюстрированные анимированные подарки XtavGram */
+.gift-art{width:78px;height:78px;display:inline-grid;place-items:center;margin:2px auto 8px;position:relative;filter:drop-shadow(0 8px 12px color-mix(in srgb,var(--gift-color),transparent 65%));animation:giftFloat 3s ease-in-out infinite}
+.gift-art svg{width:100%;height:100%;overflow:visible}
+.gift-art::after{content:'✦';position:absolute;right:4px;top:2px;color:#fff;font-size:13px;text-shadow:0 0 10px var(--gift-color);animation:giftSpark 1.8s ease-in-out infinite}
+.gift-art.small{width:54px;height:54px;margin:0}
+.gift-art.tiny{width:42px;height:42px;margin:0}
+@keyframes giftFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+@keyframes giftSpark{0%,100%{opacity:.25;transform:scale(.7) rotate(0)}50%{opacity:1;transform:scale(1.25) rotate(35deg)}}
+.gift-card{display:flex;flex-direction:column;align-items:center;min-height:150px}
+.gift-card .gift-art{display:grid}
+.gift-card.limited-gift{border-color:rgba(218,174,75,.55);background:linear-gradient(145deg,rgba(218,174,75,.12),var(--bg-3) 65%)}
+.gift-stock{font-size:10px;color:#d6b46a;margin-top:5px}.gift-card.sold-out{opacity:.45;filter:grayscale(1);pointer-events:none}.gift-card.sold-out{opacity:.45;filter:grayscale(1);pointer-events:none}
+.msg-gift .gift-art{width:112px;height:112px}
+.gift-detail-icon{font-size:0!important;background:radial-gradient(circle,var(--bg-4),var(--bg-3))}
+.gift-detail-icon .gift-art{width:130px;height:130px}
+.tg-gift .ge{font-size:0;display:flex;justify-content:center}
+.tg-gift .gift-art{width:66px;height:66px}
+.profile-gift-item .emoji{font-size:0}
+.xg-gift-card .gift-big{font-size:0;display:block}
+.xg-gift-card .gift-art{width:76px;height:76px}
+
 </style>
 </head>
 <body>
@@ -880,7 +902,7 @@ input:focus{outline:none;border-color:#fff;background:#1c1c1c;box-shadow:0 0 0 4
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, getDocs, collection, query, where, orderBy, limit, onSnapshot, serverTimestamp, deleteDoc, writeBatch, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, getDocs, collection, query, where, orderBy, limit, onSnapshot, serverTimestamp, deleteDoc, writeBatch, arrayUnion, arrayRemove, increment, runTransaction } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzRWgDVe-BhY5ol47vYofFQ-_AaNAwOrc",
@@ -983,14 +1005,39 @@ function removePageViews() {
 }
 
 const GIFTS_DB = {
-  bear: { name: 'Мишка', emoji: '🧸', price: 15 },
-  star: { name: 'Звезда', emoji: '⭐', price: 15 },
-  demon: { name: 'Демон', emoji: '😈', price: 50 },
-  clown: { name: 'Клоун', emoji: '🤡', price: 50 },
-  zedki: { name: 'Зедки', emoji: '💤', price: 500 },
-  galaxy: { name: 'Галактика', emoji: '🌌', price: 999 },
-  crown: { name: 'Корона', emoji: '👑', price: 1499 }
+  bear: { name: 'Мишка', price: 15, color: '#d99a58' },
+  star: { name: 'Звезда', price: 15, color: '#e9bd42' },
+  demon: { name: 'Демон', price: 50, color: '#a855f7' },
+  clown: { name: 'Клоун', price: 50, color: '#f05b83' },
+  zedki: { name: 'Зедки', price: 500, color: '#5b9be8' },
+  galaxy: { name: 'Галактика', price: 999, color: '#8b5cf6', limited: true, stock: 100 },
+  crown: { name: 'Корона', price: 1499, color: '#e7b84b', limited: true, stock: 50 }
 };
+
+// Единый рисованный стиль для магазина, чата и профиля.
+function giftArt(id, size = 'normal') {
+  const g = GIFTS_DB[id] || { color: '#888' };
+  const c = g.color;
+  const extra = id === 'star' ? '<path d="M50 18l7 19 20 1-16 12 6 20-17-12-17 12 6-20-16-12 20-1z" fill="#fff4bd"/>' :
+    id === 'crown' ? '<path d="M27 57l-6-25 17 12 12-22 12 22 17-12-6 25z" fill="#ffe69a" stroke="#9c681e" stroke-width="3"/>' :
+    id === 'galaxy' ? '<circle cx="50" cy="50" r="23" fill="#d9c6ff"/><path d="M30 54c12-25 30-25 42-4-12 19-29 22-42 4" fill="none" stroke="#fff" stroke-width="4"/><circle cx="37" cy="35" r="3" fill="#fff"/><circle cx="67" cy="65" r="3" fill="#fff"/>' :
+    id === 'bear' ? '<circle cx="36" cy="36" r="11" fill="#f3c58d"/><circle cx="64" cy="36" r="11" fill="#f3c58d"/><circle cx="50" cy="49" r="22" fill="#f3c58d"/><circle cx="42" cy="46" r="3" fill="#49301f"/><circle cx="58" cy="46" r="3" fill="#49301f"/><ellipse cx="50" cy="57" rx="8" ry="6" fill="#fff0d9"/>' :
+    id === 'demon' ? '<path d="M31 38L24 19l19 10 7-4 7 4 19-10-7 19v20q-19 25-38 0z" fill="#f0b4ff"/><circle cx="42" cy="47" r="4" fill="#56206f"/><circle cx="58" cy="47" r="4" fill="#56206f"/>' :
+    id === 'clown' ? '<circle cx="50" cy="49" r="25" fill="#fff0d8"/><circle cx="40" cy="45" r="4" fill="#333"/><circle cx="60" cy="45" r="4" fill="#333"/><circle cx="50" cy="55" r="7" fill="#f05b83"/><path d="M38 66q12 12 24 0" fill="none" stroke="#333" stroke-width="3"/>' :
+    '<path d="M35 37q-10-15 2-19 11-2 13 13 2-15 13-13 12 4 2 19l-15 18z" fill="#fff" opacity=".85"/>';
+  return `<span class="gift-art ${size}" style="--gift-color:${c}"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="box-${id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${c}"/><stop offset="1" stop-color="#29213d"/></linearGradient></defs><ellipse cx="50" cy="84" rx="31" ry="7" fill="#000" opacity=".22"/><rect x="23" y="45" width="54" height="37" rx="7" fill="url(#box-${id})" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><path d="M50 45v37M23 57h54" stroke="#fff" stroke-width="5" opacity=".9"/><path d="M50 45C20 41 25 14 40 23q10 6 10 22M50 45c30-4 25-31 10-22q-10 6-10 22" fill="${c}" stroke="#fff" stroke-width="3"/>${extra}</svg></span>`;
+}
+function giftStockRef(id) { return doc(db, 'giftStock', id); }
+async function getGiftStock(id) {
+  if (!GIFTS_DB[id]?.limited) return null;
+  const snap = await getDoc(giftStockRef(id));
+  return snap.exists() ? Math.max(0, Number(snap.data().remaining ?? GIFTS_DB[id].stock)) : GIFTS_DB[id].stock;
+}
+function giftCardHtml(id, admin = false, remaining = null) {
+  const g = GIFTS_DB[id];
+  const stock = g.limited ? `<small class="gift-stock">${remaining === null ? 'Остаток: …' : `Осталось: ${remaining}`}</small>` : '';
+  return `<div class="gift-card ${g.limited ? 'limited-gift' : ''}" data-gift="${id}">${giftArt(id)}<div class="name">${g.name}${g.limited ? ' · LIMITED' : ''}</div><div class="price">${g.price} X${g.limited ? ' · Premium' : ''}</div>${stock}</div>`;
+}
 
 /* ==== АРХИВ ==== */
 function isArchived(chatId) { return !!archivedChats[chatId]; }
@@ -1739,7 +1786,7 @@ function buildMessageEl(m, chatId, isChannel = false) {
     el.style.maxWidth = '100%';
     const g = GIFTS_DB[m.giftId];
     el.innerHTML = `<div class="msg-gift">
-      <div class="gift-emoji">${g ? g.emoji : '🎁'}</div>
+      ${giftArt(m.giftId)}
       <div class="gift-title">${g ? g.name : 'Подарок'}</div>
       <div class="gift-price">за ${g ? g.price : 0} X</div>
       <button type="button" class="btn-view-gift" data-giftid="${m.id}">Посмотреть</button>
@@ -2892,57 +2939,81 @@ function bindChannels() {
 }
 
 /* ==== ПОДАРКИ ==== */
-function openGiftStore(user) {
+async function openGiftStore(user) {
   giftTarget = user;
-  const grid=document.querySelector('#giftStoreModal .gift-grid');
-  if(grid && !grid.querySelector('[data-gift=galaxy]')) grid.insertAdjacentHTML('beforeend', '<div class="gift-card" data-gift="galaxy"><span class="emoji">🌌</span><div class="name">Галактика · Limited</div><div class="price">999 X · Premium</div></div><div class="gift-card" data-gift="crown"><span class="emoji">👑</span><div class="name">Корона · Limited</div><div class="price">1499 X · Premium</div></div>');
   $('giftStoreTargetName').textContent = `Кому: ${user.nick}`;
+  const grid = document.querySelector('#giftStoreModal .gift-grid');
+  if (grid) {
+    grid.innerHTML = Object.keys(GIFTS_DB).map(id => giftCardHtml(id)).join('');
+    grid.querySelectorAll('.gift-card').forEach(card => card.addEventListener('click', () => buyGift(card.dataset.gift)));
+    for (const id of Object.keys(GIFTS_DB).filter(id => GIFTS_DB[id].limited)) {
+      const remaining = await getGiftStock(id).catch(() => null);
+      const el = grid.querySelector(`[data-gift="${id}"] .gift-stock`);
+      if (el) el.textContent = remaining === null ? 'Остаток недоступен' : `Осталось: ${remaining}`;
+      const card = grid.querySelector(`[data-gift="${id}"]`);
+      if (card && remaining === 0) { card.classList.add('sold-out'); card.querySelector('.gift-stock').textContent = 'Распродано'; }
+    }
+  }
   openModal('giftStoreModal');
 }
 
 async function buyGift(giftId) {
-  if (!giftTarget) return;
-  const limited = {galaxy:{name:'Галактика',price:999,emoji:'🌌'},crown:{name:'Корона',price:1499,emoji:'👑'}};
-  const gift = GIFTS_DB[giftId] || limited[giftId];
-  if(!gift) return;
-  if(limited[giftId] && !hasPremium()){toast('Лимитированные подарки доступны только с Premium');return;}
-  const myCoins = currentUser.coins || 0;
-
-  if (myCoins < gift.price) { toast('Недостаточно X!'); return; }
-  if (!confirm(`Подарить "${gift.name}" за ${gift.price} X?`)) return;
-
-  const myRef = doc(db, 'users', currentUser.uid);
-  const myGifts = currentUser.gifts || [];
-  const newGift = { id: giftId, from: currentUser.nick, ts: Date.now() };
-  myGifts.push(newGift);
-  await updateDoc(myRef, { coins: myCoins - gift.price, gifts: myGifts });
-  currentUser.coins -= gift.price;
-  currentUser.gifts = myGifts;
-
-  const targetRef = doc(db, 'users', giftTarget.uid);
-  const targetGifts = giftTarget.gifts || [];
-  const targetGift = { id: giftId, from: currentUser.nick, ts: Date.now() };
-  targetGifts.push(targetGift);
-  await updateDoc(targetRef, { gifts: targetGifts });
-  giftTarget.gifts = targetGifts;
-
-  const chatId = chatIdFor(currentUser.uid, giftTarget.uid);
-  const chatRef = doc(db, 'chats', chatId);
-  const chatSnap = await getDoc(chatRef);
-  if (!chatSnap.exists()) {
-    await setDoc(chatRef, { members: [currentUser.uid, giftTarget.uid], created: serverTimestamp() });
+  if (!giftTarget || !currentUser) return;
+  const gift = GIFTS_DB[giftId];
+  if (!gift) return;
+  if (gift.limited && !hasPremium()) { toast('Лимитированные подарки доступны только с Premium'); return; }
+  if ((currentUser.coins || 0) < gift.price) { toast('Недостаточно X!'); return; }
+  if (!confirm(`Подарить «${gift.name}» за ${gift.price} X?`)) return;
+  try {
+    const senderRef = doc(db, 'users', currentUser.uid);
+    const targetRef = doc(db, 'users', giftTarget.uid);
+    const stockRef = giftStockRef(giftId);
+    const now = Date.now();
+    await runTransaction(db, async tx => {
+      const senderSnap = await tx.get(senderRef);
+      const targetSnap = currentUser.uid === giftTarget.uid ? senderSnap : await tx.get(targetRef);
+      const stockSnap = gift.limited ? await tx.get(stockRef) : null;
+      if (!senderSnap.exists() || !targetSnap.exists()) throw new Error('Пользователь не найден');
+      const sender = senderSnap.data();
+      if ((Number(sender.coins) || 0) < gift.price) throw new Error('Недостаточно X!');
+      let remaining = null;
+      if (gift.limited) {
+        remaining = stockSnap.exists() ? Number(stockSnap.data().remaining ?? gift.stock) : gift.stock;
+        if (remaining <= 0) throw new Error('Этот лимитированный подарок уже закончился');
+        tx.set(stockRef, { total: stockSnap.exists() ? (stockSnap.data().total || gift.stock) : gift.stock, remaining: remaining - 1, updatedAt: now });
+      }
+      const received = Array.isArray(targetSnap.data().gifts) ? [...targetSnap.data().gifts] : [];
+      received.push({ id: giftId, from: currentUser.nick, ts: now, limited: !!gift.limited });
+      if (currentUser.uid === giftTarget.uid) {
+        tx.update(senderRef, { coins: (Number(sender.coins) || 0) - gift.price, gifts: received });
+      } else {
+        tx.update(senderRef, { coins: (Number(sender.coins) || 0) - gift.price });
+        tx.update(targetRef, { gifts: received });
+      }
+    });
+    currentUser.coins = (currentUser.coins || 0) - gift.price;
+    const receivedGift = { id: giftId, from: currentUser.nick, ts: now, limited: !!gift.limited };
+    if (currentUser.uid === giftTarget.uid) currentUser.gifts = [...(currentUser.gifts || []), receivedGift];
+    else giftTarget.gifts = [...(giftTarget.gifts || []), receivedGift];
+    const chatId = chatIdFor(currentUser.uid, giftTarget.uid);
+    const chatRef = doc(db, 'chats', chatId);
+    const chatSnap = await getDoc(chatRef);
+    if (!chatSnap.exists()) await setDoc(chatRef, { members: [currentUser.uid, giftTarget.uid], created: serverTimestamp() });
+    await addDoc(collection(db, 'chats', chatId, 'messages'), { from: currentUser.uid, type: 'gift', giftId, read: false, ts: serverTimestamp() });
+    closeModal('giftStoreModal');
+    toast(`Вы подарили ${gift.name}!`);
+    if (gift.limited) toast(`Осталось подарков: ${await getGiftStock(giftId).catch(() => '—')}`);
+  } catch (e) {
+    console.error('Gift purchase failed:', e);
+    toast(e.message || 'Не удалось отправить подарок');
+    if (gift.limited) openGiftStore(giftTarget);
   }
-  await addDoc(collection(db, 'chats', chatId, 'messages'), {
-    from: currentUser.uid, type: 'gift', giftId, read: false, ts: serverTimestamp()
-  });
-
-  closeModal('giftStoreModal');
-  toast(`Вы подарили ${gift.name}!`);
 }
 
 async function adminGiveGift(giftId) {
   if (!adminTarget) return;
   const gift = GIFTS_DB[giftId];
+  if (!gift || !adminTarget) return;
   const targetRef = doc(db, 'users', adminTarget.uid);
   const targetGifts = adminTarget.gifts || [];
   const newGift = { id: giftId, from: currentUser.nick, ts: Date.now() };
@@ -2962,7 +3033,7 @@ function openGiftDetailFromMessage(m) {
 
 function openGiftDetail(giftId, fromNick, ts, price) {
   const g = GIFTS_DB[giftId];
-  $('gdIcon').textContent = g ? g.emoji : '🎁';
+  $('gdIcon').innerHTML = giftArt(giftId, 'small');
   $('gdName').textContent = g ? g.name : 'Подарок';
   $('gdFrom').textContent = `От: ${fromNick || 'неизвестно'}`;
   
@@ -3200,6 +3271,11 @@ function bindAdminPanel() {
   $('adminSelfGiftBtn').onclick = () => {
     adminTarget = currentUser;
     $('adminGiftTargetNick').textContent = currentUser.nick;
+    const grid = document.querySelector('#adminGiftModal .gift-grid');
+    if (grid) {
+      grid.innerHTML = Object.keys(GIFTS_DB).map(id => giftCardHtml(id, true)).join('');
+      grid.querySelectorAll('.gift-card').forEach(card => card.addEventListener('click', () => adminGiveGift(card.dataset.gift)));
+    }
     openModal('adminGiftModal');
   };
   const searchInp = $('adminCoinSearch');
@@ -3327,7 +3403,7 @@ async function renderProfileTabBody() {
     if (!gifts.length) { body.innerHTML = `<div class="placeholder-empty"><span class="em">🎁</span>${isMe ? 'У тебя пока нет подарков' : 'Пока нет подарков'}</div>`; return; }
     body.innerHTML = `<div class="tg-gifts">${gifts.map((g, i) => {
       const id = g.id || g, def = GIFTS_DB[id];
-      return `<div class="tg-gift" data-gi="${i}"><span class="ge">${def ? def.emoji : '🎁'}</span><b>${def ? def.name : 'Подарок'}</b><small>${g.from ? 'от ' + escapeHtml(g.from) : ''}</small></div>`;
+      return `<div class="tg-gift" data-gi="${i}"><span class="ge">${giftArt(id, 'small')}</span><b>${def ? def.name : 'Подарок'}</b><small>${g.from ? 'от ' + escapeHtml(g.from) : ''}</small></div>`;
     }).join('')}</div>`;
     if (isMe) body.querySelectorAll('[data-gi]').forEach(el => el.onclick = () => {
       const g = gifts[+el.dataset.gi];
@@ -3967,7 +4043,7 @@ function renderCatalogGifts(body) {
   allUsers.forEach(u => (u.gifts || []).forEach(g => { const id = g.id || g; owned[id] = (owned[id] || 0) + 1; }));
   const rarity = p => p <= 15 ? 'Обычный' : p <= 50 ? 'Редкий' : 'Эпический';
   body.innerHTML = `<p style="color:var(--text-2);font-size:13px;line-height:1.5;margin:0 0 12px">Все подарки Xtavgram. Дарить можно из меню чата → «Подарить подарок».</p>
-    <div class="xg-gift-grid">${Object.entries(GIFTS_DB).map(([id, g]) => `<div class="xg-gift-card"><span class="gift-big">${g.emoji}</span><b>${g.name}</b><small>${g.price} X</small><small>У игроков: ${owned[id] || 0}</small><small class="xg-rarity">${rarity(g.price)}</small></div>`).join('')}</div>`;
+    <div class="xg-gift-grid">${Object.entries(GIFTS_DB).map(([id, g]) => `<div class="xg-gift-card">${giftArt(id)}<b>${g.name}</b><small>${g.price} X</small><small>У игроков: ${owned[id] || 0}</small><small class="xg-rarity">${rarity(g.price)}</small></div>`).join('')}</div>`;
 }
 function renderCatalogTop(body) {
   const real = allUsers.filter(u => !u.isAI);
@@ -4043,4 +4119,4 @@ bindStoriesButton();
 
 </script>
 </body>
-                                                                                                                                                </html>
+  </html>
